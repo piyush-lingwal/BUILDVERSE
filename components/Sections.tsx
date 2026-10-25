@@ -87,9 +87,19 @@ export function Hero() {
           </div>
         </div>
         <div className="relative mx-auto w-full max-w-xl">
-          <Mascot name="hero" priority sizes="(min-width: 1024px) 560px, 90vw" className="h-auto w-full" />
+          <Mascot
+            name="hero"
+            priority
+            sizes="(min-width: 1024px) 560px, 90vw"
+            className="relative z-10 h-auto w-full [filter:drop-shadow(0_18px_24px_rgba(46,16,101,0.18))]"
+          />
+          {/* Ground contact shadow beneath desk */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none mx-auto -mt-6 h-5 w-4/5 rounded-[100%] bg-violet-950/20 blur-xl sm:-mt-8 sm:h-7 sm:w-3/4"
+          />
           {/* The idea bulb sits just above the mascot's raised finger. */}
-          <Mascot name="bulb" sizes="120px" className="pointer-events-none absolute left-[18%] top-[6%] w-[15%] h-auto" />
+          <Mascot name="bulb" sizes="120px" className="pointer-events-none absolute left-[18%] top-[6%] z-20 w-[15%] h-auto" />
         </div>
       </div>
     </section>
@@ -113,7 +123,18 @@ export function About() {
             ))}
           </ul>
         </div>
-        <div className="mx-auto w-full max-w-sm"><Mascot name="about" sizes="(min-width: 1024px) 400px, 70vw" className="h-auto w-full" /></div>
+        <div className="relative mx-auto w-full max-w-sm">
+          <Mascot
+            name="about"
+            sizes="(min-width: 1024px) 400px, 70vw"
+            className="relative z-10 h-auto w-full [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.16))]"
+          />
+          {/* Ground contact shadow beneath feet */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none mx-auto -mt-4 h-4 w-3/5 rounded-[100%] bg-violet-950/20 blur-lg"
+          />
+        </div>
       </div>
     </section>
   );
@@ -144,7 +165,18 @@ export function Flow() {
                 </span>
 
                 <div className="relative z-10 flex h-full flex-col">
-                  <Mascot name={art} sizes="(min-width: 768px) 300px, 70vw" className="mx-auto -mt-2 h-44 w-auto object-contain" />
+                  <div className="relative mx-auto -mt-2 flex w-full flex-col items-center">
+                    <Mascot
+                      name={art}
+                      sizes="(min-width: 768px) 300px, 70vw"
+                      className="relative z-10 h-44 w-auto object-contain [filter:drop-shadow(0_12px_16px_rgba(46,16,101,0.15))]"
+                    />
+                    {/* Ground shadow beneath mascot inside card */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none -mt-3.5 h-3 w-36 rounded-[100%] bg-violet-950/20 blur-md"
+                    />
+                  </div>
                   <h3 className="mt-4 text-xl font-bold text-violet-950">{t}</h3>
                   <p className="mt-2 text-violet-950/75">{d}</p>
                 </div>
@@ -207,7 +239,6 @@ export function Rules() {
             <h2 className={h2}>Play fair. Come solo or with a team.</h2>
             <p className="mt-3 text-violet-950/70">Everything you need to know about eligibility, team formation, and guidelines.</p>
           </div>
-          <Mascot name="participate" sizes="180px" className="hidden h-28 w-auto shrink-0 object-contain sm:block" />
         </div>
 
         {/* Key participation stat cards */}
@@ -234,7 +265,18 @@ export function Rules() {
             </ol>
           </div>
           <div className="mx-auto hidden flex-col items-center lg:flex">
-            <Mascot name="rules" sizes="340px" className="h-auto w-full max-w-xs object-contain" />
+            <div className="relative flex flex-col items-center">
+              <Mascot
+                name="rules"
+                sizes="340px"
+                className="relative z-10 h-auto w-full max-w-xs object-contain [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.16))]"
+              />
+              {/* Ground shadow beneath desk */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none -mt-4 h-4 w-44 rounded-[100%] bg-violet-950/20 blur-lg"
+              />
+            </div>
             <div className="mt-6">
               <RegisterButton label="Register Your Team" />
             </div>
@@ -350,8 +392,17 @@ export function Faqs() {
               </details>
             ))}
           </div>
-          <div className="mx-auto hidden w-full max-w-[440px] lg:flex lg:justify-center">
-            <Mascot name="faq" sizes="(min-width: 1024px) 440px, 90vw" className="h-auto w-full object-contain" />
+          <div className="relative mx-auto hidden w-full max-w-[440px] flex-col items-center lg:flex lg:justify-center">
+            <Mascot
+              name="faq"
+              sizes="(min-width: 1024px) 440px, 90vw"
+              className="relative z-10 h-auto w-full object-contain [filter:drop-shadow(0_20px_28px_rgba(46,16,101,0.18))]"
+            />
+            {/* Ground shadow beneath standing mascot feet */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none -mt-6 h-5 w-52 rounded-[100%] bg-violet-950/25 blur-xl"
+            />
           </div>
         </div>
       </div>
@@ -377,7 +428,18 @@ export function FinalCta() {
       </div>
       <div className={`${wrap} relative grid min-h-[460px] items-end gap-6 pt-14 md:grid-cols-[auto_1fr_auto] md:min-h-[500px]`}>
         <div className="order-2 mx-auto mb-8 w-44 self-end sm:mb-10 sm:w-56 md:order-none md:mb-12 md:w-60">
-          <Mascot name="welcome" sizes="240px" className="h-auto w-full" />
+          <div className="relative flex flex-col items-center">
+            <Mascot
+              name="welcome"
+              sizes="240px"
+              className="relative z-10 h-auto w-full [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.22))]"
+            />
+            {/* Ground contact shadow on landscape terrain */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none -mt-4 h-4 w-36 rounded-[100%] bg-violet-950/35 blur-md"
+            />
+          </div>
         </div>
         <div className="order-1 self-start pb-6 text-center md:order-none md:self-center md:pb-24 md:text-left">
           <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
