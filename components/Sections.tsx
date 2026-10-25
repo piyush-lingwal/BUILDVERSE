@@ -28,20 +28,20 @@ export function RegisterButton({ className = "", label = "Register Your Team" }:
 
 export function SectionDivider({ className = "" }: { className?: string }) {
   return (
-    <div className={`relative w-full py-1 ${className}`} aria-hidden="true">
+    <div className={`section-divider relative w-full py-1 ${className}`} aria-hidden="true">
       {/* Full-width subtle boundary line */}
       <div className="absolute inset-0 flex items-center">
         <div className="w-full border-t border-violet-200/60" />
       </div>
       {/* Central stylized accent */}
       <div className="relative mx-auto flex max-w-6xl items-center px-4 sm:px-6">
-        <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-violet-300 to-violet-500" />
+        <div className="section-divider-line h-0.5 flex-1 origin-right bg-gradient-to-r from-transparent via-violet-300 to-violet-500" />
         <div className="mx-4 flex items-center gap-1.5">
           <span className="h-1 w-1 rounded-full bg-violet-400" />
           <span className="h-2.5 w-2.5 rotate-45 rounded-[2px] bg-violet-600 shadow-[0_0_10px_rgba(124,58,237,0.5)]" />
           <span className="h-1 w-1 rounded-full bg-violet-400" />
         </div>
-        <div className="h-0.5 flex-1 bg-gradient-to-r from-violet-500 via-violet-300 to-transparent" />
+        <div className="section-divider-line h-0.5 flex-1 origin-left bg-gradient-to-r from-violet-500 via-violet-300 to-transparent" />
       </div>
     </div>
   );
@@ -67,9 +67,9 @@ export function Header() {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-violet-50 via-white to-[#FAF8FF]">
+    <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-violet-50 via-white to-[#FAF8FF]">
       <div className={`${wrap} grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2`}>
-        <div>
+        <div id="hero-content">
           {C.utkrisht.show && (
             <div className="flex items-center gap-3">
               <UtkrishtLogo className="h-20 w-auto" />
@@ -86,20 +86,25 @@ export function Hero() {
             <a href="#about" className="inline-flex items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50">Explore the Event</a>
           </div>
         </div>
-        <div className="relative mx-auto w-full max-w-xl">
-          <Mascot
-            name="hero"
-            priority
-            sizes="(min-width: 1024px) 560px, 90vw"
-            className="relative z-10 h-auto w-full [filter:drop-shadow(0_18px_24px_rgba(46,16,101,0.18))]"
-          />
+        <div id="hero-mascot-wrap" className="relative mx-auto w-full max-w-xl">
+          <div id="hero-mascot" className="relative z-10 w-full">
+            <Mascot
+              name="hero"
+              priority
+              sizes="(min-width: 1024px) 560px, 90vw"
+              className="h-auto w-full [filter:drop-shadow(0_18px_24px_rgba(46,16,101,0.18))]"
+            />
+          </div>
           {/* Ground contact shadow beneath desk */}
           <div
+            id="hero-shadow"
             aria-hidden="true"
             className="pointer-events-none mx-auto -mt-6 h-5 w-4/5 rounded-[100%] bg-violet-950/20 blur-xl sm:-mt-8 sm:h-7 sm:w-3/4"
           />
           {/* The idea bulb sits just above the mascot's raised finger. */}
-          <Mascot name="bulb" sizes="120px" className="pointer-events-none absolute left-[18%] top-[6%] z-20 w-[15%] h-auto" />
+          <div id="hero-bulb" className="pointer-events-none absolute left-[18%] top-[6%] z-20 w-[15%] h-auto">
+            <Mascot name="bulb" sizes="120px" className="h-auto w-full" />
+          </div>
         </div>
       </div>
     </section>
@@ -119,11 +124,11 @@ export function About() {
           </p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-3">
             {points.map(([Icon, text]) => (
-              <li key={text} className={`${card} flex items-center gap-3 px-4 py-3 text-sm font-medium text-violet-950`}><Icon className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />{text}</li>
+              <li key={text} className={`${card} about-pill flex items-center gap-3 px-4 py-3 text-sm font-medium text-violet-950 transition-all duration-300 hover:border-violet-300 hover:shadow-md hover:-translate-y-0.5`}><Icon className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />{text}</li>
             ))}
           </ul>
         </div>
-        <div className="relative mx-auto w-full max-w-sm">
+        <div id="about-mascot-wrap" className="relative mx-auto w-full max-w-sm">
           <Mascot
             name="about"
             sizes="(min-width: 1024px) 400px, 70vw"
@@ -155,7 +160,7 @@ export function Flow() {
         <div className="mt-8 grid items-center gap-3 sm:gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
           {steps.map(([n, t, d, art], i) => (
             <Fragment key={n}>
-              <div className={`${card} group relative flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
+              <div className={`${card} flow-card group relative flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
                 {/* Large outlined step number in top-right background */}
                 <span
                   aria-hidden="true"
@@ -182,7 +187,7 @@ export function Flow() {
                 </div>
               </div>
               {i < steps.length - 1 && (
-                <div className="flex items-center justify-center py-2 md:py-0" aria-hidden="true">
+                <div className="flow-arrow flex items-center justify-center py-2 md:py-0" aria-hidden="true">
                   <Mascot
                     name="arrows"
                     sizes="96px"
@@ -209,7 +214,7 @@ export function Themes() {
           {C.themes.map((t, i) => {
             const Icon = themeIcons[i % themeIcons.length];
             return (
-              <li key={t.title} className={`${card} p-5 ${i === C.themes.length - 1 ? "col-span-2 md:col-span-1" : ""}`}>
+              <li key={t.title} className={`${card} theme-card p-5 transition-all duration-300 hover:border-violet-300 hover:shadow-md hover:-translate-y-1 ${i === C.themes.length - 1 ? "col-span-2 md:col-span-1" : ""}`}>
                 <Icon className="h-8 w-8 text-violet-600" aria-hidden />
                 <h3 className="mt-3 font-bold text-violet-950">{t.title}</h3>
                 <p className="mt-1 text-sm text-violet-950/75">{t.description}</p>
@@ -240,14 +245,14 @@ export function Rules() {
             <h3 className="mb-3 text-lg font-bold text-violet-950">Event Guidelines</h3>
             <ol className="divide-y divide-violet-100">
               {C.rules.map((r, i) => (
-                <li key={r} className="flex gap-4 py-3.5 first:pt-0 last:pb-0">
+                <li key={r} className="rule-item flex gap-4 py-3.5 first:pt-0 last:pb-0">
                   <span className="w-8 shrink-0 text-xl font-bold text-violet-600">{String(i + 1).padStart(2, "0")}</span>
                   <span className="leading-relaxed text-violet-950/85">{r}</span>
                 </li>
               ))}
             </ol>
           </div>
-          <div className="mx-auto hidden flex-col items-center lg:flex">
+          <div id="rules-mascot-wrap" className="mx-auto hidden flex-col items-center lg:flex">
             <div className="relative flex flex-col items-center">
               <Mascot
                 name="rules"
@@ -260,15 +265,7 @@ export function Rules() {
                 className="pointer-events-none -mt-4 h-4 w-44 rounded-[100%] bg-violet-950/20 blur-lg"
               />
             </div>
-            <div className="mt-6">
-              <RegisterButton label="Register Your Team" />
-            </div>
           </div>
-        </div>
-
-        {/* Mobile register button */}
-        <div className="mt-8 flex justify-center lg:hidden">
-          <RegisterButton label="Register Your Team" />
         </div>
       </div>
     </section>
@@ -278,8 +275,8 @@ export function Rules() {
 export function Prizes() {
   return (
     <section id="prizes" className="scroll-mt-20 py-16">
-      <div className={`${wrap} grid items-center gap-8 lg:grid-cols-2`}>
-        <div>
+      <div id="prizes-grid" className={`${wrap} grid items-center gap-8 lg:grid-cols-2`}>
+        <div id="prizes-info">
           <p className={eyebrow}>Prizes &amp; rewards</p>
           {C.prize.art ? (
             <Mascot name="prizeAmount" sizes="(min-width: 1024px) 520px, 90vw" className="-ml-3 mt-1 h-auto w-full max-w-[460px]" />
@@ -290,22 +287,25 @@ export function Prizes() {
           <p className="mt-4 max-w-md text-violet-950/80">{C.prize.details}</p>
           {C.prize.items.length > 0 && <ul className="mt-4 list-disc pl-5 text-violet-950/85">{C.prize.items.map((i) => <li key={i}>{i}</li>)}</ul>}
         </div>
-        <div className="relative mx-auto flex w-full max-w-md items-center justify-center">
-          {/* Soft golden glow behind trophy */}
+        <div id="prizes-trophy-column" className="relative mx-auto flex w-full max-w-md items-center justify-center">
+          {/* Subtle soft warm glow behind trophy */}
           <div
+            id="trophy-shadow"
             aria-hidden="true"
-            className="pointer-events-none absolute h-64 w-64 rounded-full bg-gradient-to-tr from-amber-400/35 via-yellow-300/40 to-amber-200/25 blur-3xl sm:h-80 sm:w-80"
+            className="pointer-events-none absolute h-48 w-48 rounded-full bg-gradient-to-tr from-amber-300/15 via-amber-200/15 to-transparent blur-2xl sm:h-60 sm:w-60"
           />
-          <Mascot
-            name="trophy"
-            sizes="(min-width: 1024px) 520px, 90vw"
-            className="relative z-10 h-auto w-full [filter:drop-shadow(0_10px_30px_rgba(245,158,11,0.3))]"
-          />
+          <div id="trophy-img" className="relative z-10 w-full">
+            <Mascot
+              name="trophy"
+              sizes="(min-width: 1024px) 520px, 90vw"
+              className="h-auto w-full [filter:drop-shadow(0_8px_20px_rgba(217,119,6,0.1))]"
+            />
+          </div>
         </div>
       </div>
 
       <div className={`${wrap} mt-10`}>
-        <div className="grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 md:grid-cols-[1fr_1.1fr]">
+        <div id="judges-card" className="grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 md:grid-cols-[1fr_1.1fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-300">Judges</p>
             {C.judges.length === 0 ? (
@@ -333,7 +333,7 @@ export function Timeline() {
         <h2 className={h2}>Two days. From learning to pitching.</h2>
         <ol className="mt-8 grid gap-4 md:grid-cols-2">
           {C.days.map((d, i) => (
-            <li key={d.date} className={`${card} p-6`}>
+            <li key={d.date} className={`${card} timeline-card p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
               <p className="text-sm font-semibold text-violet-600">Day {i + 1} · {d.label}</p>
               <h3 className="mt-1 text-xl font-bold text-violet-950">{d.title}</h3>
               <dl className="mt-3 space-y-1 text-sm text-violet-950/85">
@@ -364,10 +364,10 @@ export function Faqs() {
       <div className={wrap}>
         <p className={eyebrow}>Frequently asked questions</p>
         <h2 className={h2}>FAQs</h2>
-        <div className="mt-8 grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">
+        <div className="mt-8 grid items-start gap-10 lg:grid-cols-[1.3fr_1fr]">
           <div className="grid gap-3">
             {C.faqs.map((f, i) => (
-              <details key={f.q} className={`${card} group px-5 py-4`}>
+              <details key={f.q} className={`${card} faq-card group px-5 py-4 transition-all duration-300 hover:border-violet-200`}>
                 <summary className="flex cursor-pointer list-none items-center gap-3 font-semibold text-violet-950">
                   <span className="text-violet-600">{String(i + 1).padStart(2, "0")}</span>{f.q}
                 </summary>
@@ -375,7 +375,7 @@ export function Faqs() {
               </details>
             ))}
           </div>
-          <div className="relative mx-auto hidden w-full max-w-[440px] flex-col items-center lg:flex lg:justify-center">
+          <div id="faq-mascot-wrap" className="relative mx-auto hidden w-full max-w-[440px] flex-col items-center lg:flex">
             <Mascot
               name="faq"
               sizes="(min-width: 1024px) 440px, 90vw"
@@ -395,10 +395,10 @@ export function Faqs() {
 
 export function FinalCta() {
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100 to-fuchsia-100">
+    <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100 to-fuchsia-100">
       {/* Campus scene, file used as supplied. The picture has a fake "transparent" checkerboard baked in
           above and below the scenery, so only the scenery rows are shown (object-view-box), and the top fades out. */}
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-56 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)] sm:aspect-[2170/410] sm:h-auto">
+      <div id="campus-scene" className="absolute inset-x-0 bottom-0 -z-10 h-56 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)] sm:aspect-[2170/410] sm:h-auto">
         <Image
           src="/buildverse/campus-scene.png"
           alt=""
@@ -410,7 +410,7 @@ export function FinalCta() {
         />
       </div>
       <div className={`${wrap} relative grid min-h-[460px] items-end gap-6 pt-14 md:grid-cols-[auto_1fr_auto] md:min-h-[500px]`}>
-        <div className="order-2 mx-auto mb-8 w-44 self-end sm:mb-10 sm:w-56 md:order-none md:mb-12 md:w-60">
+        <div id="final-cta-mascot" className="order-2 mx-auto mb-8 w-44 self-end sm:mb-10 sm:w-56 md:order-none md:mb-12 md:w-60">
           <div className="relative flex flex-col items-center">
             <Mascot
               name="welcome"
