@@ -223,13 +223,6 @@ export function Themes() {
 }
 
 export function Rules() {
-  const facts = [
-    [`₹${C.feeInr}`, "Registration fee (per team)"],
-    [`${C.teamSize.min} – ${C.teamSize.max}`, "Participants (team size)"],
-    ["Solo allowed", "Participate individually or as a team"],
-    ["Eligibility", C.eligibility],
-  ] as const;
-
   return (
     <section id="rules" className="scroll-mt-20 py-16">
       <div className={wrap}>
@@ -241,18 +234,8 @@ export function Rules() {
           </div>
         </div>
 
-        {/* Key participation stat cards */}
-        <dl className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {facts.map(([k, v]) => (
-            <div key={k} className={`${card} p-5 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
-              <dt className="text-2xl font-bold text-violet-700">{k}</dt>
-              <dd className="mt-1 text-sm text-violet-950/75">{v}</dd>
-            </div>
-          ))}
-        </dl>
-
         {/* Detailed guidelines list with mascot */}
-        <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div className={`${card} p-6 sm:p-8`}>
             <h3 className="mb-3 text-lg font-bold text-violet-950">Event Guidelines</h3>
             <ol className="divide-y divide-violet-100">

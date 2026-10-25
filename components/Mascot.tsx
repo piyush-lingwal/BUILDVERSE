@@ -7,7 +7,6 @@ const ART = {
   rules: { src: "laptop-tiles.png", w: 1287, h: 1222 },
   innovate: { src: "laptop-desk.png", w: 1321, h: 1191 },
   faq: { src: "tablet-standing.webp", w: 1500, h: 2000 },
-  participate: { src: "megaphone.png", w: 1446, h: 1088 },
   about: { src: "tablet-tiles.png", w: 1178, h: 1335 },
   welcome: { src: "wave.png", w: 1303, h: 1207 },
   learn: { src: "tablet-idea.png", w: 1389, h: 1132 },

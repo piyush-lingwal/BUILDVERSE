@@ -91,6 +91,7 @@ export const BUILDVERSE: BuildVerseConfig = {
     { title: "Social Impact", description: "Use technology to create positive social change." },
   ],
   rules: [
+    "Eligibility: Open to all students of Tula's University.",
     "Team size: 1–4 participants per team. Solo participation is allowed.",
     "Registration fee: ₹100 per team.",
     "Build an original product or solution. Plagiarism is not allowed.",
