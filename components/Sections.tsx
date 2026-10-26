@@ -6,11 +6,11 @@ import { BUILDVERSE as C } from "@/config/buildverse";
 import { registrationState } from "@/lib/state";
 import { Mascot } from "./Mascot";
 import { Countdown } from "./Countdown";
-import { SbgLogo, BuildVerseLogo, UtkrishtLogo } from "./Logos";
+import { SparkleCluster } from "./Decor";
+import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite } from "./Logos";
 
-const themeIcons = [Leaf, GraduationCap, HeartPulse, Cpu, Users];
-const eyebrow = "font-script text-lg leading-snug text-violet-600 sm:text-xl";
-const h2 = "mt-1 text-3xl font-semibold text-violet-950 sm:text-5xl";
+const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
+const h2 = "mt-2 font-serif italic text-4xl font-bold tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
 const card = "rounded-2xl border border-violet-100 bg-white shadow-sm";
 
@@ -47,7 +47,7 @@ export function SectionDivider({ className = "" }: { className?: string }) {
   );
 }
 
-const NAV = [["About", "about"], ["Event Flow", "flow"], ["Themes", "themes"], ["Rules", "rules"], ["Prizes", "prizes"], ["Timeline", "timeline"], ["FAQs", "faqs"]] as const;
+const NAV = [["About", "about"], ["Event Flow", "flow"], ["Tracks", "tracks"], ["Rules", "rules"], ["Prizes", "prizes"], ["Timeline", "timeline"], ["FAQs", "faqs"]] as const;
 
 export function Header() {
   return (
@@ -78,8 +78,10 @@ export function Hero() {
               <UtkrishtLogo className="h-20 w-auto" />
             </div>
           )}
-          <h1 className="mt-3 -ml-2 max-w-[560px]"><BuildVerseLogo className="h-auto w-full" /></h1>
-          <p className="mt-3 font-script text-xl normal-case tracking-normal text-violet-700 sm:text-2xl">{C.tagline}</p>
+          <div className="-ml-2 max-w-[560px]">
+            <h1 className="mt-3"><BuildVerseLogo className="h-auto w-full" /></h1>
+            <p className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
+          </div>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
             A hands-on innovation event by the {C.organiser}. Learn modern development workflows, build a real product, and pitch your idea to a panel of judges.
           </p>
@@ -185,7 +187,7 @@ export function Flow() {
                       className="pointer-events-none -mt-3.5 h-3 w-36 rounded-[100%] bg-violet-950/20 blur-md"
                     />
                   </div>
-                  <h3 className="mt-4 text-xl font-bold text-violet-950">{t}</h3>
+                  <h3 className="mt-4 text-xl font-medium text-violet-950">{t}</h3>
                   <p className="mt-2 text-violet-950/75">{d}</p>
                 </div>
               </div>
@@ -206,30 +208,6 @@ export function Flow() {
   );
 }
 
-export function Themes() {
-  return (
-    <section id="themes" className="scroll-mt-20 py-16">
-      <div className={wrap}>
-        <p className={eyebrow}>Event themes</p>
-        <h2 className={h2}>Choose a theme. Build a solution.</h2>
-        <p className="mt-3 text-violet-950/70">Pick a theme that excites you and create a meaningful product.</p>
-        <ul className="mt-8 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {C.themes.map((t, i) => {
-            const Icon = themeIcons[i % themeIcons.length];
-            return (
-              <li key={t.title} className={`${card} theme-card p-5 transition-all duration-300 hover:border-violet-300 hover:shadow-md hover:-translate-y-1 ${i === C.themes.length - 1 ? "min-[420px]:col-span-2 md:col-span-1" : ""}`}>
-                <Icon className="h-8 w-8 text-violet-600" aria-hidden />
-                <h3 className="mt-3 font-bold text-violet-950">{t.title}</h3>
-                <p className="mt-1 text-sm text-violet-950/75">{t.description}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
 export function Rules() {
   return (
     <section id="rules" className="scroll-mt-20 py-16">
@@ -245,7 +223,7 @@ export function Rules() {
         {/* Detailed guidelines list with mascot */}
         <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div className={`${card} p-6 sm:p-8`}>
-            <h3 className="mb-3 text-lg font-bold text-violet-950">Event Guidelines</h3>
+            <h3 className="mb-3 text-lg font-medium text-violet-950">Event Guidelines</h3>
             <ol className="divide-y divide-violet-100">
               {C.rules.map((r, i) => (
                 <li key={r} className="rule-item flex gap-4 py-3.5 first:pt-0 last:pb-0">
@@ -255,12 +233,12 @@ export function Rules() {
               ))}
             </ol>
           </div>
-          <div id="rules-mascot-wrap" className="mx-auto hidden flex-col items-center lg:flex">
+          <div id="rules-mascot-wrap" className="mx-auto mt-4 flex flex-col items-center lg:mt-0">
             <div className="relative flex flex-col items-center">
               <Mascot
                 name="rules"
-                sizes="340px"
-                className="relative z-10 h-auto w-full max-w-xs object-contain [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.16))]"
+                sizes="(min-width: 1024px) 340px, 240px"
+                className="relative z-10 h-auto w-full max-w-[240px] object-contain lg:max-w-xs [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.16))]"
               />
               {/* Ground shadow beneath desk */}
               <div
@@ -286,7 +264,7 @@ export function Prizes() {
           ) : (
             <p className="mt-2 text-5xl font-extrabold text-violet-700 sm:text-6xl">{C.prize.headline}</p>
           )}
-          <p className="font-script text-lg normal-case tracking-normal text-violet-950">Total prize pool</p>
+          <p className="font-tech text-xs font-bold uppercase tracking-[0.18em] text-violet-950 sm:text-sm">Total prize pool</p>
           <p className="mt-4 max-w-md text-violet-950/80">{C.prize.details}</p>
           {C.prize.items.length > 0 && <ul className="mt-4 list-disc pl-5 text-violet-950/85">{C.prize.items.map((i) => <li key={i}>{i}</li>)}</ul>}
         </div>
@@ -297,11 +275,11 @@ export function Prizes() {
             aria-hidden="true"
             className="pointer-events-none absolute h-48 w-48 rounded-full bg-gradient-to-tr from-amber-300/15 via-amber-200/15 to-transparent blur-2xl sm:h-60 sm:w-60"
           />
-          <div id="trophy-img" className="relative z-10 w-full">
+          <div id="trophy-img" className="relative z-10 mx-auto w-full max-w-[300px] sm:max-w-[340px]">
             <Mascot
               name="trophy"
-              sizes="(min-width: 1024px) 520px, 90vw"
-              className="h-auto w-full [filter:drop-shadow(0_8px_20px_rgba(217,119,6,0.1))]"
+              sizes="(min-width: 640px) 340px, 300px"
+              className="h-auto w-full"
             />
           </div>
         </div>
@@ -310,10 +288,10 @@ export function Prizes() {
       <div className={`${wrap} mt-10`}>
         <div id="judges-card" className="grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 md:grid-cols-[1fr_1.1fr]">
           <div>
-            <p className="font-script text-lg normal-case tracking-normal text-violet-300">Judges</p>
+            <p className="font-tech text-xs font-bold uppercase tracking-[0.18em] text-violet-300 sm:text-sm">Judges</p>
             {C.judges.length === 0 ? (
               <>
-                <h3 className="mt-2 text-3xl font-bold text-white">To be revealed soon</h3>
+                <h3 className="mt-2 text-2xl font-medium text-white sm:text-3xl">To be revealed soon</h3>
                 <p className="mt-2 max-w-md text-violet-100/85">An experienced panel of industry experts and professionals will evaluate the projects.</p>
                 <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white">Stay tuned</p>
               </>
@@ -338,7 +316,7 @@ export function Timeline() {
           {C.days.map((d, i) => (
             <li key={d.date} className={`${card} timeline-card p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
               <p className="text-sm font-semibold text-violet-600">Day {i + 1} · {d.label}</p>
-              <h3 className="mt-1 text-xl font-bold text-violet-950">{d.title}</h3>
+              <h3 className="mt-1 text-xl font-medium text-violet-950">{d.title}</h3>
               <dl className="mt-3 space-y-1 text-sm text-violet-950/85">
                 <div className="flex gap-2"><dt className="font-semibold">Time:</dt><dd>{d.time === "TBA" ? <span className="rounded bg-amber-100 px-1.5 font-semibold text-amber-900">To be announced</span> : d.time}</dd></div>
                 <div className="flex gap-2"><dt className="font-semibold">Mode:</dt><dd>{d.mode}</dd></div>
@@ -378,7 +356,7 @@ export function Faqs() {
               </details>
             ))}
           </div>
-          <div id="faq-mascot-wrap" className="relative mx-auto hidden w-full max-w-[440px] flex-col items-center lg:flex">
+          <div id="faq-mascot-wrap" className="relative mx-auto mt-4 flex w-full max-w-[280px] flex-col items-center lg:mt-0 lg:max-w-[440px]">
             <Mascot
               name="faq"
               sizes="(min-width: 1024px) 440px, 90vw"
@@ -399,6 +377,7 @@ export function Faqs() {
 export function FinalCta() {
   return (
     <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100 to-fuchsia-100">
+      <SparkleCluster className="left-6 top-10 -scale-x-100 lg:left-20" />
       {/* Campus scene, file used as supplied. The picture has a fake "transparent" checkerboard baked in
           above and below the scenery, so only the scenery rows are shown (object-view-box), and the top fades out. */}
       <div id="campus-scene" className="absolute inset-x-0 bottom-0 -z-10 h-56 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)] sm:aspect-[2170/410] sm:h-auto">
@@ -407,9 +386,9 @@ export function FinalCta() {
           alt=""
           fill
           sizes="100vw"
-          quality={80}
-          className="object-cover object-[78%_bottom]"
-          style={{ objectViewBox: "inset(27.6% 0 15.9% 0)" } as React.CSSProperties}
+          quality={100}
+          // className="object-cover"
+          // style={{ objectViewBox: "inset(27.6% 0 15.9% 0)" } as React.CSSProperties}
         />
       </div>
       <div className={`${wrap} relative grid min-h-[460px] items-end gap-6 pt-14 md:grid-cols-[auto_1fr_auto] md:min-h-[500px]`}>
@@ -429,7 +408,7 @@ export function FinalCta() {
         </div>
         <div className="order-1 self-start pb-6 text-center md:order-none md:self-center md:pb-24 md:text-left">
           <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
-          <h2 className="mt-1 text-3xl font-semibold text-violet-950 sm:text-5xl">Your idea deserves a bigger stage.</h2>
+          <h2 className={h2}>Your idea deserves a bigger stage.</h2>
           <p className="mx-auto mt-3 max-w-xl text-violet-950/80 md:mx-0">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
             <RegisterButton />
@@ -437,8 +416,8 @@ export function FinalCta() {
           </div>
         </div>
         {C.utkrisht.show && (
-          <div className="order-3 mx-auto mb-6 flex items-center gap-3 self-end rounded-2xl bg-white/85 px-4 py-3 shadow-sm backdrop-blur md:order-none md:mb-10">
-            <UtkrishtLogo className="h-14 w-auto" />
+          <div className="order-3 mx-auto mb-6 flex items-center self-end md:order-none md:mb-12">
+            <UtkrishtLogoWhite className="absolute bottom-5 mr-5 h-16 w-auto sm:h-20" />
           </div>
         )}
       </div>

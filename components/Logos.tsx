@@ -42,3 +42,9 @@ export function UtkrishtLogo({ className = "" }: { className?: string }) {
     <Image src="/buildverse/utkrisht-logo.png" alt="Utkrisht 2026: Discovering Bharat" width={2000} height={913} sizes="240px" quality={100} className={className} />
   );
 }
+
+export function UtkrishtLogoWhite({ className = "" }: { className?: string }) {
+  return (
+    <Image src="/buildverse/utkrisht-logo-white.png" alt="Utkrisht 2026: Discovering Bharat" width={1380} height={532} sizes="240px" className={className} />
+  );
+}

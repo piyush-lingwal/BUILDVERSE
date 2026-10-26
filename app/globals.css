@@ -12,7 +12,7 @@
   body {
     overflow-x: hidden;
   }
-  h1, h2, h3, legend {
+  h1, h2, h3, h4, legend {
     @apply font-display;
     letter-spacing: 0;
   }
@@ -33,4 +33,16 @@
 @layer utilities {
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
+  .utkrisht-logo-outline {
+    filter:
+      drop-shadow(2px 0 0 #1b0a38)
+      drop-shadow(-2px 0 0 #1b0a38)
+      drop-shadow(0 2px 0 #1b0a38)
+      drop-shadow(0 -2px 0 #1b0a38)
+      drop-shadow(1.5px 1.5px 0 #1b0a38)
+      drop-shadow(-1.5px -1.5px 0 #1b0a38)
+      drop-shadow(1.5px -1.5px 0 #1b0a38)
+      drop-shadow(-1.5px 1.5px 0 #1b0a38)
+      drop-shadow(0 4px 12px rgba(15, 3, 35, 0.7));
+  }
 }

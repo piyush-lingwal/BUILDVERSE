@@ -30,7 +30,10 @@ export interface BuildVerseConfig {
     description: string;
   }[];
   utkrisht: { show: boolean; text: string };
-  themes: { title: string; description: string }[];
+  /** Overarching theme shown above the innovation tracks. */
+  trackTheme: { title: string; statement: string };
+  /** 5 categories, 18 tracks. `icon` is a key into the icon map in components/Tracks.tsx. */
+  trackCategories: { id: string; name: string; hint: string; tracks: { title: string; description: string; icon: string }[] }[];
   rules: string[];
   faqs: { q: string; a: string }[];
   /** Leave phone/whatsapp empty to hide them. */
@@ -76,22 +79,61 @@ export const BUILDVERSE: BuildVerseConfig = {
       date: "2026-10-30",
       label: "30 October 2026",
       title: "Build & Pitch",
-      mode: "Hybrid (presentation at campus)",
+      mode: "Physical (presentation at campus)",
       time: "2:30 PM – 5:30 PM",
-      venue: "New Seminar Hall, Tula's University",
+      venue: "New Seminar Hall, Tulas University",
       description: "Product demonstration and pitching to the judging panel.",
     },
   ],
   utkrisht: { show: true, text: "Part of Utkrisht 2026 (30–31 October)" },
-  themes: [
-    { title: "Sustainable Future", description: "Build solutions for a cleaner, greener and more sustainable world." },
-    { title: "Smart Campus", description: "Solve real problems on campus with technology." },
-    { title: "Health & Wellbeing", description: "Build for better health, accessibility and wellbeing." },
-    { title: "AI for Everyday Life", description: "Create helpful AI-powered tools for daily life and productivity." },
-    { title: "Social Impact", description: "Use technology to create positive social change." },
+  trackTheme: { title: "BUILD THE FUTURE", statement: "From Intelligent Systems to Quantum Possibilities." },
+  trackCategories: [
+    {
+      id: "ai", name: "AI & Intelligent Systems", hint: "Your idea learns, predicts, sees or acts on its own.",
+      tracks: [
+        { icon: "bot", title: "Agentic AI & Autonomous Systems", description: "AI agents, multi-agent collaboration, autonomous workflows, and intelligent task automation." },
+        { icon: "sparkles", title: "Generative AI & Foundation Models", description: "AI-powered content generation, RAG applications, document intelligence, and domain-specific AI tools." },
+        { icon: "eye", title: "Computer Vision & Spatial Computing", description: "Image recognition, video analysis, visual accessibility, augmented reality, and interactive 3D experiences." },
+        { icon: "chart", title: "Data Intelligence & Predictive Analytics", description: "Forecasting, recommendation systems, decision-support tools, and data-driven applications." },
+      ],
+    },
+    {
+      id: "future", name: "Emerging & Future Technologies", hint: "Your idea explores what comes next: quantum, trust, simulation, decentralisation.",
+      tracks: [
+        { icon: "atom", title: "Quantum Computing & Algorithms", description: "Quantum circuit simulators, quantum algorithms, optimisation experiments, and quantum computing education tools." },
+        { icon: "shield", title: "Cybersecurity & Digital Trust", description: "Privacy tools, digital identity, threat detection, security awareness, and post-quantum cryptography demonstrations." },
+        { icon: "boxes", title: "Digital Twins & Simulation", description: "Virtual models, interactive simulations, scenario testing, and digital representations of real-world systems." },
+        { icon: "blocks", title: "Blockchain & Decentralised Applications", description: "Smart contracts, decentralised identity, verifiable records, and transparent digital services." },
+      ],
+    },
+    {
+      id: "software", name: "Software Engineering & Infrastructure", hint: "Your idea is a platform, a tool, a pipeline or a product for businesses.",
+      tracks: [
+        { icon: "cloud", title: "Cloud-Native & Distributed Applications", description: "Cloud-based platforms, serverless applications, distributed systems, APIs, and scalable digital services." },
+        { icon: "terminal", title: "Developer Tools & AI-Assisted Engineering", description: "Tools for coding, testing, debugging, documentation, deployment, and developer productivity." },
+        { icon: "database", title: "Data Engineering & Knowledge Systems", description: "Data pipelines, knowledge graphs, intelligent search, information retrieval, and data management systems." },
+        { icon: "wallet", title: "FinTech & Digital Commerce", description: "Personal finance tools, digital payment applications, fraud prevention, business automation, and e-commerce platforms." },
+      ],
+    },
+    {
+      id: "impact", name: "Human Impact & Digital Experiences", hint: "Your idea helps people: health, planet, learning, access, movement.",
+      tracks: [
+        { icon: "heart", title: "HealthTech & Assistive Technology", description: "Healthcare information tools, accessible applications, assistive interfaces, and digital wellbeing platforms." },
+        { icon: "leaf", title: "ClimateTech & Sustainability", description: "Waste management, energy efficiency, water conservation, environmental analytics, and sustainable agriculture applications." },
+        { icon: "graduation", title: "EdTech & Future of Learning", description: "Adaptive learning platforms, educational simulations, skill assessment, and personalised learning applications." },
+        { icon: "panels", title: "Future Interfaces & Digital Experiences", description: "Conversational interfaces, accessibility-first UX, immersive web experiences, and innovative software interactions." },
+        { icon: "bus", title: "Smart Mobility & Urban Intelligence", description: "Route optimisation, transport planning, traffic analysis, logistics software, and urban service platforms." },
+      ],
+    },
+    {
+      id: "open", name: "Open Innovation", hint: "Your idea does not fit anywhere else. That is fine.",
+      tracks: [
+        { icon: "lightbulb", title: "Open Innovation", description: "An open category for any original software-based project that does not fit the other tracks. Examples include AgriTech, tourism, civic technology, productivity tools, social-impact applications, and other innovative digital solutions." },
+      ],
+    },
   ],
   rules: [
-    "Eligibility: Open to all students of Tula's University.",
+    "Eligibility: Open to all students of Tulas University.",
     "Team size: 1–4 participants per team. Solo participation is allowed.",
     "Registration fee: ₹100 per team.",
     "Build an original product or solution. Plagiarism is not allowed.",
@@ -100,10 +142,11 @@ export const BUILDVERSE: BuildVerseConfig = {
     "Follow the event timeline, submission guidelines and judging criteria shared by the organising team.",
   ],
   faqs: [
-    { q: "Who can participate?", a: "Any student of Tula's University. Register as a solo participant or a team of up to 4." },
+    { q: "Who can participate?", a: "Any student of Tulas University. Register as a solo participant or a team of up to 4." },
     { q: "Do I need a team to participate?", a: "No. You can take part alone or with up to 3 teammates." },
     { q: "What is the registration fee?", a: "₹100 per team, not per person." },
-    { q: "What kind of projects can we build?", a: "Any original product that fits one of the five themes. A working prototype is required for the pitch." },
+    { q: "Are the tracks separate competitions?", a: "No. The tracks only help you choose a direction. All tracks follow the same competition rules and judging criteria." },
+    { q: "What kind of projects can we build?", a: "Any original software project that fits one of the 18 innovation tracks. Open Innovation covers ideas that fit none of them. A working prototype is required for the pitch." },
     { q: "Which tools and technologies can we use?", a: "Anything introduced in the workshop, such as AWS Kiro, Google Antigravity and Cursor, plus other relevant tools. Your solution must be original." },
     { q: "How will the evaluation be done?", a: "Teams demo their prototype and pitch to a panel of judges on 30 October. Detailed judging criteria will be shared by the organising team." },
     { q: "Will accommodation be provided?", a: "No. The event is for Tula's University students." },
@@ -111,10 +154,10 @@ export const BUILDVERSE: BuildVerseConfig = {
   ],
   // TODO(organisers): fill in the real numbers (kept empty so nothing wrong is shown).
   contacts: [
-    { name: "Piyush Rawat", phone: "" },
-    { name: "Oskar Rana", phone: "" },
+    { name: "Piyush Rawat", phone: "+91 9685221532" },
+    { name: "Oskar Rana", phone: "+91 8630369690" },
   ],
-  whatsappUrl: "",
+  whatsappUrl: "https://chat.whatsapp.com/JB107JopD6QIU9WLnq3MCg",
   payment: {
     collectReference: true,
     // TODO(organisers): add the UPI id / QR instructions.

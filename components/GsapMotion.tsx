@@ -192,9 +192,9 @@ export function GsapMotion() {
         });
       });
 
-      // 5. Themes Section: Staggered bento cards
+      // 5. Tracks Section: Staggered bento cards
       gsap.fromTo(
-        ".theme-card",
+        ".track-card",
         { opacity: 0, y: 30 },
         {
           opacity: 1,
@@ -203,7 +203,7 @@ export function GsapMotion() {
           duration: 0.65,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: "#themes",
+            trigger: "#tracks",
             start: "top 88%",
             once: true,
           },
@@ -355,6 +355,11 @@ export function GsapMotion() {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
+      });
+
+      // 10b. Artwork dividers: gentle fade + rise, once
+      gsap.utils.toArray<HTMLElement>(".art-divider").forEach((el) => {
+        gsap.fromTo(el, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", clearProps: "transform,opacity", scrollTrigger: { trigger: el, start: "top 92%", once: true } });
       });
 
       // 11. Section Dividers: expanding subtle line animation
