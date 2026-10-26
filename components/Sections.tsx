@@ -57,10 +57,13 @@ export function Header() {
           <SbgLogo className="h-11 sm:h-12" />
         </Link>
         <nav aria-label="Sections" className="hidden items-center gap-5 lg:flex">
-          {NAV.map(([l, id]) => <a key={id} href={`#${id}`} className="text-sm font-medium text-violet-900/80 hover:text-violet-700">{l}</a>)}
+          {NAV.map(([l, id]) => <a key={id} href={`#${id}`} className="px-1 py-3 text-sm font-medium text-violet-900/80 hover:text-violet-700">{l}</a>)}
         </nav>
-        <RegisterButton label="Register Now" className="!px-4 !py-2 text-sm" />
+        <RegisterButton label="Register Now" className="!px-4 !py-2.5 text-sm min-h-11" />
       </div>
+      <nav aria-label="Sections (mobile)" className="no-scrollbar flex gap-1 overflow-x-auto border-t border-violet-100 px-2 lg:hidden">
+        {NAV.map(([l, id]) => <a key={id} href={`#${id}`} className="flex min-h-11 shrink-0 items-center px-3 text-sm font-medium text-violet-900/80 active:text-violet-700">{l}</a>)}
+      </nav>
     </header>
   );
 }
@@ -210,11 +213,11 @@ export function Themes() {
         <p className={eyebrow}>Event themes</p>
         <h2 className={h2}>Choose a theme. Build a solution.</h2>
         <p className="mt-3 text-violet-950/70">Pick a theme that excites you and create a meaningful product.</p>
-        <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <ul className="mt-8 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {C.themes.map((t, i) => {
             const Icon = themeIcons[i % themeIcons.length];
             return (
-              <li key={t.title} className={`${card} theme-card p-5 transition-all duration-300 hover:border-violet-300 hover:shadow-md hover:-translate-y-1 ${i === C.themes.length - 1 ? "col-span-2 md:col-span-1" : ""}`}>
+              <li key={t.title} className={`${card} theme-card p-5 transition-all duration-300 hover:border-violet-300 hover:shadow-md hover:-translate-y-1 ${i === C.themes.length - 1 ? "min-[420px]:col-span-2 md:col-span-1" : ""}`}>
                 <Icon className="h-8 w-8 text-violet-600" aria-hidden />
                 <h3 className="mt-3 font-bold text-violet-950">{t.title}</h3>
                 <p className="mt-1 text-sm text-violet-950/75">{t.description}</p>
@@ -368,7 +371,7 @@ export function Faqs() {
           <div className="grid gap-3">
             {C.faqs.map((f, i) => (
               <details key={f.q} className={`${card} faq-card group px-5 py-4 transition-all duration-300 hover:border-violet-200`}>
-                <summary className="flex cursor-pointer list-none items-center gap-3 font-semibold text-violet-950">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 font-semibold text-violet-950">
                   <span className="text-violet-600">{String(i + 1).padStart(2, "0")}</span>{f.q}
                 </summary>
                 <p className="mt-3 pl-8 text-violet-950/80">{f.a}</p>

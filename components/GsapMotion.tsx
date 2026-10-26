@@ -7,6 +7,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export function GsapMotion() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // Respect users who ask for less motion: leave the page static.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Phones/tablets: keep one-shot entrances, drop endless loops and scroll-scrubbed parallax (battery + jank).
+    const lite = window.matchMedia("(max-width: 1023px), (pointer: coarse)").matches;
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     const ctx = gsap.context(() => {
       // 1. Hero Content Cascading Staggered Entrance
@@ -370,6 +375,17 @@ export function GsapMotion() {
           }
         );
       });
+
+      if (lite) {
+        gsap.globalTimeline.getChildren(false, true, false).forEach((t) => {
+          const tw = t as gsap.core.Tween;
+          if (tw.repeat() === -1) tw.progress(0).kill();
+          else if (tw.scrollTrigger && tw.vars.scrollTrigger && (tw.vars.scrollTrigger as ScrollTrigger.Vars).scrub) {
+            tw.scrollTrigger.kill();
+            tw.progress(0).kill();
+          }
+        });
+      }
     });
 
     // Initial ScrollTrigger recalculation once React finishes painting

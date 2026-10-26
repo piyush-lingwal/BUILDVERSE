@@ -28,7 +28,7 @@ export function Countdown({ deadline }: { deadline: string }) {
         {cells.map(([label, value]) => (
           <div key={label} className="min-w-[58px] rounded-lg border border-violet-100 bg-white px-2 py-1.5 text-center shadow-sm">
             <div className="text-xl font-bold tabular-nums text-violet-950">{now === null ? "--" : two(value)}</div>
-            <div className="text-[11px] text-violet-600">{label}</div>
+            <div className="text-xs text-violet-600">{label}</div>
           </div>
         ))}
       </div>

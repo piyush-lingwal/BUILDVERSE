@@ -6,7 +6,7 @@ import { BUILDVERSE as C } from "@/config/buildverse";
 type Errors = Record<string, string>;
 interface MemberDraft { name: string; email: string; rollNumber: string }
 
-const input = "mt-1 w-full rounded-lg border border-violet-200 bg-white px-3 py-2.5 text-violet-950 placeholder:text-violet-950/40 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-300";
+const input = "mt-1 w-full rounded-lg border border-violet-200 bg-white px-3 py-2.5 text-base text-violet-950 placeholder:text-violet-950/40 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-300";
 const label = "block text-sm font-medium text-violet-950";
 
 function Field({ id, text, error, children }: { id: string; text: string; error?: string; children: React.ReactNode }) {
@@ -97,7 +97,7 @@ export function RegisterForm() {
           <div key={i} className="rounded-xl border border-violet-100 bg-white p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="font-semibold text-violet-950">Teammate {i + 1}</p>
-              <button type="button" onClick={() => setMembers(members.filter((_, j) => j !== i))} className="text-sm font-medium text-red-700 underline">Remove</button>
+              <button type="button" onClick={() => setMembers(members.filter((_, j) => j !== i))} className="-my-2 min-h-11 px-2 text-sm font-medium text-red-700 underline">Remove</button>
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               <Field id={`m${i}-name`} text="Full name" error={errors[`members.${i}.name`]}><input id={`m${i}-name`} className={input} value={m.name} onChange={setM(i, "name")} required /></Field>
@@ -107,7 +107,7 @@ export function RegisterForm() {
           </div>
         ))}
         {members.length < maxTeammates && (
-          <button type="button" onClick={() => setMembers([...members, { name: "", email: "", rollNumber: "" }])} className="rounded-lg border border-dashed border-violet-400 px-4 py-2 text-sm font-semibold text-violet-800 hover:bg-violet-50">
+          <button type="button" onClick={() => setMembers([...members, { name: "", email: "", rollNumber: "" }])} className="min-h-11 rounded-lg border border-dashed border-violet-400 px-4 py-2 text-sm font-semibold text-violet-800 hover:bg-violet-50">
             + Add a teammate
           </button>
         )}
@@ -129,8 +129,8 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <label className="flex items-start gap-3 text-sm text-violet-950/90">
-          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 h-4 w-4 accent-violet-600" />
+        <label className="flex min-h-11 cursor-pointer items-start gap-3 py-1 text-sm text-violet-950/90">
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5 h-6 w-6 shrink-0 accent-violet-600" />
           <span>I have read the rules. Our solution will be original, and every teammate has agreed to take part.</span>
         </label>
         {errors.consent && <p role="alert" className="mt-1 text-sm text-red-700">{errors.consent}</p>}

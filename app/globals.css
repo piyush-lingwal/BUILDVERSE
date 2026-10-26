@@ -3,7 +3,29 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: 4.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     overflow-x: hidden;
   }
+  a, button, summary, label, input, select, textarea {
+    touch-action: manipulation;
+  }
+  @media (max-width: 1023px) {
+    /* Mobile header is two rows (bar + scrollable nav) */
+    html { scroll-padding-top: 7.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer utilities {
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
 }

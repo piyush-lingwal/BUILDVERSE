@@ -10,6 +10,14 @@ export function SmoothScroll() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
+    // Native scrolling is smoother on touch devices and for reduced-motion users; skip Lenis there.
+    const native = window.matchMedia("(pointer: coarse), (prefers-reduced-motion: reduce)").matches;
+    if (native) {
+      const onLoad = () => ScrollTrigger.refresh();
+      window.addEventListener("load", onLoad);
+      return () => window.removeEventListener("load", onLoad);
+    }
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
