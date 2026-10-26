@@ -1,6 +1,6 @@
 import { ArtDivider } from "@/components/Decor";
 import { Tracks } from "@/components/Tracks";
-import { Header, Hero, About, Flow, Rules, Prizes, Timeline, Faqs, FinalCta, BvFooter, SectionDivider } from "@/components/Sections";
+import { Header, Hero, About, Flow, Rules, Prizes, Timeline, Faqs, FinalCta, SectionDivider } from "@/components/Sections";
 import { GsapMotion } from "@/components/GsapMotion";
 
 // Registration open/closed is decided at request time, never baked in at build time.
@@ -13,24 +13,23 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
-        <ArtDivider name="ribbon-wave" />
+        <SectionDivider />
         <About />
         <SectionDivider />
         <Flow />
         <ArtDivider name="plane-trail" />
-        <Tracks />
-        <ArtDivider name="ribbon-sparkle" />
-        <Rules />
-        <ArtDivider name="ribbon-thin" />
-        <Prizes />
-        <ArtDivider name="star-trail" className="max-w-3xl mx-auto" />
         <Timeline />
+        <ArtDivider name="star-trail" className="max-w-3xl mx-auto" />
+        <Tracks />
+        <SectionDivider />
+        <Rules />
+        <SectionDivider />
+        <Prizes />
         <ArtDivider name="plane-trail-2" />
         <Faqs />
         <SectionDivider />
         <FinalCta />
       </main>
-      <BvFooter />
     </>
   );
 }

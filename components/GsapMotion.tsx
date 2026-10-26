@@ -337,25 +337,7 @@ export function GsapMotion() {
         ease: "sine.inOut",
       });
 
-      // 10. Final CTA: Welcoming mascot & campus scene
-      gsap.to("#campus-scene", {
-        y: -25,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#final-cta",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-
-      gsap.to("#final-cta-mascot", {
-        y: -8,
-        duration: 2.6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      // 10. Final CTA: Footer mascot remains grounded and static on desktop view
 
       // 10b. Artwork dividers: gentle fade + rise, once
       gsap.utils.toArray<HTMLElement>(".art-divider").forEach((el) => {

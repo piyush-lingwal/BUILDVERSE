@@ -46,12 +46,14 @@ export interface BuildVerseConfig {
     instructions: string;
   };
   siteUrl: string;
+  registrationFormUrl: string;
 }
 
 export const BUILDVERSE: BuildVerseConfig = {
   name: "BUILD-VERSE 2026",
   tagline: "Learn. Innovate. Pitch.",
   organiser: "AWS Student Builders Group, Tula's University",
+  registrationFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfvXQBNtTPuO_nf2rJ2lQ3YXtIHAKX1KfoFGr9vQtW7z5-KXQ/viewform",
   // 28 Oct 2026, 12:59 PM IST. Must be BEFORE the Day 1 workshop starts.
   registrationDeadline: "2026-10-28T12:59:00+05:30",
   teamSize: { min: 1, max: 4 },
@@ -149,15 +151,14 @@ export const BUILDVERSE: BuildVerseConfig = {
     { q: "What kind of projects can we build?", a: "Any original software project that fits one of the 18 innovation tracks. Open Innovation covers ideas that fit none of them. A working prototype is required for the pitch." },
     { q: "Which tools and technologies can we use?", a: "Anything introduced in the workshop, such as AWS Kiro, Google Antigravity and Cursor, plus other relevant tools. Your solution must be original." },
     { q: "How will the evaluation be done?", a: "Teams demo their prototype and pitch to a panel of judges on 30 October. Detailed judging criteria will be shared by the organising team." },
-    { q: "Will accommodation be provided?", a: "No. The event is for Tula's University students." },
-    { q: "Whom can I contact for further queries?", a: "Use the contact details in the footer, or join the WhatsApp community." },
+    { q: "Will accommodation be provided?", a: "No. The event is for Tulas University students." },
   ],
   // TODO(organisers): fill in the real numbers (kept empty so nothing wrong is shown).
   contacts: [
     { name: "Piyush Rawat", phone: "+91 9685221532" },
     { name: "Oskar Rana", phone: "+91 8630369690" },
   ],
-  whatsappUrl: "https://chat.whatsapp.com/JB107JopD6QIU9WLnq3MCg",
+  whatsappUrl: "https://chat.whatsapp.com/Dy6s9Lo9rFpLNbrMkgUgQ6",
   payment: {
     collectReference: true,
     // TODO(organisers): add the UPI id / QR instructions.

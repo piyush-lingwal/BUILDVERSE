@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BookOpen, Code2, Presentation, Leaf, GraduationCap, HeartPulse, Cpu, Users, Mail, Phone, MessageCircle } from "lucide-react";
+import { ArrowRight, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { registrationState } from "@/lib/state";
 import { Mascot } from "./Mascot";
@@ -10,7 +10,7 @@ import { SparkleCluster } from "./Decor";
 import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite } from "./Logos";
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
-const h2 = "mt-2 font-serif italic text-4xl font-bold tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
+const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
 const card = "rounded-2xl border border-violet-100 bg-white shadow-sm";
 
@@ -20,9 +20,14 @@ export function RegisterButton({ className = "", label = "Register Your Team" }:
     return <span className={`inline-flex items-center justify-center rounded-xl bg-violet-200 px-6 py-3 font-semibold text-violet-700 ${className}`}>Registration closed</span>;
   }
   return (
-    <Link href="/register" className={`inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 ${className}`}>
+    <a
+      href={C.registrationFormUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 ${className}`}
+    >
       {label} <ArrowRight className="h-4 w-4" aria-hidden />
-    </Link>
+    </a>
   );
 }
 
@@ -47,26 +52,7 @@ export function SectionDivider({ className = "" }: { className?: string }) {
   );
 }
 
-const NAV = [["About", "about"], ["Event Flow", "flow"], ["Tracks", "tracks"], ["Rules", "rules"], ["Prizes", "prizes"], ["Timeline", "timeline"], ["FAQs", "faqs"]] as const;
-
-export function Header() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/85 backdrop-blur">
-      <div className={`${wrap} flex h-16 items-center justify-between gap-4`}>
-        <Link href="/" className="flex items-center gap-3" aria-label="BUILD-VERSE 2026 home">
-          <SbgLogo className="h-11 sm:h-12" />
-        </Link>
-        <nav aria-label="Sections" className="hidden items-center gap-5 lg:flex">
-          {NAV.map(([l, id]) => <a key={id} href={`#${id}`} className="px-1 py-3 text-sm font-medium text-violet-900/80 hover:text-violet-700">{l}</a>)}
-        </nav>
-        <RegisterButton label="Register Now" className="!px-4 !py-2.5 text-sm min-h-11" />
-      </div>
-      <nav aria-label="Sections (mobile)" className="no-scrollbar flex gap-1 overflow-x-auto border-t border-violet-100 px-2 lg:hidden">
-        {NAV.map(([l, id]) => <a key={id} href={`#${id}`} className="flex min-h-11 shrink-0 items-center px-3 text-sm font-medium text-violet-900/80 active:text-violet-700">{l}</a>)}
-      </nav>
-    </header>
-  );
-}
+export { Header } from "./Header";
 
 export function Hero() {
   return (
@@ -106,9 +92,18 @@ export function Hero() {
             aria-hidden="true"
             className="pointer-events-none mx-auto -mt-6 h-5 w-4/5 rounded-[100%] bg-violet-950/20 blur-xl sm:-mt-8 sm:h-7 sm:w-3/4"
           />
-          {/* The idea bulb sits just above the mascot's raised finger. */}
+          {/* The idea bulb with subtle golden ambient glow behind it */}
           <div id="hero-bulb" className="pointer-events-none absolute left-[18%] top-[6%] z-20 w-[15%] h-auto">
-            <Mascot name="bulb" sizes="120px" className="h-auto w-full" />
+            {/* Soft, subtle golden ambient glow */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-amber-400/20 via-yellow-300/15 to-transparent blur-lg sm:h-18 sm:w-18 sm:blur-xl"
+            />
+            <Mascot
+              name="bulb"
+              sizes="120px"
+              className="relative z-10 h-auto w-full [filter:drop-shadow(0_0_6px_rgba(251,191,36,0.25))]"
+            />
           </div>
         </div>
       </div>
@@ -212,23 +207,33 @@ export function Rules() {
   return (
     <section id="rules" className="scroll-mt-20 py-16">
       <div className={wrap}>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className={eyebrow}>Rules &amp; Participation</p>
-            <h2 className={h2}>Play fair. Come solo or with a team.</h2>
-            <p className="mt-3 text-violet-950/70">Everything you need to know about eligibility, team formation, and guidelines.</p>
-          </div>
+        <div>
+          <p className={eyebrow}>Guidelines &amp; Eligibility</p>
+          <h2 className={h2}>Rules &amp; Participation</h2>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-violet-950/75">
+            Clear eligibility, transparent evaluation, and zero guesswork so you can focus entirely on shipping your best work.
+          </p>
         </div>
 
         {/* Detailed guidelines list with mascot */}
         <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
-          <div className={`${card} p-6 sm:p-8`}>
-            <h3 className="mb-3 text-lg font-medium text-violet-950">Event Guidelines</h3>
-            <ol className="divide-y divide-violet-100">
+          <div className="rounded-3xl border border-violet-100/90 bg-white/90 p-6 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.06)] sm:p-8">
+            <div className="mb-5 flex items-center justify-between border-b border-violet-100/80 pb-4">
+              <div>
+                <h3 className="font-poppins text-xl font-bold text-violet-950">Event Guidelines</h3>
+                <p className="text-xs font-medium text-violet-950/60">Official competition code &amp; submission standards</p>
+              </div>
+              <span className="rounded-md border border-violet-200 bg-violet-100/80 px-2.5 py-1 font-tech text-xs font-semibold text-violet-700">
+                {C.rules.length} Rules
+              </span>
+            </div>
+            <ol className="divide-y divide-violet-100/70">
               {C.rules.map((r, i) => (
-                <li key={r} className="rule-item flex gap-4 py-3.5 first:pt-0 last:pb-0">
-                  <span className="w-8 shrink-0 text-xl font-bold text-violet-600">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="leading-relaxed text-violet-950/85">{r}</span>
+                <li key={r} className="rule-item flex items-start gap-3.5 py-3.5 first:pt-0 last:pb-0">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-violet-200/70 bg-violet-100 font-tech text-xs font-bold text-violet-700">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="leading-relaxed text-sm text-violet-950/85 sm:text-base">{r}</span>
                 </li>
               ))}
             </ol>
@@ -253,18 +258,72 @@ export function Rules() {
   );
 }
 
+const PRIZE_CARDS = [
+  {
+    title: "Guaranteed Cash Prizes",
+    badge: "Direct Cash",
+    perk: "Exciting cash prizes awarded directly to top winning teams and track champions.",
+    highlight: "Winners & Runners-up",
+    icon: Banknote,
+    color: "from-amber-500/10 via-amber-50/50 to-transparent",
+    iconBg: "bg-amber-100 text-amber-700 border-amber-200",
+    badgeStyle: "bg-amber-50 text-amber-700 border-amber-200",
+    glow: "hover:border-amber-300",
+    accentDot: "bg-amber-500",
+  },
+  {
+    title: "AWS Swags",
+    badge: "Official Gear",
+    perk: "Official AWS branded swags from Amazon.",
+    highlight: "Participants & Finalists",
+    icon: Gift,
+    color: "from-violet-500/10 via-violet-50/50 to-transparent",
+    iconBg: "bg-violet-100 text-violet-700 border-violet-200",
+    badgeStyle: "bg-violet-50 text-violet-700 border-violet-200",
+    glow: "hover:border-violet-300",
+    accentDot: "bg-violet-500",
+  },
+  {
+    title: "AWS Certification Vouchers",
+    badge: "Global Certs",
+    perk: "Sponsored exam vouchers to earn globally recognized industry AWS Cloud Certifications.",
+    highlight: "Skill Validation",
+    icon: Award,
+    color: "from-blue-500/10 via-blue-50/50 to-transparent",
+    iconBg: "bg-blue-100 text-blue-700 border-blue-200",
+    badgeStyle: "bg-blue-50 text-blue-700 border-blue-200",
+    glow: "hover:border-blue-300",
+    accentDot: "bg-blue-500",
+  },
+  {
+    title: "AWS Cloud Credits",
+    badge: "Cloud Infra",
+    perk: "Free AWS credits to build, deploy, test, and scale cloud architectures and AI agents.",
+    highlight: "Build on AWS",
+    icon: Cloud,
+    color: "from-orange-500/10 via-orange-50/50 to-transparent",
+    iconBg: "bg-orange-100 text-orange-700 border-orange-200",
+    badgeStyle: "bg-orange-50 text-orange-700 border-orange-200",
+    glow: "hover:border-orange-300",
+    accentDot: "bg-orange-500",
+  },
+];
+
 export function Prizes() {
   return (
     <section id="prizes" className="scroll-mt-20 py-16">
       <div id="prizes-grid" className={`${wrap} grid items-center gap-8 lg:grid-cols-2`}>
         <div id="prizes-info">
-          <p className={eyebrow}>Prizes &amp; rewards</p>
-          {C.prize.art ? (
-            <Mascot name="prizeAmount" sizes="(min-width: 1024px) 520px, 90vw" className="-ml-3 mt-1 h-auto w-full max-w-[460px]" />
-          ) : (
-            <p className="mt-2 text-5xl font-extrabold text-violet-700 sm:text-6xl">{C.prize.headline}</p>
-          )}
-          <p className="font-tech text-xs font-bold uppercase tracking-[0.18em] text-violet-950 sm:text-sm">Total prize pool</p>
+          <p className={eyebrow}>Compete &amp; Win</p>
+          <h2 className={h2}>Prizes &amp; Rewards</h2>
+          <div className="mt-4">
+            {C.prize.art ? (
+              <Mascot name="prizeAmount" sizes="(min-width: 1024px) 520px, 90vw" className="-ml-3 mt-1 h-auto w-full max-w-[460px]" />
+            ) : (
+              <p className="mt-2 text-5xl font-extrabold text-violet-700 sm:text-6xl">{C.prize.headline}</p>
+            )}
+            <p className="font-tech text-xs font-bold uppercase tracking-[0.18em] text-violet-950 sm:text-sm">Total prize pool</p>
+          </div>
           <p className="mt-4 max-w-md text-violet-950/80">{C.prize.details}</p>
           {C.prize.items.length > 0 && <ul className="mt-4 list-disc pl-5 text-violet-950/85">{C.prize.items.map((i) => <li key={i}>{i}</li>)}</ul>}
         </div>
@@ -283,6 +342,50 @@ export function Prizes() {
             />
           </div>
         </div>
+      </div>
+
+      {/* Prize Breakdown Cards */}
+      <div className={`${wrap} mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4`}>
+        {PRIZE_CARDS.map((card) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={card.title}
+              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-violet-100 bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${card.glow}`}
+            >
+              {/* Subtle top background tint */}
+              <div
+                className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${card.color} opacity-60 transition-opacity group-hover:opacity-100`}
+                aria-hidden="true"
+              />
+
+              <div className="relative">
+                <div className="flex items-center justify-between">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${card.iconBg} shadow-xs transition-transform duration-300 group-hover:scale-110`}>
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </div>
+                  <span className={`rounded-full border px-2.5 py-0.5 font-tech text-[10px] font-bold uppercase tracking-wider ${card.badgeStyle}`}>
+                    {card.badge}
+                  </span>
+                </div>
+
+                <h3 className="mt-4 font-poppins text-base font-bold text-violet-950 sm:text-lg">
+                  {card.title}
+                </h3>
+                <p className="mt-2 font-poppins text-xs font-normal leading-relaxed text-violet-950/75">
+                  {card.perk}
+                </p>
+              </div>
+
+              <div className="relative mt-4 border-t border-violet-100/70 pt-3">
+                <div className="flex items-center gap-1.5 text-xs font-medium text-violet-900">
+                  <span className={`h-1.5 w-1.5 rounded-full ${card.accentDot}`} />
+                  <span className="font-poppins">{card.highlight}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className={`${wrap} mt-10`}>
@@ -340,6 +443,8 @@ export function Timeline() {
 export const Participation = Rules;
 
 export function Faqs() {
+  const contacts = C.contacts.filter((c) => c.phone.trim() !== "");
+
   return (
     <section id="faqs" className="scroll-mt-20 py-16">
       <div className={wrap}>
@@ -356,17 +461,60 @@ export function Faqs() {
               </details>
             ))}
           </div>
-          <div id="faq-mascot-wrap" className="relative mx-auto mt-4 flex w-full max-w-[280px] flex-col items-center lg:mt-0 lg:max-w-[440px]">
-            <Mascot
-              name="faq"
-              sizes="(min-width: 1024px) 440px, 90vw"
-              className="relative z-10 h-auto w-full object-contain [filter:drop-shadow(0_20px_28px_rgba(46,16,101,0.18))]"
-            />
-            {/* Ground shadow beneath standing mascot feet */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none -mt-6 h-5 w-52 rounded-[100%] bg-violet-950/25 blur-xl"
-            />
+
+          <div className="relative mx-auto flex w-full max-w-[340px] flex-col items-center lg:mt-0 lg:max-w-[420px]">
+            {/* FAQ Mascot (only the mascot floats) */}
+            <div id="faq-mascot-wrap" className="relative flex flex-col items-center">
+              <Mascot
+                name="faq"
+                sizes="(min-width: 1024px) 380px, 280px"
+                className="relative z-10 h-auto w-full max-w-[260px] object-contain sm:max-w-[300px] [filter:drop-shadow(0_20px_28px_rgba(46,16,101,0.18))]"
+              />
+              {/* Ground shadow beneath standing mascot feet */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none -mt-6 h-5 w-52 rounded-[100%] bg-violet-950/25 blur-xl"
+              />
+            </div>
+
+            {/* Contact Card placed directly below FAQ mascot */}
+            <div className="mt-6 w-full rounded-3xl border border-violet-100 bg-white p-5 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.08)] sm:p-6">
+              <div className="flex items-center gap-3 border-b border-violet-100 pb-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
+                  <Phone className="h-5 w-5" aria-hidden />
+                </span>
+                <div>
+                  <h3 className="font-poppins text-base font-bold text-violet-950">Contact Organisers</h3>
+                  <p className="text-xs font-medium text-violet-950/65">Have queries? Reach out anytime</p>
+                </div>
+              </div>
+
+              <div className="mt-3.5 space-y-2.5">
+                {contacts.map((c) => (
+                  <div key={c.name} className="flex items-center justify-between text-sm">
+                    <span className="font-poppins font-medium text-violet-950">{c.name}:</span>
+                    <a
+                      href={`tel:${c.phone.replace(/\s/g, "")}`}
+                      className="font-tech text-xs font-semibold text-violet-700 underline underline-offset-2 transition-colors hover:text-violet-900"
+                    >
+                      {c.phone}
+                    </a>
+                  </div>
+                ))}
+              </div>
+
+              {C.whatsappUrl && (
+                <a
+                  href={C.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shadow-xs mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 bg-violet-50 px-4 py-2.5 font-poppins text-xs font-semibold text-violet-800 transition hover:border-violet-300 hover:bg-violet-100"
+                >
+                  <MessageCircle className="h-4 w-4 text-violet-600" aria-hidden />
+                  Join WhatsApp Community
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -376,70 +524,77 @@ export function Faqs() {
 
 export function FinalCta() {
   return (
-    <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100 to-fuchsia-100">
+    <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100/50 to-[#0a081b] min-h-[520px] sm:min-h-[550px] md:min-h-[580px]">
       <SparkleCluster className="left-6 top-10 -scale-x-100 lg:left-20" />
-      {/* Campus scene, file used as supplied. The picture has a fake "transparent" checkerboard baked in
-          above and below the scenery, so only the scenery rows are shown (object-view-box), and the top fades out. */}
-      <div id="campus-scene" className="absolute inset-x-0 bottom-0 -z-10 h-56 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%)] sm:aspect-[2170/410] sm:h-auto">
-        <Image
-          src="/buildverse/campus-scene.png"
-          alt=""
-          fill
-          sizes="100vw"
-          quality={100}
-          // className="object-cover"
-          // style={{ objectViewBox: "inset(27.6% 0 15.9% 0)" } as React.CSSProperties}
-        />
-      </div>
-      <div className={`${wrap} relative grid min-h-[460px] items-end gap-6 pt-14 md:grid-cols-[auto_1fr_auto] md:min-h-[500px]`}>
-        <div id="final-cta-mascot" className="order-2 mx-auto mb-8 w-44 self-end sm:mb-10 sm:w-56 md:order-none md:mb-12 md:w-60">
-          <div className="relative flex flex-col items-center">
-            <Mascot
-              name="welcome"
-              sizes="240px"
-              className="relative z-10 h-auto w-full [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.22))]"
-            />
-            {/* Ground contact shadow on landscape terrain */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none -mt-4 h-4 w-36 rounded-[100%] bg-violet-950/35 blur-md"
-            />
-          </div>
+      {/* Campus scene: desktop is full panorama uncropped; mobile uses right-side part */}
+      <div id="campus-scene" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 w-full [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%)]">
+        {/* Desktop view (md: and up) - exactly unchanged as requested */}
+        <div className="relative hidden w-full md:block aspect-[2170/525]">
+          <Image
+            src="/buildverse/campus-scene.png"
+            alt="Campus panorama"
+            fill
+            sizes="100vw"
+            quality={100}
+            priority
+            className="w-full h-full object-contain object-bottom"
+          />
         </div>
-        <div className="order-1 self-start pb-6 text-center md:order-none md:self-center md:pb-24 md:text-left">
-          <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
-          <h2 className={h2}>Your idea deserves a bigger stage.</h2>
-          <p className="mx-auto mt-3 max-w-xl text-violet-950/80 md:mx-0">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
-          <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
-            <RegisterButton />
-            <a href="#about" className="inline-flex items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 hover:bg-white">Explore the Event</a>
-          </div>
+
+        {/* Mobile view (< md) - right-side part of campus scene with generous framing */}
+        <div className="relative block h-72 sm:h-80 w-full md:hidden">
+          <Image
+            src="/buildverse/campus-scene.png"
+            alt="Campus panorama"
+            fill
+            sizes="(max-width: 768px) 1000px, 100vw"
+            quality={100}
+            priority
+            className="w-full h-full object-cover object-[85%_bottom]"
+          />
         </div>
-        {C.utkrisht.show && (
-          <div className="order-3 mx-auto mb-6 flex items-center self-end md:order-none md:mb-12">
-            <UtkrishtLogoWhite className="absolute bottom-5 mr-5 h-16 w-auto sm:h-20" />
-          </div>
-        )}
       </div>
+
+      {/* Centered CTA content */}
+      <div className={`${wrap} relative z-10 flex flex-col items-center pt-16 pb-32 text-center sm:pt-20 sm:pb-36 md:pt-20 md:pb-36 lg:pt-24 lg:pb-40`}>
+        <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
+        <h2 className={h2}>Your idea deserves a bigger stage.</h2>
+        <p className="mx-auto mt-3 max-w-xl text-violet-950/80">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <RegisterButton />
+          <a href="#about" className="inline-flex items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white">Explore the Event</a>
+        </div>
+      </div>
+
+      {/* Mascot: moved down & to the left (rocky cliff & mountain trees) */}
+      <div
+        id="final-cta-mascot"
+        className="absolute bottom-2 left-3 z-10 sm:bottom-3 sm:left-6 md:bottom-4 md:left-8 lg:bottom-6 lg:left-14 xl:left-20"
+      >
+        <div className="relative flex flex-col items-center">
+          <Mascot
+            name="welcome"
+            sizes="(min-width: 1024px) 240px, (min-width: 768px) 200px, 140px"
+            className="relative z-10 h-auto w-32 xs:w-36 sm:w-44 md:w-52 lg:w-56 [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.22))]"
+          />
+          {/* Ground contact shadow on landscape terrain */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none -mt-3 h-3 w-28 rounded-[100%] bg-violet-950/35 blur-md sm:-mt-4 sm:h-4 sm:w-36 lg:w-44"
+          />
+        </div>
+      </div>
+
+      {/* Utkrisht Logo: moved down & to the right (pine trees corner) */}
+      {C.utkrisht.show && (
+        <div className="absolute bottom-3 right-3 z-10 sm:bottom-4 sm:right-6 md:bottom-5 md:right-8 lg:bottom-6 lg:right-14 xl:right-20">
+          <UtkrishtLogoWhite className="h-11 w-auto xs:h-13 sm:h-15 md:h-18 lg:h-20 drop-shadow-lg" />
+        </div>
+      )}
     </section>
   );
 }
 
 export function BvFooter() {
-  const contacts = C.contacts.filter((c) => c.phone.trim() !== "");
-  return (
-    <footer className="border-t border-violet-100 bg-white py-8 text-sm text-violet-950/80">
-      <div className={`${wrap} flex flex-col gap-6 md:flex-row md:items-start md:justify-between`}>
-        <div>
-          <SbgLogo className="h-14" />
-        </div>
-        <div className="space-y-1">
-          <p className="font-semibold text-violet-950">Contact</p>
-          {contacts.length === 0 && <p className="flex items-center gap-2"><Mail className="h-4 w-4" aria-hidden />Questions? Reach out through the SBG team on campus.</p>}
-          {contacts.map((c) => <p key={c.name} className="flex items-center gap-2"><Phone className="h-4 w-4" aria-hidden />{c.name}: <a className="underline" href={`tel:${c.phone.replace(/\s/g, "")}`}>{c.phone}</a></p>)}
-          {C.whatsappUrl && <a href={C.whatsappUrl} className="mt-1 inline-flex items-center gap-2 rounded-lg border border-violet-300 px-3 py-1.5 font-medium text-violet-800 hover:bg-violet-50"><MessageCircle className="h-4 w-4" aria-hidden />Join WhatsApp Community</a>}
-        </div>
-      </div>
-    </footer>
-  );
+  return null;
 }
