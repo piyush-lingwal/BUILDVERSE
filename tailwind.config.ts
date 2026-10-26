@@ -8,7 +8,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-poppins)", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-nunito)", "ui-rounded", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-fredoka)", "ui-rounded", "ui-sans-serif", "system-ui", "sans-serif"],
+        script: ["var(--font-pacifico)", "cursive"],
       },
     },
   },

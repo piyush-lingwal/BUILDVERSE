@@ -9,8 +9,8 @@ import { Countdown } from "./Countdown";
 import { SbgLogo, BuildVerseLogo, UtkrishtLogo } from "./Logos";
 
 const themeIcons = [Leaf, GraduationCap, HeartPulse, Cpu, Users];
-const eyebrow = "text-xs font-semibold uppercase tracking-[0.18em] text-violet-600";
-const h2 = "mt-2 text-3xl font-bold tracking-tight text-violet-950 sm:text-4xl";
+const eyebrow = "font-script text-lg leading-snug text-violet-600 sm:text-xl";
+const h2 = "mt-1 text-3xl font-semibold text-violet-950 sm:text-5xl";
 const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
 const card = "rounded-2xl border border-violet-100 bg-white shadow-sm";
 
@@ -79,7 +79,7 @@ export function Hero() {
             </div>
           )}
           <h1 className="mt-3 -ml-2 max-w-[560px]"><BuildVerseLogo className="h-auto w-full" /></h1>
-          <p className="mt-3 text-sm font-bold uppercase tracking-[0.3em] text-violet-700">{C.tagline}</p>
+          <p className="mt-3 font-script text-xl normal-case tracking-normal text-violet-700 sm:text-2xl">{C.tagline}</p>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
             A hands-on innovation event by the {C.organiser}. Learn modern development workflows, build a real product, and pitch your idea to a panel of judges.
           </p>
@@ -286,7 +286,7 @@ export function Prizes() {
           ) : (
             <p className="mt-2 text-5xl font-extrabold text-violet-700 sm:text-6xl">{C.prize.headline}</p>
           )}
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-violet-950">Total prize pool</p>
+          <p className="font-script text-lg normal-case tracking-normal text-violet-950">Total prize pool</p>
           <p className="mt-4 max-w-md text-violet-950/80">{C.prize.details}</p>
           {C.prize.items.length > 0 && <ul className="mt-4 list-disc pl-5 text-violet-950/85">{C.prize.items.map((i) => <li key={i}>{i}</li>)}</ul>}
         </div>
@@ -310,7 +310,7 @@ export function Prizes() {
       <div className={`${wrap} mt-10`}>
         <div id="judges-card" className="grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 md:grid-cols-[1fr_1.1fr]">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-300">Judges</p>
+            <p className="font-script text-lg normal-case tracking-normal text-violet-300">Judges</p>
             {C.judges.length === 0 ? (
               <>
                 <h3 className="mt-2 text-3xl font-bold text-white">To be revealed soon</h3>
@@ -429,7 +429,7 @@ export function FinalCta() {
         </div>
         <div className="order-1 self-start pb-6 text-center md:order-none md:self-center md:pb-24 md:text-left">
           <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-violet-950 sm:text-4xl">Your idea deserves a bigger stage.</h2>
+          <h2 className="mt-1 text-3xl font-semibold text-violet-950 sm:text-5xl">Your idea deserves a bigger stage.</h2>
           <p className="mx-auto mt-3 max-w-xl text-violet-950/80 md:mx-0">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3 md:justify-start">
             <RegisterButton />

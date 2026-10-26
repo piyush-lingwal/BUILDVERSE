@@ -12,6 +12,11 @@
   body {
     overflow-x: hidden;
   }
+  h1, h2, h3, legend {
+    @apply font-display;
+    letter-spacing: 0;
+  }
+  summary { @apply font-display; }
   a, button, summary, label, input, select, textarea {
     touch-action: manipulation;
   }
