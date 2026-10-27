@@ -3,9 +3,8 @@ import { Tracks } from "@/components/Tracks";
 import { Header, Hero, About, Flow, Rules, Prizes, Timeline, Faqs, FinalCta, SectionDivider } from "@/components/Sections";
 import { GsapMotion } from "@/components/GsapMotion";
 
-// Registration open/closed is decided at request time, never baked in at build time.
-export const dynamic = "force-dynamic";
-
+// Static page: built once and served from the CDN. Registration open/closed is decided in the browser
+// (see components/useRegistrationOpen.ts), so nothing here depends on the request time.
 export default function HomePage() {
   return (
     <>

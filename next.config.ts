@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    qualities: [80, 100],
+    qualities: [75, 85, 90],
   },
   async redirects() {
     return [

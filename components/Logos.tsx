@@ -19,7 +19,7 @@ export function SbgLogo({ className = "h-10" }: { className?: string }) {
         width={SBG.size}
         height={SBG.size}
         sizes="320px"
-        quality={100}
+        quality={90}
         className="absolute max-w-none"
         style={{
           width: `${(SBG.size / SBG.w) * 100}%`,
@@ -33,13 +33,13 @@ export function SbgLogo({ className = "h-10" }: { className?: string }) {
 
 export function BuildVerseLogo({ className = "" }: { className?: string }) {
   return (
-    <Image src="/buildverse/build-verse-logo.png" alt="BUILD-VERSE 2026" width={2172} height={724} sizes="(min-width: 1024px) 560px, 90vw" quality={100} priority className={className} />
+    <Image src="/buildverse/build-verse-logo.png" alt="BUILD-VERSE 2026" width={2172} height={724} sizes="(min-width: 1024px) 560px, 90vw" quality={90} priority className={className} />
   );
 }
 
 export function UtkrishtLogo({ className = "" }: { className?: string }) {
   return (
-    <Image src="/buildverse/utkrisht-logo.png" alt="Utkrisht 2026: Discovering Bharat" width={2000} height={913} sizes="240px" quality={100} className={className} />
+    <Image src="/buildverse/utkrisht-logo.png" alt="Utkrisht 2026: Discovering Bharat" width={2000} height={913} sizes="240px" quality={90} className={className} />
   );
 }
 

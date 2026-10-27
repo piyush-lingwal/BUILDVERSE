@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
-import { registrationState } from "@/lib/state";
+import { useRegistrationOpen } from "./useRegistrationOpen";
 import { SbgLogo } from "./Logos";
 
 export const NAV_ITEMS = [
@@ -19,7 +19,7 @@ export const NAV_ITEMS = [
 
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("");
-  const open = registrationState(Date.now(), C.registrationDeadline) === "open";
+  const open = useRegistrationOpen();
 
   useEffect(() => {
     const sectionIds = NAV_ITEMS.map((item) => item.id);

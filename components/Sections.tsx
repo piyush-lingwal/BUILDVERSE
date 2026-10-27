@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
+import { BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
-import { registrationState } from "@/lib/state";
+import { RegisterButton } from "./RegisterButton";
 import { Mascot } from "./Mascot";
 import { Countdown } from "./Countdown";
 import { SparkleCluster } from "./Decor";
@@ -13,23 +13,6 @@ const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
 const card = "rounded-2xl border border-violet-100 bg-white shadow-sm";
-
-export function RegisterButton({ className = "", label = "Register Your Team" }: { className?: string; label?: string }) {
-  const open = registrationState(Date.now(), C.registrationDeadline) === "open";
-  if (!open) {
-    return <span className={`inline-flex items-center justify-center rounded-xl bg-violet-200 px-6 py-3 font-semibold text-violet-700 ${className}`}>Registration closed</span>;
-  }
-  return (
-    <a
-      href={C.registrationFormUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 ${className}`}
-    >
-      {label} <ArrowRight className="h-4 w-4" aria-hidden />
-    </a>
-  );
-}
 
 export function SectionDivider({ className = "" }: { className?: string }) {
   return (
@@ -529,14 +512,13 @@ export function FinalCta() {
       {/* Campus scene: full-width panorama with seamless gradient transition */}
       <div id="campus-scene" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%)]">
         {/* Desktop view (md: and up) - full edge-to-edge landscape */}
-        <div className="relative hidden w-full md:block aspect-[2161/650] min-h-[380px]">
+        <div className="relative hidden w-full md:block aspect-[1920/577] min-h-[380px]">
           <Image
-            src="/buildverse/campus-panorama.png"
+            src="/buildverse/campus-scene.webp"
             alt="Campus panorama"
             fill
             sizes="100vw"
-            quality={100}
-            priority
+            quality={85}
             className="w-full h-full object-cover object-bottom scale-[1.01] origin-bottom"
           />
         </div>
@@ -544,12 +526,11 @@ export function FinalCta() {
         {/* Mobile view (< md) - focused right-side part of campus scene */}
         <div className="relative block h-72 sm:h-80 w-full md:hidden">
           <Image
-            src="/buildverse/campus-panorama.png"
+            src="/buildverse/campus-scene.webp"
             alt="Campus panorama"
             fill
-            sizes="(max-width: 768px) 1000px, 100vw"
-            quality={100}
-            priority
+            sizes="860px"
+            quality={85}
             className="w-full h-full object-cover object-[85%_bottom] scale-[1.01] origin-bottom"
           />
         </div>
