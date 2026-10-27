@@ -1,305 +1,177 @@
 "use client";
 
-import { useState, type ComponentType } from "react";
-import {
-  Atom, Blocks, Boxes, Bot, Bus, ChartLine, Cloud, Database,
-  GraduationCap, HeartPulse, Leaf, Lightbulb, PanelsTopLeft,
-  ScanEye, Search, ShieldCheck, Sparkles, TerminalSquare, Wallet, X,
-} from "lucide-react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
+import { ArrowRight, Atom, Blocks, Boxes, Bot, BrainCircuit, Bus, ChartLine, ChevronLeft, ChevronRight, Cloud, Database, GraduationCap, HeartHandshake, HeartPulse, Layers, Leaf, Lightbulb, PanelsTopLeft, Rocket, ScanEye, ShieldCheck, Sparkles, TerminalSquare, Wallet, X } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { SparkleCluster } from "./Decor";
 
-const ICONS: Record<string, ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
-  bot: Bot,
-  sparkles: Sparkles,
-  eye: ScanEye,
-  chart: ChartLine,
-  atom: Atom,
-  shield: ShieldCheck,
-  boxes: Boxes,
-  blocks: Blocks,
-  cloud: Cloud,
-  terminal: TerminalSquare,
-  database: Database,
-  wallet: Wallet,
-  heart: HeartPulse,
-  leaf: Leaf,
-  graduation: GraduationCap,
-  panels: PanelsTopLeft,
-  bus: Bus,
-  lightbulb: Lightbulb,
+type Icon = ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+
+const TRACK_ICONS: Record<string, Icon> = {
+  bot: Bot, sparkles: Sparkles, eye: ScanEye, chart: ChartLine, atom: Atom, shield: ShieldCheck, boxes: Boxes, blocks: Blocks,
+  cloud: Cloud, terminal: TerminalSquare, database: Database, wallet: Wallet, heart: HeartPulse, leaf: Leaf,
+  graduation: GraduationCap, panels: PanelsTopLeft, bus: Bus, lightbulb: Lightbulb,
+};
+const CAT_ICONS: Record<string, Icon> = { brain: BrainCircuit, rocket: Rocket, layers: Layers, heart: HeartHandshake, lightbulb: Lightbulb };
+
+// One accent per theme, all inside the brand's violet family (Open Innovation gets the warm highlight).
+const ACCENT: Record<string, string> = {
+  ai: "from-violet-600 to-indigo-500",
+  future: "from-fuchsia-500 to-violet-600",
+  software: "from-indigo-600 to-sky-500",
+  impact: "from-violet-500 to-pink-500",
+  open: "from-amber-400 to-orange-500",
 };
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 
 export function Tracks() {
-  const [active, setActive] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const cats = C.trackCategories;
+  const total = cats.reduce((n, c) => n + c.tracks.length, 0);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
 
-  const total = C.trackCategories.reduce((n, c) => n + c.tracks.length, 0);
+  const idx = cats.findIndex((c) => c.id === openId);
+  const cat = idx >= 0 ? cats[idx] : null;
 
-  let counter = 0;
-  const startIndex = new Map<string, number>();
-  for (const c of C.trackCategories) {
-    startIndex.set(c.id, counter);
-    counter += c.tracks.length;
-  }
+  // Open/close the native <dialog>: it gives focus trapping, Esc and an inert page for free.
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (!d) return;
+    if (openId && !d.open) {
+      d.showModal();
+      document.documentElement.style.overflow = "hidden";
+    }
+    if (!openId && d.open) d.close();
+    if (openId) bodyRef.current?.scrollTo({ top: 0 });
+  }, [openId]);
 
-  const q = searchQuery.trim().toLowerCase();
-  const filteredCategories = C.trackCategories
-    .map((cat) => {
-      const isCatMatch = active === "all" || active === cat.id;
-      if (!isCatMatch) return { ...cat, tracks: [] };
-      if (!q) return cat;
-      const matchingTracks = cat.tracks.filter(
-        (t) =>
-          t.title.toLowerCase().includes(q) ||
-          t.description.toLowerCase().includes(q) ||
-          cat.name.toLowerCase().includes(q)
-      );
-      return { ...cat, tracks: matchingTracks };
-    })
-    .filter((cat) => cat.tracks.length > 0);
+  useEffect(() => () => { document.documentElement.style.overflow = ""; }, []);
 
-  const visibleTrackCount = filteredCategories.reduce((sum, c) => sum + c.tracks.length, 0);
+  const openIdRef = useRef<string | null>(null);
+  openIdRef.current = openId;
+  const onClosed = () => {
+    document.documentElement.style.overflow = "";
+    // Give focus back to the card of the theme that was open last (it may differ from the one clicked).
+    const back = document.querySelector<HTMLElement>(`#tracks [data-cat="${openIdRef.current}"]`) ?? opener.current;
+    setOpenId(null);
+    back?.focus();
+  };
+
+  const go = (d: number) => setOpenId(cats[(idx + d + cats.length) % cats.length].id);
 
   return (
     <section id="tracks" className="relative scroll-mt-20 py-16">
       <SparkleCluster className="right-4 top-8 lg:right-16" />
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        {/* Header with Stats */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-3xl">
-            <p className={eyebrow}>Innovation tracks</p>
-            <h2 className={h2}>{C.trackTheme.title}</h2>
-            <p className="mt-2 font-poppins text-xl font-semibold text-violet-700 sm:text-2xl">{C.trackTheme.statement}</p>
-            <p className="mt-3 text-base leading-relaxed text-violet-950/75">
-              Explore {total} tracks across {C.trackCategories.length} domains. Tracks guide your concept direction, but all tracks follow the exact same competition rules, scoring criteria, and presentation standards.
-            </p>
-          </div>
-          <div className="hidden lg:flex flex-col items-end gap-1.5 shrink-0">
-            <div className="flex items-center gap-2 rounded-2xl bg-white/80 p-2 border border-violet-200/70 shadow-sm backdrop-blur-sm">
-              <div className="rounded-xl bg-violet-100/80 px-3 py-1.5 text-center">
-                <span className="block font-poppins text-xl font-bold text-violet-700">{total}</span>
-                <span className="block font-tech text-[10px] uppercase tracking-wider text-violet-900/60 font-semibold">Tracks</span>
-              </div>
-              <div className="rounded-xl bg-violet-100/80 px-3 py-1.5 text-center">
-                <span className="block font-poppins text-xl font-bold text-violet-700">{C.trackCategories.length}</span>
-                <span className="block font-tech text-[10px] uppercase tracking-wider text-violet-900/60 font-semibold">Categories</span>
-              </div>
-              <div className="rounded-xl bg-violet-100/80 px-3 py-1.5 text-center">
-                <span className="block font-poppins text-xl font-bold text-violet-700">1</span>
-                <span className="block font-tech text-[10px] uppercase tracking-wider text-violet-900/60 font-semibold">Rubric</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p className={eyebrow}>Innovation tracks</p>
+        <h2 className={h2}>{C.trackTheme.title}</h2>
+        <p className="mt-2 font-display text-xl text-violet-700 sm:text-2xl">{C.trackTheme.statement}</p>
+        <p className="mt-4 max-w-3xl text-violet-950/75">
+          {total} innovation tracks across {cats.length} themes. Pick the theme that fits your idea, then open it to see its tracks.
+          Tracks are not separate competitions: all of them follow the same rules and judging criteria.
+        </p>
 
-        {/* Filter and Search Bar */}
-        <div className="mt-10 flex flex-col gap-4">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            {/* Live Search Input */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-violet-400" aria-hidden />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search tracks, topics, tech (e.g. AI, health, web3)..."
-                className="w-full rounded-2xl border border-violet-200/80 bg-white/90 pl-10 pr-9 py-2.5 text-sm text-violet-950 placeholder-violet-950/40 shadow-xs transition focus:border-violet-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-500/20"
-              />
-              {searchQuery && (
+        <ul className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6">
+          {cats.map((c, i) => {
+            const Icon = CAT_ICONS[c.icon] ?? Lightbulb;
+            const wide = i >= 3; // 3 + 2 layout on desktop
+            return (
+              <li key={c.id} className={`track-card ${wide ? "lg:col-span-3" : "lg:col-span-2"} ${i === cats.length - 1 ? "md:col-span-2" : ""}`}>
                 <button
                   type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-violet-400 hover:bg-violet-100 hover:text-violet-700 transition cursor-pointer"
-                  aria-label="Clear search"
+                  onClick={(e) => { opener.current = e.currentTarget; setOpenId(c.id); }}
+                  data-cat={c.id}
+                  aria-haspopup="dialog"
+                  aria-label={`${c.name}: ${c.tracks.length} ${c.tracks.length === 1 ? "track" : "tracks"}. Open details`}
+                  className="group relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-violet-100 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl hover:shadow-violet-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                 >
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              )}
-            </div>
-
-            {/* Track Counter & Reset */}
-            <div className="flex items-center gap-2 text-xs font-tech text-violet-900/70 self-end sm:self-center">
-              <span>Showing <strong>{visibleTrackCount}</strong> of {total} tracks</span>
-              {(active !== "all" || searchQuery) && (
-                <button
-                  type="button"
-                  onClick={() => { setActive("all"); setSearchQuery(""); }}
-                  className="text-violet-600 hover:text-violet-800 underline font-semibold ml-1 cursor-pointer"
-                >
-                  Reset filters
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Category Filter Pills */}
-          <div
-            role="group"
-            aria-label="Filter tracks by category"
-            className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
-          >
-            <button
-              type="button"
-              aria-pressed={active === "all"}
-              onClick={() => setActive("all")}
-              className={`min-h-10 shrink-0 inline-flex items-center gap-2 rounded-full px-4 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                active === "all"
-                  ? "bg-violet-700 text-white shadow-md shadow-violet-700/25 ring-2 ring-violet-700/30"
-                  : "bg-white/80 text-violet-900 border border-violet-200/80 hover:bg-violet-50 hover:border-violet-300"
-              }`}
-            >
-              <span>All Tracks</span>
-              <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-tech font-bold ${active === "all" ? "bg-white/25 text-white" : "bg-violet-100 text-violet-700"}`}>
-                {total}
-              </span>
-            </button>
-            {C.trackCategories.map((c) => {
-              const isSelected = active === c.id;
-              return (
-                <button
-                  key={c.id}
-                  type="button"
-                  aria-pressed={isSelected}
-                  onClick={() => setActive(c.id)}
-                  className={`min-h-10 shrink-0 inline-flex items-center gap-2 rounded-full px-4 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
-                    isSelected
-                      ? "bg-violet-700 text-white shadow-md shadow-violet-700/25 ring-2 ring-violet-700/30"
-                      : "bg-white/80 text-violet-900 border border-violet-200/80 hover:bg-violet-50 hover:border-violet-300"
-                  }`}
-                >
-                  <span>{c.name}</span>
-                  <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-tech font-bold ${isSelected ? "bg-white/25 text-white" : "bg-violet-100 text-violet-700"}`}>
-                    {c.tracks.length}
+                  <span aria-hidden className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${ACCENT[c.id]} opacity-10 blur-2xl transition-opacity duration-300 group-hover:opacity-25`} />
+                  <div className="flex items-start justify-between gap-3">
+                    <span className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${ACCENT[c.id]} text-white shadow-lg shadow-violet-500/20`}><Icon className="h-7 w-7" aria-hidden /></span>
+                    <span className="font-display text-4xl font-semibold leading-none text-violet-200" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                  </div>
+                  <h3 className="mt-5 text-xl font-semibold leading-snug text-violet-950 sm:text-2xl">{c.name}</h3>
+                  <p className="mt-1 text-sm text-violet-950/70">{c.hint}</p>
+                  <ul className={`mt-4 flex-wrap gap-1.5 ${c.tracks.length > 1 ? "flex" : "hidden"}`} aria-hidden>
+                    {c.tracks.slice(0, 4).map((t) => (
+                      <li key={t.title} className="rounded-full bg-violet-50 px-2.5 py-1 text-xs font-medium text-violet-800">{t.title.split(" & ")[0]}</li>
+                    ))}
+                    {c.tracks.length > 4 && <li className="rounded-full bg-violet-50 px-2.5 py-1 text-xs font-medium text-violet-800">+{c.tracks.length - 4} more</li>}
+                  </ul>
+                  <span className="mt-auto flex items-center justify-between pt-6 text-sm font-semibold text-violet-700">
+                    <span className="font-tech text-xs uppercase tracking-[0.14em] text-violet-500">{c.tracks.length} {c.tracks.length === 1 ? "track" : "tracks"}</span>
+                    <span className="inline-flex items-center gap-1.5 group-hover:text-violet-900">Explore tracks <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden /></span>
                   </span>
                 </button>
-              );
-            })}
-          </div>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
 
-        {/* Categories and Track Cards */}
-        {filteredCategories.length > 0 ? (
-          <div className="mt-10 space-y-14">
-            {filteredCategories.map((cat) => {
-              const ci = C.trackCategories.findIndex((c) => c.id === cat.id);
-              return (
-                <div key={cat.id} aria-labelledby={`cat-${cat.id}`}>
-                  {/* Category Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 border-b border-violet-200/60 pb-3">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 font-tech text-xs font-bold text-violet-700 border border-violet-200/70" aria-hidden>
-                        {String(ci + 1).padStart(2, "0")}
-                      </span>
-                      <h3 id={`cat-${cat.id}`} className="font-poppins text-xl sm:text-2xl font-bold text-violet-950">
-                        {cat.name}
-                      </h3>
-                    </div>
-                    <p className="text-xs sm:text-sm text-violet-950/65 font-medium pl-11 sm:pl-0">{cat.hint}</p>
-                  </div>
+        <p className="mt-10 rounded-2xl border border-violet-200 bg-violet-50 px-5 py-4 text-sm text-violet-900">
+          <strong className="font-semibold">Not sure where your idea fits?</strong> Choose Open Innovation. It stays open for any original software project outside the listed tracks.
+        </p>
+      </div>
 
-                  {/* Cards Grid */}
-                  <ul className={`mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 ${cat.tracks.length === 4 ? "xl:grid-cols-4" : cat.tracks.length === 1 ? "" : "lg:grid-cols-3"}`}>
-                    {cat.tracks.map((t) => {
-                      const Icon = ICONS[t.icon] ?? Lightbulb;
-                      const origCat = C.trackCategories.find((c) => c.id === cat.id);
-                      const origIndex = origCat ? origCat.tracks.findIndex((tr) => tr.title === t.title) : 0;
-                      const n = (startIndex.get(cat.id) ?? 0) + origIndex + 1;
-                      const isOpenInnovation = t.title.toLowerCase().includes("open innovation");
-
-                      return (
-                        <li
-                          key={t.title}
-                          className={`track-card group relative rounded-3xl border ${
-                            isOpenInnovation
-                              ? "border-amber-200/80 bg-gradient-to-br from-amber-50/40 via-white to-violet-50/30"
-                              : "border-violet-100/90 bg-white"
-                          } p-1.5 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-300 hover:shadow-[0_20px_40px_-10px_rgba(109,40,217,0.14)] ${
-                            cat.tracks.length === 1 ? "md:col-span-2 lg:col-span-3 xl:col-span-4" : ""
-                          }`}
-                        >
-                          <div className="flex h-full flex-col rounded-[1.35rem] bg-gradient-to-b from-white via-white to-violet-50/20 p-5 sm:p-6">
-                            <div className="flex items-start justify-between gap-3">
-                              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
-                                isOpenInnovation
-                                  ? "bg-amber-100/80 text-amber-700 border border-amber-200"
-                                  : "bg-gradient-to-br from-violet-100 to-indigo-100 text-violet-700 border border-violet-200/60"
-                              } shadow-xs transition-transform duration-300 group-hover:scale-105`}>
-                                <Icon className="h-6 w-6" aria-hidden />
-                              </div>
-                              <span className="font-tech text-xs font-bold text-violet-600 bg-violet-100/70 border border-violet-200/60 px-2.5 py-1 rounded-full group-hover:bg-violet-200/70 transition-colors">
-                                Track {String(n).padStart(2, "0")}
-                              </span>
-                            </div>
-
-                            <h4 className="mt-4 font-poppins text-lg font-semibold leading-snug text-violet-950 group-hover:text-violet-700 transition-colors">
-                              {t.title}
-                            </h4>
-                            <p className="mt-2 text-sm leading-relaxed text-violet-950/75">
-                              {t.description}
-                            </p>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
+      <dialog
+        ref={dialogRef}
+        data-lenis-prevent
+        aria-labelledby="track-dialog-title"
+        onClose={onClosed}
+        onClick={(e) => { if (e.target === dialogRef.current) dialogRef.current?.close(); }}
+        className="bv-dialog"
+      >
+        {cat && (
+          <div className="flex max-h-[inherit] min-h-0 flex-col">
+            <header className="relative shrink-0 border-b border-violet-100 px-5 pb-4 pt-5 sm:px-8 sm:pt-7">
+              <div className="flex items-start gap-4">
+                {(() => { const I = CAT_ICONS[cat.icon] ?? Lightbulb; return <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${ACCENT[cat.id]} text-white shadow-lg shadow-violet-500/20 sm:h-14 sm:w-14`}><I className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden /></span>; })()}
+                <div className="min-w-0 flex-1 pr-12">
+                  <p className="font-tech text-xs uppercase tracking-[0.18em] text-violet-500">Theme {String(idx + 1).padStart(2, "0")} of {String(cats.length).padStart(2, "0")} · {cat.tracks.length} {cat.tracks.length === 1 ? "track" : "tracks"}</p>
+                  <h3 id="track-dialog-title" className="mt-1 text-xl font-semibold leading-snug text-violet-950 sm:text-3xl">{cat.name}</h3>
+                  <p className="mt-1 text-sm text-violet-950/70">{cat.hint}</p>
                 </div>
-              );
-            })}
-          </div>
-        ) : (
-          /* Empty Search State */
-          <div className="mt-12 rounded-3xl border border-violet-200/70 bg-white/90 p-8 text-center shadow-sm">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
-              <Search className="h-6 w-6" />
-            </div>
-            <h3 className="mt-4 font-poppins text-xl font-bold text-violet-950">
-              No tracks matching &ldquo;{searchQuery}&rdquo;
-            </h3>
-            <p className="mt-2 text-sm text-violet-950/70 max-w-md mx-auto">
-              We couldn&apos;t find an exact track match for that search. You can build any original software product under <strong>Open Innovation</strong>!
-            </p>
-            <div className="mt-5 flex justify-center gap-3">
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="rounded-xl border border-violet-300 bg-white px-4 py-2 text-sm font-semibold text-violet-800 hover:bg-violet-50 cursor-pointer"
-              >
-                Clear Search
+              </div>
+              <button type="button" onClick={() => dialogRef.current?.close()} aria-label="Close" className="absolute right-3 top-3 flex h-11 w-11 items-center justify-center rounded-full text-violet-800 transition hover:bg-violet-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600 sm:right-5 sm:top-5">
+                <X className="h-5 w-5" aria-hidden />
               </button>
-              <button
-                type="button"
-                onClick={() => { setSearchQuery(""); setActive("open"); }}
-                className="rounded-xl bg-violet-600 px-4 py-2 text-sm font-semibold text-white hover:bg-violet-700 cursor-pointer"
-              >
-                View Open Innovation
-              </button>
+            </header>
+
+            <div ref={bodyRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-8 sm:py-6">
+              <ul className={`grid gap-4 ${cat.tracks.length === 1 ? "" : "sm:grid-cols-2"}`}>
+                {cat.tracks.map((t, i) => {
+                  const Icon = TRACK_ICONS[t.icon] ?? Lightbulb;
+                  const n = cats.slice(0, idx).reduce((a, c) => a + c.tracks.length, 0) + i + 1;
+                  return (
+                    <li key={t.title} className="rounded-2xl border border-violet-100 bg-violet-50/50 p-5">
+                      <div className="flex items-start justify-between gap-3">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-violet-700 shadow-sm"><Icon className="h-6 w-6" aria-hidden /></span>
+                        <span className="font-tech text-xs font-medium uppercase tracking-[0.14em] text-violet-400">Track {String(n).padStart(2, "0")}</span>
+                      </div>
+                      <h4 className="mt-3 font-display text-lg font-semibold leading-snug text-violet-950">{t.title}</h4>
+                      <p className="mt-1 text-sm leading-relaxed text-violet-950/75">{t.description}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="mt-5 text-xs text-violet-950/60">All tracks follow the same competition rules and judging criteria. Projects should demonstrate meaningful software functionality, innovation, practical relevance, and a clear presentation.</p>
             </div>
+
+            <footer className="flex shrink-0 items-center justify-between gap-2 border-t border-violet-100 px-3 py-3 sm:px-6">
+              <button type="button" onClick={() => go(-1)} className="inline-flex min-h-11 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-violet-800 hover:bg-violet-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600">
+                <ChevronLeft className="h-4 w-4" aria-hidden /><span className="sm:hidden">Prev</span><span className="hidden max-w-[16rem] truncate sm:inline">{cats[(idx - 1 + cats.length) % cats.length].name}</span>
+              </button>
+              <button type="button" onClick={() => go(1)} className="inline-flex min-h-11 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-violet-800 hover:bg-violet-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600">
+                <span className="sm:hidden">Next</span><span className="hidden max-w-[16rem] truncate sm:inline">{cats[(idx + 1) % cats.length].name}</span><ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
+            </footer>
           </div>
         )}
-
-        {/* Open Innovation Featured Banner */}
-        <div className="mt-14 relative overflow-hidden rounded-3xl border border-violet-200/60 bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 text-white shadow-xl">
-          <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden />
-
-          <div className="relative z-10 max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-tech font-semibold text-amber-300 backdrop-blur-xs border border-white/15">
-              <Lightbulb className="h-3.5 w-3.5" aria-hidden />
-              Not bound by a single track?
-            </div>
-            <h3 className="mt-3 font-poppins text-xl sm:text-2xl font-bold text-white">
-              Build Outside the Box with Open Innovation
-            </h3>
-            <p className="mt-2 text-sm sm:text-base leading-relaxed text-violet-100/85">
-              If your project spans multiple disciplines or tackles a completely novel challenge, choose <strong className="text-white">Track 18: Open Innovation</strong>. All submissions are judged strictly on innovation, technical depth, real-world utility, and presentation quality — tracks never restrict your ambition.
-            </p>
-          </div>
-        </div>
-      </div>
+      </dialog>
     </section>
   );
 }

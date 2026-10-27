@@ -11,25 +11,17 @@ Standalone Next.js repository for the **BUILD-VERSE 2026** innovation event micr
 npm install
 ```
 
-### 2. Configure Environment Variables
-Create `.env.local` based on `.env.example`:
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SECRET_KEY=your-supabase-service-role-secret-key
-```
-*(Both variables come from your existing Supabase project. The `register_buildverse_team` function and tables are already created if the migration was run.)*
-
-### 3. Run Dev Server
+### 2. Run Dev Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-### 4. Run Unit Tests
+### 3. Run Unit Tests
 ```bash
 npm test
 ```
-All unit tests run purely with Node's native test runner (`node --test`), verifying validations, phone normalization, team size limits, deadlines, and registration logic.
+Runs unit tests using Node's native test runner (`node --test`), verifying countdown calculation, registration open/closed states, and configuration sanity.
 
 ---
 
@@ -38,31 +30,26 @@ All unit tests run purely with Node's native test runner (`node --test`), verify
 ```
 BuildVerse/
 ├── app/
-│   ├── api/register/route.ts   # POST /api/register endpoint (atomic team registration)
-│   ├── register/page.tsx       # /register form page
-│   ├── globals.css             # Tailwind base & utilities
+│   ├── globals.css             # Tailwind base & utilities, modal dialog styles
 │   ├── layout.tsx              # Root HTML/Body layout with anti-drag styles
 │   └── page.tsx                # Main landing page (/)
 ├── components/
 │   ├── Countdown.tsx           # Hydration-safe IST countdown timer
+│   ├── Decor.tsx               # Sparkle clusters and art dividers
+│   ├── GsapMotion.tsx          # GSAP scroll animations & Lenis integration
+│   ├── Header.tsx              # Navigation bar with mobile sheet & CTA
 │   ├── Logos.tsx               # SBG, BuildVerse, and Utkrisht logos
 │   ├── Mascot.tsx              # Official AWS mascot illustrations
-│   ├── RegisterForm.tsx        # Registration client form with honeypot & validation
-│   └── Sections.tsx            # Hero, About, Flow, Themes, Rules, Prizes, FAQs, Footer
+│   ├── Sections.tsx            # Hero, About, Flow, Rules, Prizes, FAQs, Footer
+│   └── Tracks.tsx              # 5 theme cards & accessible modal for tracks
 ├── config/
-│   └── buildverse.ts           # The SINGLE source of truth for dates, fees, prizes, faqs
+│   └── buildverse.ts           # The SINGLE source of truth for dates, prizes, FAQs & links
 ├── lib/
-│   ├── ports.ts                # Supabase database adapter
-│   ├── register.ts             # Pure registration logic
-│   ├── state.ts                # Pure countdown & registration state logic
-│   ├── validate.ts             # Pure input sanitizer & validation
-│   └── supabase/admin.ts       # Supabase service-role admin client
+│   └── state.ts                # Pure countdown & registration state logic
 ├── public/
 │   └── buildverse/             # Official mascot art, logos, and campus scene
-├── supabase/
-│   └── migrations/             # Database migration for buildverse_teams & members
 ├── tests/
-│   └── validate.test.ts        # Pure unit tests
+│   └── state.test.ts           # Pure unit tests
 ├── next.config.ts
 ├── package.json
 ├── postcss.config.js
@@ -72,17 +59,14 @@ BuildVerse/
 
 ---
 
-## 🌐 Subdomain & Production Deployment
+## 🌐 Registration & Deployment
+
+### Registration Form
+Team registrations are handled through Google Forms. The link is configured in `config/buildverse.ts` (`registrationFormUrl`). All CTA buttons throughout the site open this link directly in a new tab, and `/register` redirects to it via `next.config.ts`.
 
 ### Vercel / AWS Amplify / Cloudflare
 1. Connect this repo to Vercel or your hosting provider.
 2. In Project Settings > Domains, add your subdomain:
    - `buildverse.awssbg.com` (or your chosen domain)
-3. In Project Settings > Environment Variables, add:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `SUPABASE_SECRET_KEY`
+3. No environment variables are required!
 4. Deploy!
-
-### Pointing from Main Site
-In your main site (`AWS-Website`), any link or button to BuildVerse can now point directly to:
-`https://buildverse.awssbg.com`

@@ -33,18 +33,12 @@ export interface BuildVerseConfig {
   /** Overarching theme shown above the innovation tracks. */
   trackTheme: { title: string; statement: string };
   /** 5 categories, 18 tracks. `icon` is a key into the icon map in components/Tracks.tsx. */
-  trackCategories: { id: string; name: string; hint: string; tracks: { title: string; description: string; icon: string }[] }[];
+  trackCategories: { id: string; icon: string; name: string; hint: string; tracks: { title: string; description: string; icon: string }[] }[];
   rules: string[];
   faqs: { q: string; a: string }[];
   /** Leave phone/whatsapp empty to hide them. */
   contacts: { name: string; phone: string }[];
   whatsappUrl: string;
-  payment: {
-    /** Ask for a transaction (UTR) id in the form. */
-    collectReference: boolean;
-    /** Plain-text instructions shown above the field. */
-    instructions: string;
-  };
   siteUrl: string;
   registrationFormUrl: string;
 }
@@ -91,7 +85,7 @@ export const BUILDVERSE: BuildVerseConfig = {
   trackTheme: { title: "BUILD THE FUTURE", statement: "From Intelligent Systems to Quantum Possibilities." },
   trackCategories: [
     {
-      id: "ai", name: "AI & Intelligent Systems", hint: "Your idea learns, predicts, sees or acts on its own.",
+      id: "ai", icon: "brain", name: "AI & Intelligent Systems", hint: "Your idea learns, predicts, sees or acts on its own.",
       tracks: [
         { icon: "bot", title: "Agentic AI & Autonomous Systems", description: "AI agents, multi-agent collaboration, autonomous workflows, and intelligent task automation." },
         { icon: "sparkles", title: "Generative AI & Foundation Models", description: "AI-powered content generation, RAG applications, document intelligence, and domain-specific AI tools." },
@@ -100,7 +94,7 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
     {
-      id: "future", name: "Emerging & Future Technologies", hint: "Your idea explores what comes next: quantum, trust, simulation, decentralisation.",
+      id: "future", icon: "rocket", name: "Emerging & Future Technologies", hint: "Your idea explores what comes next: quantum, trust, simulation, decentralisation.",
       tracks: [
         { icon: "atom", title: "Quantum Computing & Algorithms", description: "Quantum circuit simulators, quantum algorithms, optimisation experiments, and quantum computing education tools." },
         { icon: "shield", title: "Cybersecurity & Digital Trust", description: "Privacy tools, digital identity, threat detection, security awareness, and post-quantum cryptography demonstrations." },
@@ -109,7 +103,7 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
     {
-      id: "software", name: "Software Engineering & Infrastructure", hint: "Your idea is a platform, a tool, a pipeline or a product for businesses.",
+      id: "software", icon: "layers", name: "Software Engineering & Infrastructure", hint: "Your idea is a platform, a tool, a pipeline or a product for businesses.",
       tracks: [
         { icon: "cloud", title: "Cloud-Native & Distributed Applications", description: "Cloud-based platforms, serverless applications, distributed systems, APIs, and scalable digital services." },
         { icon: "terminal", title: "Developer Tools & AI-Assisted Engineering", description: "Tools for coding, testing, debugging, documentation, deployment, and developer productivity." },
@@ -118,7 +112,7 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
     {
-      id: "impact", name: "Human Impact & Digital Experiences", hint: "Your idea helps people: health, planet, learning, access, movement.",
+      id: "impact", icon: "heart", name: "Human Impact & Digital Experiences", hint: "Your idea helps people: health, planet, learning, access, movement.",
       tracks: [
         { icon: "heart", title: "HealthTech & Assistive Technology", description: "Healthcare information tools, accessible applications, assistive interfaces, and digital wellbeing platforms." },
         { icon: "leaf", title: "ClimateTech & Sustainability", description: "Waste management, energy efficiency, water conservation, environmental analytics, and sustainable agriculture applications." },
@@ -128,7 +122,7 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
     {
-      id: "open", name: "Open Innovation", hint: "Your idea does not fit anywhere else. That is fine.",
+      id: "open", icon: "lightbulb", name: "Open Innovation", hint: "Your idea does not fit anywhere else. That is fine.",
       tracks: [
         { icon: "lightbulb", title: "Open Innovation", description: "An open category for any original software-based project that does not fit the other tracks. Examples include AgriTech, tourism, civic technology, productivity tools, social-impact applications, and other innovative digital solutions." },
       ],
@@ -159,10 +153,5 @@ export const BUILDVERSE: BuildVerseConfig = {
     { name: "Oskar Rana", phone: "+91 8630369690" },
   ],
   whatsappUrl: "https://chat.whatsapp.com/Dy6s9Lo9rFpLNbrMkgUgQ6",
-  payment: {
-    collectReference: true,
-    // TODO(organisers): add the UPI id / QR instructions.
-    instructions: "Pay the registration fee as instructed by the organisers, then enter the transaction (UTR) ID below.",
-  },
   siteUrl: "/",
 };
