@@ -57,7 +57,7 @@ export function Hero() {
           <div className="mt-6"><Countdown deadline={C.registrationDeadline} /></div>
           <div className="mt-6 flex flex-wrap gap-3">
             <RegisterButton />
-            <a href="#about" className="inline-flex items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50">Explore the Event</a>
+            <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
           </div>
         </div>
         <div id="hero-mascot-wrap" className="relative mx-auto w-full max-w-xl">
@@ -543,7 +543,7 @@ export function FinalCta() {
         <p className="mx-auto mt-3 max-w-xl text-violet-950/80">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <RegisterButton />
-          <a href="#about" className="inline-flex items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white">Explore the Event</a>
+          <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white sm:inline-flex">Explore the Event</a>
         </div>
       </div>
 

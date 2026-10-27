@@ -49,7 +49,7 @@ export const BUILDVERSE: BuildVerseConfig = {
   organiser: "AWS Student Builders Group, Tula's University",
   registrationFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfvXQBNtTPuO_nf2rJ2lQ3YXtIHAKX1KfoFGr9vQtW7z5-KXQ/viewform",
   // 28 Oct 2026, 12:59 PM IST. Must be BEFORE the Day 1 workshop starts.
-  registrationDeadline: "2026-10-28T12:59:00+05:30",
+  registrationDeadline: "2026-10-28T23:59:00+05:30",
   teamSize: { min: 1, max: 4 },
   feeInr: 100,
   eligibility: "Open to all students of Tula's University.",
