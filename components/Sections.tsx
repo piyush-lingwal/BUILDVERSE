@@ -531,26 +531,26 @@ export function FinalCta() {
         {/* Desktop view (md: and up) - full edge-to-edge landscape */}
         <div className="relative hidden w-full md:block aspect-[2161/650] min-h-[380px]">
           <Image
-            src="/buildverse/campus-scene.png"
+            src="/buildverse/campus-panorama.png"
             alt="Campus panorama"
             fill
             sizes="100vw"
             quality={100}
             priority
-            className="w-full h-full object-cover object-bottom"
+            className="w-full h-full object-cover object-bottom scale-[1.01] origin-bottom"
           />
         </div>
 
         {/* Mobile view (< md) - focused right-side part of campus scene */}
         <div className="relative block h-72 sm:h-80 w-full md:hidden">
           <Image
-            src="/buildverse/campus-scene.png"
+            src="/buildverse/campus-panorama.png"
             alt="Campus panorama"
             fill
             sizes="(max-width: 768px) 1000px, 100vw"
             quality={100}
             priority
-            className="w-full h-full object-cover object-[85%_bottom]"
+            className="w-full h-full object-cover object-[85%_bottom] scale-[1.01] origin-bottom"
           />
         </div>
       </div>
