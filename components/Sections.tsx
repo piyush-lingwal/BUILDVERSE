@@ -524,12 +524,12 @@ export function Faqs() {
 
 export function FinalCta() {
   return (
-    <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100/50 to-[#0a081b] min-h-[520px] sm:min-h-[550px] md:min-h-[580px]">
+    <section id="final-cta" className="relative isolate overflow-hidden bg-gradient-to-b from-[#FAF8FF] via-violet-100/50 to-violet-50/30 min-h-[520px] sm:min-h-[550px] md:min-h-[580px]">
       <SparkleCluster className="left-6 top-10 -scale-x-100 lg:left-20" />
-      {/* Campus scene: desktop is full panorama uncropped; mobile uses right-side part */}
-      <div id="campus-scene" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 w-full [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%)]">
-        {/* Desktop view (md: and up) - exactly unchanged as requested */}
-        <div className="relative hidden w-full md:block aspect-[2170/525]">
+      {/* Campus scene: full-width panorama with seamless gradient transition */}
+      <div id="campus-scene" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 w-full overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_18%)]">
+        {/* Desktop view (md: and up) - full edge-to-edge landscape */}
+        <div className="relative hidden w-full md:block aspect-[2161/650] min-h-[380px]">
           <Image
             src="/buildverse/campus-scene.png"
             alt="Campus panorama"
@@ -537,11 +537,11 @@ export function FinalCta() {
             sizes="100vw"
             quality={100}
             priority
-            className="w-full h-full object-contain object-bottom"
+            className="w-full h-full object-cover object-bottom"
           />
         </div>
 
-        {/* Mobile view (< md) - right-side part of campus scene with generous framing */}
+        {/* Mobile view (< md) - focused right-side part of campus scene */}
         <div className="relative block h-72 sm:h-80 w-full md:hidden">
           <Image
             src="/buildverse/campus-scene.png"
