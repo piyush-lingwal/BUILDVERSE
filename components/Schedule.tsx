@@ -1,7 +1,8 @@
 "use client";
 
 import { useSyncExternalStore, type ComponentType } from "react";
-import { ArrowRight, Check, ClipboardCheck, GraduationCap, Lightbulb, Presentation, Radio } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Building2, Check, ClipboardCheck, GraduationCap, Home, Laptop, Lightbulb, Presentation, Radio, Trophy } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { Mascot } from "./Mascot";
 import { UtkrishtLogo } from "./Logos";
@@ -11,8 +12,14 @@ type Step = Day["steps"][number];
 type State = "live" | "next" | "done" | "started" | null;
 
 const ICONS: Record<Step["icon"], ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
-  workshop: GraduationCap, idea: Lightbulb, progress: ClipboardCheck, pitch: Presentation,
+  learn: GraduationCap, idea: Lightbulb, build: Laptop, progress: ClipboardCheck, pitch: Presentation, result: Trophy,
 };
+// Where each phase happens: the main idea of the event is "Learn at college, Build at home, Pitch at college".
+const PLACE_ICON = { college: Building2, home: Home } as const;
+const PLACE_CHIP = {
+  college: "border-violet-300/40 bg-violet-400/20 text-violet-100",
+  home: "border-emerald-300/40 bg-emerald-400/15 text-emerald-200",
+} as const;
 // Badge colours for the dark panel.
 const TONES: Record<Step["badge"]["tone"], string> = {
   neutral: "border-white/15 bg-white/10 text-violet-100",
@@ -40,6 +47,8 @@ export function Schedule() {
   const flat = C.days.flatMap((d) => d.steps);
   const timed = flat.filter((s) => s.start).map((s) => ({ s, t: Date.parse(s.start!) })).sort((a, b) => a.t - b.t);
   const next = now ? timed.find((x) => x.t > now) : undefined;
+  const ends = flat.filter((s) => s.end).map((s) => Date.parse(s.end!));
+  const allDone = !!now && ends.length > 0 && now >= Math.max(...ends);
 
   const stateOf = (s: Step): State => {
     if (!now || !s.start) return null;
@@ -53,19 +62,12 @@ export function Schedule() {
     return next && st === next.t ? "next" : null;
   };
 
-  // The three rounds, in order, for the at-a-glance route.
-  const rounds = flat.filter((s) => /^Round \d/.test(s.title)).map((s) => {
-    const day = C.days.find((d) => d.steps.includes(s))!;
-    return { s, day, n: s.title.match(/^Round (\d)/)![1], name: s.title.replace(/^Round \d:\s*/, "") };
-  });
-  const shortName = (n: string) => n.replace(" & Pitch", "");
-
   return (
     <section id="timeline" className="scroll-mt-20 py-16">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         <p className={eyebrow}>Event timeline</p>
         <h2 className={h2}>Two days. From learning to pitching.</h2>
-        <p className="mt-3 max-w-2xl text-violet-950/75">The complete flow of BUILD-VERSE 2026: three rounds across two days. Forms are shared with registered participants at the times below.</p>
+        <p className="mt-3 max-w-2xl text-violet-950/75">The complete flow of BUILD-VERSE 2026: Learn at college, build at home, pitch at college. Forms are shared with registered participants at the times below.</p>
 
         <div className="timeline-card relative mt-10 overflow-hidden rounded-[2rem] border border-violet-900/40 bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-5 text-white shadow-2xl shadow-violet-950/30 sm:p-8 lg:p-10">
           <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-violet-500/25 blur-3xl" />
@@ -82,6 +84,10 @@ export function Schedule() {
                   <span className="font-semibold">{next.s.title}</span>
                   <span className="text-violet-200">in {untilText(next.t - now)}</span>
                 </p>
+              ) : allDone ? (
+                <p className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-violet-400/15 px-4 py-1.5 text-sm font-semibold text-violet-100">
+                  <Trophy className="h-4 w-4 text-amber-300" aria-hidden />{C.resultsLine}
+                </p>
               ) : now && timed.length > 0 && timed[timed.length - 1].t <= now ? (
                 <p className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/15 px-4 py-1.5 text-sm font-semibold text-emerald-200">
                   <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-300" aria-hidden />Event in progress
@@ -89,18 +95,24 @@ export function Schedule() {
               ) : null}
             </div>
 
-            {/* The three rounds at a glance */}
-            <ol className="mt-5 grid grid-cols-3 items-stretch gap-2 sm:gap-3" aria-label="The three rounds">
-              {rounds.map((r, i) => (
-                <li key={r.n} className="relative flex">
-                  <a href={`#step-${r.n}`} className="group flex w-full flex-col rounded-2xl border border-white/10 bg-white/[0.06] p-3 transition hover:border-violet-300/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-300 sm:p-4">
-                    <span className="font-tech text-[11px] font-bold uppercase tracking-wider text-violet-300 sm:text-xs">Round {r.n}</span>
-                    <span className="mt-1 font-poppins text-sm font-semibold leading-snug sm:text-lg">{shortName(r.name)}</span>
-                    <span className="mt-auto pt-2 text-xs text-violet-200/80">{r.day.day} {r.day.month} · {r.s.time ?? "TBA"}</span>
-                  </a>
-                  {i < rounds.length - 1 && <ArrowRight aria-hidden className="absolute -right-3 top-1/2 z-10 hidden h-5 w-5 -translate-y-1/2 text-violet-300 sm:block" />}
-                </li>
-              ))}
+            {/* The three phases at a glance: the main idea of the event */}
+            <ol className="mt-5 grid grid-cols-1 items-stretch gap-2 sm:grid-cols-3 sm:gap-3" aria-label="The three phases">
+              {C.phases.map((ph, i) => {
+                const PIcon = PLACE_ICON[ph.place];
+                return (
+                  <li key={ph.n} className="relative flex">
+                    <a href={`#phase-${ph.n}`} className="group flex w-full flex-col rounded-2xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-violet-300/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-300">
+                      <span className="font-tech text-[11px] font-bold uppercase tracking-wider text-violet-300 sm:text-xs">Phase {ph.n}</span>
+                      <span className="mt-1 font-poppins text-xl font-semibold leading-snug">{ph.name}</span>
+                      <span className={`mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${PLACE_CHIP[ph.place]}`}>
+                        <PIcon className="h-3.5 w-3.5" aria-hidden />{ph.placeLabel}
+                      </span>
+                      <span className="mt-auto pt-3 text-xs text-violet-200/80">{ph.when}</span>
+                    </a>
+                    {i < C.phases.length - 1 && <ArrowRight aria-hidden className="absolute -right-3 top-1/2 z-10 hidden h-5 w-5 -translate-y-1/2 text-violet-300 sm:block" />}
+                  </li>
+                );
+              })}
             </ol>
 
             {/* Detailed route */}
@@ -122,9 +134,15 @@ export function Schedule() {
                         <p className="mt-0.5 text-sm text-violet-200/85">{d.subtitle}</p>
                         <p className="sr-only">{`${d.day} ${d.month} 2026`}</p>
                       </div>
-                      {di === C.days.length - 1 && (
+                      {d.mascot === "pitch" && (
                         <div aria-hidden className="pointer-events-none ml-auto hidden shrink-0 lg:block">
                           <Mascot name="pitch" sizes="200px" className="-mb-6 h-auto w-44 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)]" />
+                        </div>
+                      )}
+                      {d.mascot === "trophy" && (
+                        <div aria-hidden className="pointer-events-none ml-auto hidden shrink-0 sm:block">
+                          {/* Gold trophy art, cropped and compressed to ~80 KB (the source PNG was 2.2 MB). */}
+                          <Image src="/buildverse/trophy-gold.webp" alt="" width={520} height={545} sizes="(min-width: 1024px) 144px, 96px" quality={85} className="-mb-4 h-auto w-24 drop-shadow-[0_10px_28px_rgba(251,191,36,0.35)] lg:w-36" />
                         </div>
                       )}
                     </div>
@@ -136,9 +154,9 @@ export function Schedule() {
                       const Icon = ICONS[s.icon];
                       const st = stateOf(s);
                       const lastOverall = di === C.days.length - 1 && si === d.steps.length - 1;
-                      const roundNo = s.title.match(/^Round (\d)/)?.[1];
+                      const PlaceIcon = s.place ? PLACE_ICON[s.place.kind] : null;
                       return (
-                        <li key={s.title} id={roundNo ? `step-${roundNo}` : undefined} className={`grid scroll-mt-28 grid-cols-[2.5rem_1fr] gap-x-3 md:grid-cols-[10rem_2.5rem_1fr] md:gap-x-4 ${st === "done" ? "opacity-60" : ""}`}>
+                        <li key={s.title} id={s.phase ? `phase-${s.phase}` : undefined} className={`grid scroll-mt-28 grid-cols-[2.5rem_1fr] gap-x-3 md:grid-cols-[10rem_2.5rem_1fr] md:gap-x-4 ${st === "done" ? "opacity-60" : ""}`}>
                           {/* time gutter (desktop) */}
                           <div className="hidden pt-3 text-right md:block">
                             {s.time && <p className="font-tech text-sm font-bold leading-snug text-violet-200">{s.time}</p>}
@@ -166,9 +184,16 @@ export function Schedule() {
                                 {st === "done" && <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-bold text-violet-200">Done</span>}
                               </div>
                               <p className="mt-2 text-sm leading-relaxed text-violet-100/85">{s.description}</p>
-                              <span className={`mt-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${TONES[s.badge.tone]}`}>
-                                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />{s.badge.text}
-                              </span>
+                              <div className="mt-3 flex flex-wrap items-center gap-2">
+                                {s.place && PlaceIcon && (
+                                  <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${PLACE_CHIP[s.place.kind]}`}>
+                                    <PlaceIcon className="h-3.5 w-3.5" aria-hidden />{s.place.kind === "college" ? "At college" : "At home"} · {s.place.label}
+                                  </span>
+                                )}
+                                <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${TONES[s.badge.tone]}`}>
+                                  <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />{s.badge.text}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </li>
@@ -184,7 +209,7 @@ export function Schedule() {
         {C.utkrisht.show && (
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <UtkrishtLogo className="h-16 w-auto" />
-            <p className="text-sm text-violet-950/70">{C.utkrisht.text}.</p>
+            <p className="text-sm text-violet-950/70">{C.utkrisht.text}</p>
           </div>
         )}
       </div>

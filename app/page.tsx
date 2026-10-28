@@ -1,6 +1,6 @@
 import { ArtDivider } from "@/components/Decor";
 import { Tracks } from "@/components/Tracks";
-import { Header, Hero, About, Flow, Rules, Prizes, Timeline, Faqs, FinalCta, SectionDivider } from "@/components/Sections";
+import { Header, Hero, About, Flow, Rules, Prizes, Timeline, Faqs, Contact, FinalCta, SectionDivider } from "@/components/Sections";
 import { GsapMotion } from "@/components/GsapMotion";
 
 // Static page: built once and served from the CDN. Registration open/closed is decided in the browser
@@ -26,6 +26,7 @@ export default function HomePage() {
         <Prizes />
         <ArtDivider name="plane-trail-2" />
         <Faqs />
+        <Contact />
         <SectionDivider />
         <FinalCta />
       </main>

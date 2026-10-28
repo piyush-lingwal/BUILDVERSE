@@ -23,3 +23,15 @@ test("config sanity: deadline is before the first event day and URLs are valid",
   assert.ok(BUILDVERSE.registrationFormUrl.startsWith("https://"));
 });
 
+
+test("schedule sanity: steps are in time order, ranges are valid, and the three phases are linked", () => {
+  const steps = BUILDVERSE.days.flatMap((d) => d.steps);
+  const starts = steps.filter((s) => s.start).map((s) => Date.parse(s.start!));
+  assert.ok(starts.every((t) => !Number.isNaN(t)), "every start parses (use the +05:30 offset)");
+  assert.deepEqual([...starts].sort((a, b) => a - b), starts, "steps are listed in time order");
+  for (const s of steps.filter((x) => x.end)) assert.ok(Date.parse(s.end!) > Date.parse(s.start!), `${s.title}: end after start`);
+  assert.deepEqual(BUILDVERSE.phases.map((p) => p.n), [1, 2, 3]);
+  for (const p of BUILDVERSE.phases) assert.ok(steps.some((s) => s.phase === p.n), `phase ${p.n} has a step`);
+  const dates = BUILDVERSE.days.map((d) => d.date);
+  assert.deepEqual([...dates].sort(), dates, "days are in date order");
+});

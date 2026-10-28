@@ -2,12 +2,11 @@ import Image from "next/image";
 
 // The official mascot art, used as supplied (files in /public/buildverse/mascot).
 const ART = {
-  hero: { src: "hero-desk.webp", w: 1400, h: 933, alt: "The AWS cloud mascot at a laptop, pointing up with an idea" },
-  bulb: { src: "lightbulb.webp", w: 480, h: 480 },
+  hero: { src: "hero-desk.png", w: 1500, h: 1033, alt: "The AWS cloud mascot at a laptop, pointing up with an idea" },
   rules: { src: "checklist.webp", w: 917, h: 1100 },
   innovate: { src: "laptop-desk.webp", w: 1321, h: 1191 },
   faq: { src: "confused.webp", w: 1100, h: 1100 },
-  about: { src: "tablet-tiles.webp", w: 1178, h: 1335 },
+  about: { src: "about-cloud-laptop.webp", w: 1100, h: 825 },
   welcome: { src: "wave.webp", w: 1303, h: 1207 },
   learn: { src: "tablet-idea.webp", w: 1389, h: 1132 },
   pitch: { src: "pitch.webp", w: 1319, h: 1192 },

@@ -28,7 +28,7 @@ const instrumentSerif = localFont({
 
 export const metadata: Metadata = {
   title: { default: `${C.name} | AWS Student Builders Group`, template: `%s | ${C.name}` },
-  description: `${C.name}: a two-day hands-on innovation event. ${C.tagline} Workshop on 29 October, build and pitch on 30 October. ${C.eligibility}`,
+  description: `${C.name}: a two-day hands-on innovation event. ${C.tagline} Learn at college and build at home on 29 October, pitch at college on 30 October. ${C.eligibility}`,
   alternates: { canonical: "/" },
   openGraph: { title: C.name, description: `${C.tagline} ${C.eligibility}`, type: "website" },
   icons: {

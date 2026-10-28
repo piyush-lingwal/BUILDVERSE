@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
@@ -15,11 +15,13 @@ export const NAV_ITEMS = [
   { label: "Rules", id: "rules" },
   { label: "Prizes & Rewards", id: "prizes" },
   { label: "FAQs", id: "faqs" },
+  { label: "Contact", id: "contact" },
 ] as const;
 
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("");
   const open = useRegistrationOpen();
+  const mobileNav = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const sectionIds = NAV_ITEMS.map((item) => item.id);
@@ -61,6 +63,17 @@ export function Header() {
     };
   }, []);
 
+  // The mobile tab strip scrolls sideways. Keep the active tab centred in it so it never hides off-screen.
+  // Only the strip is scrolled (never the page), and only by its own scrollLeft.
+  useEffect(() => {
+    const nav = mobileNav.current;
+    if (!nav || nav.scrollWidth <= nav.clientWidth) return;
+    const el = activeSection ? nav.querySelector<HTMLElement>(`[data-nav="${activeSection}"]`) : null;
+    const left = el ? el.offsetLeft - (nav.clientWidth - el.offsetWidth) / 2 : 0;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    nav.scrollTo({ left: Math.max(0, left), behavior: reduce ? "auto" : "smooth" });
+  }, [activeSection]);
+
   return (
     <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
@@ -69,14 +82,15 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav with active section highlighting */}
-        <nav aria-label="Sections" className="hidden items-center gap-1.5 lg:flex">
+        <nav aria-label="Sections" className="hidden items-center gap-1.5 min-[1100px]:flex">
           {NAV_ITEMS.map(({ label, id }) => {
             const isActive = activeSection === id;
             return (
               <a
                 key={id}
                 href={`/#${id}`}
-                className={`rounded-xl px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+                aria-current={isActive ? "location" : undefined}
+                className={`whitespace-nowrap rounded-xl px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? "border border-violet-200/90 bg-violet-100 font-semibold text-violet-900 shadow-xs"
                     : "text-violet-900/75 hover:bg-violet-50 hover:text-violet-950"
@@ -105,13 +119,15 @@ export function Header() {
       </div>
 
       {/* Mobile Scrollable Nav with active section highlighting */}
-      <nav aria-label="Sections (mobile)" className="no-scrollbar flex gap-1 overflow-x-auto border-t border-violet-100 px-2 py-1 lg:hidden">
+      <nav ref={mobileNav} aria-label="Sections (mobile)" className="no-scrollbar relative flex gap-1 overflow-x-auto border-t border-violet-100 px-2 py-1 min-[1100px]:hidden">
         {NAV_ITEMS.map(({ label, id }) => {
           const isActive = activeSection === id;
           return (
             <a
               key={id}
               href={`/#${id}`}
+              data-nav={id}
+              aria-current={isActive ? "location" : undefined}
               className={`flex min-h-10 shrink-0 items-center rounded-lg px-3 py-1 text-sm font-medium transition-colors ${
                 isActive
                   ? "border border-violet-200/90 bg-violet-100 font-semibold text-violet-900 shadow-xs"

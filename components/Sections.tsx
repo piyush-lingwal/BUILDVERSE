@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
+import { Building2, Home as HomeIcon, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { RegisterButton } from "./RegisterButton";
 import { Mascot } from "./Mascot";
@@ -81,12 +81,7 @@ export function Hero() {
             <div
               aria-hidden="true"
               className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-amber-400/20 via-yellow-300/15 to-transparent blur-lg sm:h-18 sm:w-18 sm:blur-xl"
-            />
-            <Mascot
-              name="bulb"
-              sizes="120px"
-              className="relative z-10 h-auto w-full [filter:drop-shadow(0_0_6px_rgba(251,191,36,0.25))]"
-            />
+            />  
           </div>
         </div>
       </div>
@@ -95,15 +90,19 @@ export function Hero() {
 }
 
 export function About() {
-  const points = [[BookOpen, "Learn modern tools"], [Code2, "Build a real product"], [Presentation, "Pitch to experienced judges"]] as const;
+  const points = [[BookOpen, "Learn modern tools"], [Code2, "Build a real product"], [Presentation, "Pitch to judges"]] as const;
   return (
     <section id="about" className="scroll-mt-20 py-16">
-      <div className={`${wrap} grid items-center gap-10 lg:grid-cols-[1.2fr_1fr]`}>
-        <div>
+      <div className={`${wrap} grid items-center gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-14`}>
+        {/* Text first in the code (reads first on phones); on desktop the artwork sits on the left. */}
+        <div className="lg:order-2">
           <p className={eyebrow}>About the event</p>
           <h2 className={h2}>What is <span className="text-violet-600">BUILD-VERSE</span>?</h2>
           <p className="mt-4 max-w-2xl leading-relaxed text-violet-950/80">
-            BUILD-VERSE is a hands-on innovation event organised by the {C.organiser}. It introduces students to modern development workflows, helps them turn ideas into product prototypes, and gives them a platform to pitch their solutions to a panel of judges.
+            BUILD-VERSE is a two-day innovative event organized by the AWS Student Builders Group at Tulas University. The event aims to empower students with practical knowledge of modern technologies and AI-powered development tools, helping them become future-ready in an evolving technological landscape.
+          </p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-violet-950/80">
+            Participants will attend multiple hybrid expert-led workshops on 29 October 2026, then build innovative products or working prototypes, and present their solutions to a panel of judges on 30 October 2026.
           </p>
           <ul className="mt-6 grid gap-3 sm:grid-cols-3">
             {points.map(([Icon, text]) => (
@@ -111,16 +110,12 @@ export function About() {
             ))}
           </ul>
         </div>
-        <div id="about-mascot-wrap" className="relative mx-auto w-full max-w-sm">
+        <div id="about-mascot-wrap" className="relative mx-auto w-full max-w-md sm:max-w-lg lg:order-1 lg:max-w-none">
+          {/* The artwork carries its own cloud base and glow, so no extra shadow is added. */}
           <Mascot
             name="about"
-            sizes="(min-width: 1024px) 400px, 70vw"
-            className="relative z-10 h-auto w-full [filter:drop-shadow(0_16px_22px_rgba(46,16,101,0.16))]"
-          />
-          {/* Ground contact shadow beneath feet */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none mx-auto -mt-4 h-4 w-3/5 rounded-[100%] bg-violet-950/20 blur-lg"
+            sizes="(min-width: 1024px) 560px, (min-width: 640px) 512px, 92vw"
+            className="relative z-10 h-auto w-full"
           />
         </div>
       </div>
@@ -129,19 +124,16 @@ export function About() {
 }
 
 export function Flow() {
-  const steps = [
-    ["01", "Learn", "Expert-led workshop on AI-assisted development workflows and modern tools.", "learn"],
-    ["02", "Innovate", "Turn your ideas into working products using modern technologies.", "innovate"],
-    ["03", "Pitch", "Demonstrate your product and present it to a panel of judges.", "pitch"],
-  ] as const;
+  const ART = { 1: "learn", 2: "innovate", 3: "pitch" } as const;
+  const steps = C.phases.map((p) => [String(p.n).padStart(2, "0"), p] as const);
   return (
     <section id="flow" className="scroll-mt-20 py-16">
       <div className={wrap}>
         <p className={eyebrow}>Event flow</p>
         <h2 className={h2}>Learn. Innovate. Pitch.</h2>
-        <p className="mt-3 text-violet-950/70">A complete journey from learning to building and finally showcasing your ideas.</p>
+        <p className="mt-3 text-violet-950/70">Learn at college, build at home, pitch at college. A complete journey from learning to building and finally showcasing your ideas.</p>
         <div className="mt-8 grid items-center gap-3 sm:gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
-          {steps.map(([n, t, d, art], i) => (
+          {steps.map(([n, ph], i) => (
             <Fragment key={n}>
               <div className={`${card} flow-card group relative flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
                 {/* Large outlined step number in top-right background */}
@@ -155,7 +147,7 @@ export function Flow() {
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="relative mx-auto -mt-2 flex w-full flex-col items-center">
                     <Mascot
-                      name={art}
+                      name={ART[ph.n]}
                       sizes="(min-width: 768px) 300px, 70vw"
                       className="relative z-10 h-44 w-auto object-contain [filter:drop-shadow(0_12px_16px_rgba(46,16,101,0.15))]"
                     />
@@ -165,8 +157,12 @@ export function Flow() {
                       className="pointer-events-none -mt-3.5 h-3 w-36 rounded-[100%] bg-violet-950/20 blur-md"
                     />
                   </div>
-                  <h3 className="mt-4 text-xl font-medium text-violet-950">{t}</h3>
-                  <p className="mt-2 text-violet-950/75">{d}</p>
+                  <h3 className="mt-4 text-xl font-medium text-violet-950">{ph.name}</h3>
+                  <span className={`mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${ph.place === "home" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-violet-200 bg-violet-50 text-violet-800"}`}>
+                    {ph.place === "home" ? <HomeIcon className="h-3.5 w-3.5" aria-hidden /> : <Building2 className="h-3.5 w-3.5" aria-hidden />}{ph.placeLabel}
+                  </span>
+                  <p className="mt-1.5 font-tech text-xs font-bold uppercase tracking-wider text-violet-600">{ph.when}</p>
+                  <p className="mt-2 text-violet-950/75">{ph.summary}</p>
                 </div>
               </div>
               {i < steps.length - 1 && (
@@ -181,6 +177,7 @@ export function Flow() {
             </Fragment>
           ))}
         </div>
+        <p className="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 px-5 py-3 text-sm text-violet-950/80"><span className="font-semibold text-violet-900">{C.resultsLine}</span> Form 01 (idea submission) opens at 6:00 PM on 29 October and Form 02 (progress report) at midnight.</p>
       </div>
     </section>
   );
@@ -397,8 +394,6 @@ export { Schedule as Timeline } from "./Schedule";
 export const Participation = Rules;
 
 export function Faqs() {
-  const contacts = C.contacts.filter((c) => c.phone.trim() !== "");
-
   return (
     <section id="faqs" className="scroll-mt-20 py-16">
       <div className={wrap}>
@@ -416,7 +411,7 @@ export function Faqs() {
             ))}
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-[340px] flex-col items-center lg:mt-0 lg:max-w-[420px]">
+          <div className="relative mx-auto flex w-full max-w-[340px] flex-col items-center lg:sticky lg:top-28 lg:mt-0 lg:max-w-[420px]">
             {/* FAQ Mascot (only the mascot floats) */}
             <div id="faq-mascot-wrap" className="relative flex flex-col items-center">
               <Mascot
@@ -430,47 +425,46 @@ export function Faqs() {
                 className="pointer-events-none -mt-6 h-5 w-52 rounded-[100%] bg-violet-950/25 blur-xl"
               />
             </div>
-
-            {/* Contact Card placed directly below FAQ mascot */}
-            <div className="mt-6 w-full rounded-3xl border border-violet-100 bg-white p-5 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.08)] sm:p-6">
-              <div className="flex items-center gap-3 border-b border-violet-100 pb-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-100 text-violet-700">
-                  <Phone className="h-5 w-5" aria-hidden />
-                </span>
-                <div>
-                  <h3 className="font-poppins text-base font-bold text-violet-950">Contact Organisers</h3>
-                  <p className="text-xs font-medium text-violet-950/65">Have queries? Reach out anytime</p>
-                </div>
-              </div>
-
-              <div className="mt-3.5 space-y-2.5">
-                {contacts.map((c) => (
-                  <div key={c.name} className="flex items-center justify-between text-sm">
-                    <span className="font-poppins font-medium text-violet-950">{c.name}:</span>
-                    <a
-                      href={`tel:${c.phone.replace(/\s/g, "")}`}
-                      className="font-tech text-xs font-semibold text-violet-700 underline underline-offset-2 transition-colors hover:text-violet-900"
-                    >
-                      {c.phone}
-                    </a>
-                  </div>
-                ))}
-              </div>
-
-              {C.whatsappUrl && (
-                <a
-                  href={C.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shadow-xs mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-violet-200 bg-violet-50 px-4 py-2.5 font-poppins text-xs font-semibold text-violet-800 transition hover:border-violet-300 hover:bg-violet-100"
-                >
-                  <MessageCircle className="h-4 w-4 text-violet-600" aria-hidden />
-                  Join WhatsApp Community
-                </a>
-              )}
-            </div>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function Contact() {
+  const contacts = C.contacts.filter((c) => c.phone.trim() !== "");
+  const itemCls = "flex items-center gap-3 rounded-2xl border border-violet-100 bg-white p-4 shadow-sm transition hover:border-violet-300 hover:shadow-md";
+  return (
+    <section id="contact" className="scroll-mt-20 py-16">
+      <div className={wrap}>
+        <p className={eyebrow}>Contact</p>
+        <h2 className={h2}>Questions? Talk to us.</h2>
+        <p className="mt-3 max-w-2xl text-violet-950/70">Have queries about the event, the schedule or your team? Reach out to the organisers anytime.</p>
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {contacts.map((c) => (
+            <li key={c.name}>
+              <a href={`tel:${c.phone.replace(/\s/g, "")}`} className={itemCls}>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700"><Phone className="h-5 w-5" aria-hidden /></span>
+                <span className="min-w-0">
+                  <span className="block font-poppins font-semibold text-violet-950">{c.name}</span>
+                  <span className="block font-tech text-sm font-semibold text-violet-700">{c.phone}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+          {C.whatsappUrl && (
+            <li>
+              <a href={C.whatsappUrl} target="_blank" rel="noopener noreferrer" className={itemCls}>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700"><MessageCircle className="h-5 w-5" aria-hidden /></span>
+                <span className="min-w-0">
+                  <span className="block font-poppins font-semibold text-violet-950">WhatsApp community</span>
+                  <span className="block text-sm text-violet-950/70">Join for updates</span>
+                </span>
+              </a>
+            </li>
+          )}
+        </ul>
       </div>
     </section>
   );
