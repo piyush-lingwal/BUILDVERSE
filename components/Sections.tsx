@@ -8,6 +8,7 @@ import { Mascot } from "./Mascot";
 import { Countdown } from "./Countdown";
 import { SparkleCluster } from "./Decor";
 import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite } from "./Logos";
+import { SubmissionFormsBanner } from "./SubmissionFormsBanner";
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
@@ -177,7 +178,8 @@ export function Flow() {
             </Fragment>
           ))}
         </div>
-        <p className="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 px-5 py-3 text-sm text-violet-950/80"><span className="font-semibold text-violet-900">{C.resultsLine}</span> Form 01 (idea submission) opens at 6:00 PM on 29 October and Form 02 (progress report) at midnight.</p>
+        <SubmissionFormsBanner />
+        <p className="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 px-5 py-3 text-sm text-violet-950/80"><span className="font-semibold text-violet-900">{C.resultsLine}</span> Links to each round's form become clickable directly above as soon as the scheduled opening time arrives.</p>
       </div>
     </section>
   );

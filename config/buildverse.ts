@@ -51,6 +51,14 @@ export interface BuildVerseConfig {
       badge: { text: string; tone: "neutral" | "info" | "warn" };
       start?: string;
       end?: string;
+      form?: {
+        name: string;
+        url: string;
+        opensAt: string;
+        timeLabel: string;
+        buttonLabel: string;
+        closesAt?: string;
+      };
     }[];
   }[];
   utkrisht: { show: boolean; text: string };
@@ -65,6 +73,24 @@ export interface BuildVerseConfig {
   whatsappUrl: string;
   siteUrl: string;
   registrationFormUrl: string;
+  forms: {
+    ideaSubmission: {
+      name: string;
+      shortName: string;
+      url: string;
+      opensAt: string; // ISO IST
+      timeLabel: string;
+      closesAt?: string;
+    };
+    progressReport: {
+      name: string;
+      shortName: string;
+      url: string;
+      opensAt: string; // ISO IST
+      timeLabel: string;
+      closesAt?: string;
+    };
+  };
 }
 
 export const BUILDVERSE: BuildVerseConfig = {
@@ -128,6 +154,13 @@ export const BUILDVERSE: BuildVerseConfig = {
           description: "The first form is shared with participants. Submit your project idea, the problem you are solving and your proposed solution. Then start building.",
           badge: { text: "Form 01 opens", tone: "info" },
           start: "2026-10-29T18:00:00+05:30",
+          form: {
+            name: "Form 1: Idea Submission",
+            url: "https://forms.gle/UqiiMdr3BeDUVdkG6",
+            opensAt: "2026-10-29T18:00:00+05:30",
+            timeLabel: "6:00 PM",
+            buttonLabel: "Submit Idea (Form 1)",
+          },
         },
         {
           icon: "build",
@@ -148,6 +181,13 @@ export const BUILDVERSE: BuildVerseConfig = {
           description: "At midnight, fill the progress form. Report your progress, explain your prototype and document the work completed so far.",
           badge: { text: "Form 02 opens", tone: "info" },
           start: "2026-10-30T00:00:00+05:30",
+          form: {
+            name: "Form 2: Project Progress Report",
+            url: "https://forms.gle/186ogkj7tcjq6kKQ6",
+            opensAt: "2026-10-30T00:00:00+05:30",
+            timeLabel: "12:00 AM Midnight",
+            buttonLabel: "Submit Progress Report (Form 2)",
+          },
         },
       ],
     },
@@ -191,6 +231,22 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
   ],
+  forms: {
+    ideaSubmission: {
+      name: "Form 1: Idea Submission",
+      shortName: "Form 1 (Idea Submission)",
+      url: "https://forms.gle/UqiiMdr3BeDUVdkG6",
+      opensAt: "2026-10-29T18:00:00+05:30",
+      timeLabel: "6:00 PM, 29 Oct",
+    },
+    progressReport: {
+      name: "Form 2: Project Progress Report",
+      shortName: "Form 2 (Progress Report)",
+      url: "https://forms.gle/186ogkj7tcjq6kKQ6",
+      opensAt: "2026-10-30T00:00:00+05:30",
+      timeLabel: "12:00 AM Midnight, night of 29–30 Oct",
+    },
+  },
   utkrisht: { show: true, text: "Part of Utkrisht 2026." },
   trackTheme: { title: "BUILD THE FUTURE", statement: "From Intelligent Systems to Quantum Possibilities." },
   trackCategories: [
@@ -204,28 +260,27 @@ export const BUILDVERSE: BuildVerseConfig = {
       ],
     },
     {
-      id: "future", icon: "rocket", name: "Emerging & Future Technologies", hint: "Your idea explores what comes next: quantum, trust, simulation, decentralisation.",
+      id: "hardware", icon: "cpu", name: "Hardware, IoT & Cyber-Physical Systems", hint: "Your idea talks to the physical world through sensors, devices or signals.",
       tracks: [
-        { icon: "atom", title: "Quantum Computing & Algorithms", description: "Quantum circuit simulators, quantum algorithms, optimisation experiments, and quantum computing education tools." },
-        { icon: "shield", title: "Cybersecurity & Digital Trust", description: "Privacy tools, digital identity, threat detection, security awareness, and post-quantum cryptography demonstrations." },
-        { icon: "boxes", title: "Digital Twins & Simulation", description: "Virtual models, interactive simulations, scenario testing, and digital representations of real-world systems." },
-        { icon: "blocks", title: "Blockchain & Decentralised Applications", description: "Smart contracts, decentralised identity, verifiable records, and transparent digital services." },
+        { icon: "wifi", title: "Smart Connected Devices & IoT Systems", description: "Sensor networks, home automation, smart campus solutions, and connected hardware devices." },
+        { icon: "factory", title: "Industrial IoT & Automation", description: "Predictive maintenance, asset tracking, telemetry, and automated industrial workflows." },
+        { icon: "radio", title: "Robotics & Autonomous Hardware", description: "Drones, robotic arms, obstacle-avoidance vehicles, and embedded sensor integration." },
+        { icon: "shield", title: "Cyber-Physical Security & Device Intelligence", description: "Hardware-level security, anomaly detection, edge authentication, and secure firmware design." },
       ],
     },
     {
       id: "software", icon: "layers", name: "Software Engineering & Infrastructure", hint: "Your idea is a platform, a tool, a pipeline or a product for businesses.",
       tracks: [
         { icon: "cloud", title: "Cloud-Native & Distributed Applications", description: "Cloud-based platforms, serverless applications, distributed systems, APIs, and scalable digital services." },
-        { icon: "terminal", title: "Developer Tools & AI-Assisted Engineering", description: "Tools for coding, testing, debugging, documentation, deployment, and developer productivity." },
+        { icon: "code", title: "Developer Tools & Engineering Productivity", description: "CLI tools, testing automation, code analysis, CI/CD utilities, and workflow enhancements." },
         { icon: "database", title: "Data Engineering & Knowledge Systems", description: "Data pipelines, knowledge graphs, intelligent search, information retrieval, and data management systems." },
         { icon: "wallet", title: "FinTech & Digital Commerce", description: "Personal finance tools, digital payment applications, fraud prevention, business automation, and e-commerce platforms." },
       ],
     },
     {
-      id: "impact", icon: "heart", name: "Human Impact & Digital Experiences", hint: "Your idea helps people: health, planet, learning, access, movement.",
+      id: "applied", icon: "sparkles", name: "Applied Tech: Health, Education & Society", hint: "Your idea solves a problem in everyday life, health, learning or city living.",
       tracks: [
         { icon: "heart", title: "HealthTech & Assistive Technology", description: "Healthcare information tools, accessible applications, assistive interfaces, and digital wellbeing platforms." },
-        { icon: "leaf", title: "ClimateTech & Sustainability", description: "Waste management, energy efficiency, water conservation, environmental analytics, and sustainable agriculture applications." },
         { icon: "graduation", title: "EdTech & Future of Learning", description: "Adaptive learning platforms, educational simulations, skill assessment, and personalised learning applications." },
         { icon: "panels", title: "Future Interfaces & Digital Experiences", description: "Conversational interfaces, accessibility-first UX, immersive web experiences, and innovative software interactions." },
         { icon: "bus", title: "Smart Mobility & Urban Intelligence", description: "Route optimisation, transport planning, traffic analysis, logistics software, and urban service platforms." },
@@ -254,7 +309,7 @@ export const BUILDVERSE: BuildVerseConfig = {
     { q: "Is the event online or offline?", a: "Both. Learn and Pitch happen at college, at the New Seminar Hall. Innovate happens at home, with online workshops on Google Meet. In short: Learn at college, Build at home, Pitch at college." },
     { q: "Do I have to be at college on 29 October?", a: "Yes. Phase 1 (Learn) runs in hybrid mode, and students must be present at the New Seminar Hall until 5:30 PM. The speakers interact with the students through an online meet." },
     { q: "Where do we build our project?", a: "At home. After submitting your idea in Form 01, you work on your idea and build your prototype or product from home. Online workshops continue on Google Meet, where speakers guide and mentor you till 10 PM." },
-    { q: "What are Form 01 and Form 02?", a: "Form 01 is the idea submission, shared around 6:00 PM on 29 October. Form 02 is the progress report, which you fill at midnight on the night of 29–30 October." },
+    { q: "What are Form 01 and Form 02?", a: "Form 01 is the idea submission, shared around 6:00 PM on 29 October. Form 02 is the progress report, which opens at midnight on the night of 29–30 October. Both form links become clickable directly on this website as soon as their respective round starts." },
     { q: "When and where is the final pitch?", a: "On 30 October, from 2:00 PM to 5:30 PM, at the same venue: the New Seminar Hall. Present your idea and your properly, originally built product to the judges." },
     { q: "Are the tracks separate competitions?", a: "No. The tracks only help you choose a direction. All tracks follow the same competition rules and judging criteria." },
     { q: "What kind of projects can we build?", a: "Any original software project that fits one of the 18 innovation tracks. Open Innovation covers ideas that fit none of them. A working prototype is required for the pitch." },

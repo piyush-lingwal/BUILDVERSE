@@ -6,6 +6,7 @@ import { ArrowRight, Building2, Check, ClipboardCheck, GraduationCap, Home, Lapt
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { Mascot } from "./Mascot";
 import { UtkrishtLogo } from "./Logos";
+import { SubmissionFormButton } from "./SubmissionFormButton";
 
 type Day = (typeof C.days)[number];
 type Step = Day["steps"][number];
@@ -31,8 +32,8 @@ const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 
 // "Now" in the visitor's browser (the page is static). 0 on the server / first render = unknown, so no live UI is drawn.
-function subscribe(cb: () => void) { const id = setInterval(cb, 30_000); return () => clearInterval(id); }
-const useNow = () => useSyncExternalStore(subscribe, () => Math.floor(Date.now() / 30_000) * 30_000, () => 0);
+function subscribe(cb: () => void) { const id = setInterval(cb, 10_000); return () => clearInterval(id); }
+const useNow = () => useSyncExternalStore(subscribe, () => Math.floor(Date.now() / 10_000) * 10_000, () => 0);
 
 function untilText(ms: number) {
   const m = Math.max(1, Math.round(ms / 60_000));
@@ -98,35 +99,41 @@ export function Schedule() {
             {/* The three phases at a glance: the main idea of the event */}
             <ol className="mt-5 grid grid-cols-1 items-stretch gap-2 sm:grid-cols-3 sm:gap-3" aria-label="The three phases">
               {C.phases.map((ph, i) => {
-                const PIcon = PLACE_ICON[ph.place];
+                const targetId = `phase-${ph.n}`;
+                const PlaceIcon = PLACE_ICON[ph.place];
                 return (
-                  <li key={ph.n} className="relative flex">
-                    <a href={`#phase-${ph.n}`} className="group flex w-full flex-col rounded-2xl border border-white/10 bg-white/[0.06] p-4 transition hover:border-violet-300/50 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-300">
-                      <span className="font-tech text-[11px] font-bold uppercase tracking-wider text-violet-300 sm:text-xs">Phase {ph.n}</span>
-                      <span className="mt-1 font-poppins text-xl font-semibold leading-snug">{ph.name}</span>
-                      <span className={`mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${PLACE_CHIP[ph.place]}`}>
-                        <PIcon className="h-3.5 w-3.5" aria-hidden />{ph.placeLabel}
+                  <li key={ph.n}>
+                    <a
+                      href={`#${targetId}`}
+                      className="group flex h-full flex-col justify-between rounded-xl border border-white/10 bg-white/[0.05] p-3 backdrop-blur-sm transition-all duration-200 hover:border-violet-300/50 hover:bg-white/[0.09] hover:shadow-lg hover:shadow-violet-950/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-tech text-[11px] font-bold uppercase tracking-wider text-violet-300">Phase 0{ph.n}</span>
+                          <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${PLACE_CHIP[ph.place]}`}>
+                            <PlaceIcon className="h-3 w-3" aria-hidden />{ph.placeLabel}
+                          </span>
+                        </div>
+                        <p className="mt-1 font-poppins text-base font-bold text-white group-hover:text-violet-200">{ph.name}</p>
+                        <p className="font-tech text-[11px] text-violet-300/80">{ph.when}</p>
+                      </div>
+                      <p className="mt-2 text-xs leading-relaxed text-violet-100/75 line-clamp-2">{ph.summary}</p>
+                      <span className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-semibold text-violet-300 transition-transform group-hover:translate-x-0.5 group-hover:text-white">
+                        Jump to details <ArrowRight className="h-3 w-3" aria-hidden />
                       </span>
-                      <span className="mt-auto pt-3 text-xs text-violet-200/80">{ph.when}</span>
                     </a>
-                    {i < C.phases.length - 1 && <ArrowRight aria-hidden className="absolute -right-3 top-1/2 z-10 hidden h-5 w-5 -translate-y-1/2 text-violet-300 sm:block" />}
                   </li>
                 );
               })}
             </ol>
 
-            {/* Detailed route */}
-            <ol className="mt-10">
+            {/* Days list */}
+            <ol className="mt-10 space-y-12">
               {C.days.map((d, di) => (
-                <li key={d.date}>
-                  {/* Day header */}
-                  <div className="grid grid-cols-[2.5rem_1fr] gap-x-3 md:grid-cols-[10rem_2.5rem_1fr] md:gap-x-4">
-                    <div className="hidden md:block" />
-                    <div className="relative flex justify-center">
-                      <span aria-hidden className={`absolute bottom-0 left-1/2 w-px -translate-x-1/2 bg-violet-300/40 ${di > 0 ? "top-0" : "top-4"}`} />
-                      <span aria-hidden className="relative z-10 mt-3 h-3.5 w-3.5 rotate-45 rounded-[3px] bg-violet-300 shadow-[0_0_16px_4px_rgba(167,139,250,0.55)]" />
-                    </div>
-                    <div className="relative flex items-end gap-4 pb-5 sm:gap-5">
+                <li key={d.date} className="relative">
+                  {/* Day header banner */}
+                  <div className="sticky top-16 z-20 -mx-2 mb-6 rounded-2xl border border-white/10 bg-violet-950/85 px-4 py-3 backdrop-blur-md sm:mx-0 sm:px-6">
+                    <div className="flex items-end gap-3 sm:gap-4">
                       <span aria-hidden className="bg-gradient-to-b from-white to-violet-300 bg-clip-text font-serif text-7xl italic leading-[0.85] text-transparent sm:text-8xl">{d.day}</span>
                       <div className="min-w-0 pb-1">
                         <p className="font-tech text-xs font-bold uppercase tracking-[0.2em] text-violet-300">{d.label} · {d.month}</p>
@@ -184,6 +191,7 @@ export function Schedule() {
                                 {st === "done" && <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-bold text-violet-200">Done</span>}
                               </div>
                               <p className="mt-2 text-sm leading-relaxed text-violet-100/85">{s.description}</p>
+                              
                               <div className="mt-3 flex flex-wrap items-center gap-2">
                                 {s.place && PlaceIcon && (
                                   <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${PLACE_CHIP[s.place.kind]}`}>
@@ -194,6 +202,20 @@ export function Schedule() {
                                   <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />{s.badge.text}
                                 </span>
                               </div>
+
+                              {/* Clickable or locked Form action according to time */}
+                              {s.form && (
+                                <div className="mt-4 pt-1">
+                                  <SubmissionFormButton
+                                    url={s.form.url}
+                                    opensAt={s.form.opensAt}
+                                    closesAt={s.form.closesAt}
+                                    timeLabel={s.form.timeLabel}
+                                    buttonLabel={s.form.buttonLabel}
+                                    variant="dark"
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
                         </li>

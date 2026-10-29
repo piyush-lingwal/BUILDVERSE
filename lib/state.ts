@@ -23,3 +23,24 @@ export function countdownParts(now: number, deadlineIso: string): CountdownParts
     seconds: total % 60,
   };
 }
+
+// ============================================================
+// Event form status — PURE
+// ============================================================
+
+export type FormState = "upcoming" | "open" | "closed";
+
+export function getFormState(now: number, opensAtIso: string, closesAtIso?: string): FormState {
+  const opensAt = Date.parse(opensAtIso);
+  if (Number.isNaN(opensAt)) return "closed";
+  if (now < opensAt) return "upcoming";
+  if (closesAtIso) {
+    const closesAt = Date.parse(closesAtIso);
+    if (!Number.isNaN(closesAt) && now >= closesAt) return "closed";
+  }
+  return "open";
+}
+
+export function isFormClickable(now: number, opensAtIso: string, closesAtIso?: string): boolean {
+  return getFormState(now, opensAtIso, closesAtIso) === "open";
+}

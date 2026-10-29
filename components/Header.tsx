@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { useRegistrationOpen } from "./useRegistrationOpen";
+import { useCurrentTime } from "./useCurrentTime";
+import { isFormClickable } from "@/lib/state";
 import { SbgLogo } from "./Logos";
 
 export const NAV_ITEMS = [
@@ -21,6 +23,9 @@ export const NAV_ITEMS = [
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("");
   const open = useRegistrationOpen();
+  const now = useCurrentTime();
+  const form2Open = now !== 0 && isFormClickable(now, C.forms.progressReport.opensAt);
+  const form1Open = now !== 0 && isFormClickable(now, C.forms.ideaSubmission.opensAt);
   const mobileNav = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -110,6 +115,32 @@ export function Header() {
             className="!px-4 !py-2.5 text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
           >
             Register Now <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+        ) : form2Open ? (
+          <a
+            href={C.forms.progressReport.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="!px-4 !py-2.5 text-xs sm:text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            </span>
+            <span>Submit Progress (Form 2)</span> <ArrowRight className="h-4 w-4" aria-hidden />
+          </a>
+        ) : form1Open ? (
+          <a
+            href={C.forms.ideaSubmission.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="!px-4 !py-2.5 text-xs sm:text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+            </span>
+            <span>Submit Idea (Form 1)</span> <ArrowRight className="h-4 w-4" aria-hidden />
           </a>
         ) : (
           <span className="!px-4 !py-2.5 text-sm min-h-11 inline-flex items-center justify-center rounded-xl bg-violet-200 font-semibold text-violet-700">
