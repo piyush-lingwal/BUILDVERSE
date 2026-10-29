@@ -15,3 +15,4 @@ const getServerSnapshot = () => 0;
 export function useCurrentTime(): number {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
+
