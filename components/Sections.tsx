@@ -367,29 +367,12 @@ export function Prizes() {
           );
         })}
       </div>
-
-      <div className={`${wrap} mt-10`}>
-        <div id="judges-card" className="grid items-center gap-6 overflow-hidden rounded-3xl bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-6 sm:p-8 md:grid-cols-[1fr_1.1fr]">
-          <div>
-            <p className="font-tech text-xs font-bold uppercase tracking-[0.18em] text-violet-300 sm:text-sm">Judges</p>
-            {C.judges.length === 0 ? (
-              <>
-                <h3 className="mt-2 text-2xl font-medium text-white sm:text-3xl">To be revealed soon</h3>
-                <p className="mt-2 max-w-md text-violet-100/85">An experienced panel of industry experts and professionals will evaluate the projects.</p>
-                <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white">Stay tuned</p>
-              </>
-            ) : (
-              <ul className="mt-3 space-y-3">{C.judges.map((j) => <li key={j.name}><b className="text-white">{j.name}</b><br /><span className="text-sm text-violet-200">{j.title}</span></li>)}</ul>
-            )}
-          </div>
-          {C.judges.length === 0 && <Mascot name="judges" sizes="(min-width: 768px) 520px, 90vw" className="mx-auto h-auto w-full max-w-md" />}
-        </div>
-      </div>
     </section>
   );
 }
 
 export { Schedule as Timeline } from "./Schedule";
+export { Speakers } from "./Speakers";
 
 export const Participation = Rules;
 

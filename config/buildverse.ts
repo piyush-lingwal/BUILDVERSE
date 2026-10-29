@@ -72,7 +72,7 @@ export interface BuildVerseConfig {
           highlights?: string[];
         }[];
         title: string;
-        topics: string[];
+        topics?: string[];
       }[];
     }[];
   }[];
@@ -129,12 +129,12 @@ export const BUILDVERSE: BuildVerseConfig = {
   judges: [],
   phases: [
     {
-      n: 1, name: "Learn", place: "college", placeLabel: "At college", when: "29 Oct · 2:00 – 5:30 PM",
-      summary: "Attend the workshops in person at the New Seminar Hall. Speakers interact with students through an online meet.",
+      n: 1, name: "Learn", place: "college", placeLabel: "At college", when: "29 Oct · 11:30 AM – 9:00 PM",
+      summary: "Attend expert sessions in-person at the New Seminar Hall and online in the evening with industry leaders.",
     },
     {
       n: 2, name: "Innovate", place: "home", placeLabel: "At home", when: "29 Oct evening to 30 Oct",
-      summary: "Submit your idea, then build your prototype at home. Online workshops on Google Meet, with speakers guiding and mentoring you till 10 PM.",
+      summary: "Submit your idea, then develop your solution and build your prototype or working product from home.",
     },
     {
       n: 3, name: "Pitch", place: "college", placeLabel: "At college", when: "30 Oct · 2:00 – 5:30 PM",
@@ -259,13 +259,13 @@ export const BUILDVERSE: BuildVerseConfig = {
         {
           icon: "build",
           phase: 2,
-          place: { kind: "home", label: "Google Meet" },
+          place: { kind: "home", label: "Build from Home" },
           time: "6:00 PM – Next Day",
           title: "Innovate: Build at Home",
-          description: "Work on your idea and build your prototype or product at home. Online workshops continue on Google Meet, where speakers guide and mentor you till 10 PM.",
-          badge: { text: "Online mentoring on Meet", tone: "neutral" },
+          description: "Develop your solution and build your prototype or product from home. Collaborate with your team, implement core features, and build through the night leading up to the final pitch.",
+          badge: { text: "Overnight prototype build", tone: "neutral" },
           start: "2026-10-29T18:00:00+05:30",
-          end: "2026-10-29T22:00:00+05:30",
+          end: "2026-10-30T14:00:00+05:30",
         },
         {
           icon: "progress",
@@ -400,9 +400,9 @@ export const BUILDVERSE: BuildVerseConfig = {
   ],
   faqs: [
     { q: "Who can participate?", a: "Any student of Tulas University. Register as a solo participant or a team of up to 4." },
-    { q: "Is the event online or offline?", a: "Both. Learn and Pitch happen at college, at the New Seminar Hall. Innovate happens at home, with online workshops on Google Meet. In short: Learn at college, Build at home, Pitch at college." },
-    { q: "Do I have to be at college on 29 October?", a: "Yes. Phase 1 (Learn) runs in hybrid mode, and students must be present at the New Seminar Hall until 5:30 PM. The speakers interact with the students through an online meet." },
-    { q: "Where do we build our project?", a: "At home. After submitting your idea in Form 01, you work on your idea and build your prototype or product from home. Online workshops continue on Google Meet, where speakers guide and mentor you till 10 PM." },
+    { q: "Is the event online or offline?", a: "Both. Phase 1 (Learn) has an in-person session at college followed by evening online expert sessions. Phase 2 (Innovate) is building your prototype from home. Phase 3 (Pitch) is in-person at college. In short: Learn at college, Build at home, Pitch at college." },
+    { q: "Do I have to be at college on 29 October?", a: "Yes. Students must be present at the New Seminar Hall for Session 1 (11:30 AM – 12:30 PM). The evening expert sessions (7:00 PM – 9:00 PM) take place online." },
+    { q: "Where do we build our project?", a: "At home. After submitting your idea in Form 01 at 6:00 PM, you and your team work on your prototype and product from home throughout the night." },
     { q: "What are Form 01 and Form 02?", a: "Form 01 is the idea submission, shared around 6:00 PM on 29 October. Form 02 is the progress report, which opens at midnight on the night of 29–30 October. Both form links become clickable directly on this website as soon as their respective round starts." },
     { q: "When and where is the final pitch?", a: "On 30 October, from 2:00 PM to 5:30 PM, at the same venue: the New Seminar Hall. Present your idea and your properly, originally built product to the judges." },
     { q: "Are the tracks separate competitions?", a: "No. The tracks only help you choose a direction. All tracks follow the same competition rules and judging criteria." },

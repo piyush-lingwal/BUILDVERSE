@@ -14,6 +14,7 @@ export const NAV_ITEMS = [
   { label: "Event Flow", id: "flow" },
   { label: "Timeline", id: "timeline" },
   { label: "Tracks", id: "tracks" },
+  { label: "Speakers", id: "speakers" },
   { label: "Rules", id: "rules" },
   { label: "Prizes & Rewards", id: "prizes" },
   { label: "FAQs", id: "faqs" },
@@ -81,13 +82,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label="BUILD-VERSE 2026 home">
+      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+        <Link href="/" className="flex items-center gap-3 shrink-0" aria-label="BUILD-VERSE 2026 home">
           <SbgLogo className="h-11 sm:h-12" />
         </Link>
 
         {/* Desktop Nav with active section highlighting */}
-        <nav aria-label="Sections" className="hidden items-center gap-1.5 min-[1100px]:flex">
+        <nav aria-label="Sections" className="hidden items-center gap-1 xl:gap-1.5 min-[1180px]:flex">
           {NAV_ITEMS.map(({ label, id }) => {
             const isActive = activeSection === id;
             return (
@@ -95,7 +96,7 @@ export function Header() {
                 key={id}
                 href={`/#${id}`}
                 aria-current={isActive ? "location" : undefined}
-                className={`whitespace-nowrap rounded-xl px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
+                className={`whitespace-nowrap rounded-xl px-2.5 xl:px-3 py-1.5 text-[13px] xl:text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? "border border-violet-200/90 bg-violet-100 font-semibold text-violet-900 shadow-xs"
                     : "text-violet-900/75 hover:bg-violet-50 hover:text-violet-950"
@@ -112,45 +113,49 @@ export function Header() {
             href={C.registrationFormUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="!px-4 !py-2.5 text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+            className="!px-3.5 sm:!px-4 !py-2 text-xs sm:text-sm min-h-10 sm:min-h-11 shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
           >
-            Register Now <ArrowRight className="h-4 w-4" aria-hidden />
+            <span>Register Now</span> <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
           </a>
         ) : form2Open ? (
           <a
             href={C.forms.progressReport.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="!px-4 !py-2.5 text-xs sm:text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            className="!px-3 sm:!px-4 !py-2 text-xs sm:text-sm min-h-10 sm:min-h-11 shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
-            <span className="relative flex h-2 w-2">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
             </span>
-            <span>Submit Progress (Form 2)</span> <ArrowRight className="h-4 w-4" aria-hidden />
+            <span>Submit Progress</span>
+            <span className="hidden sm:inline text-emerald-100/90 font-medium">(Form 2)</span>
+            <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" aria-hidden />
           </a>
         ) : form1Open ? (
           <a
             href={C.forms.ideaSubmission.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="!px-4 !py-2.5 text-xs sm:text-sm min-h-11 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            className="!px-3 sm:!px-4 !py-2 text-xs sm:text-sm min-h-10 sm:min-h-11 shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl bg-emerald-600 font-semibold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
-            <span className="relative flex h-2 w-2">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
             </span>
-            <span>Submit Idea (Form 1)</span> <ArrowRight className="h-4 w-4" aria-hidden />
+            <span>Submit Idea</span>
+            <span className="hidden sm:inline text-emerald-100/90 font-medium">(Form 1)</span>
+            <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" aria-hidden />
           </a>
         ) : (
-          <span className="!px-4 !py-2.5 text-sm min-h-11 inline-flex items-center justify-center rounded-xl bg-violet-200 font-semibold text-violet-700">
+          <span className="!px-3.5 sm:!px-4 !py-2 text-xs sm:text-sm min-h-10 sm:min-h-11 shrink-0 whitespace-nowrap inline-flex items-center justify-center rounded-xl bg-violet-200 font-semibold text-violet-700">
             Registration closed
           </span>
         )}
       </div>
 
       {/* Mobile Scrollable Nav with active section highlighting */}
-      <nav ref={mobileNav} aria-label="Sections (mobile)" className="no-scrollbar relative flex gap-1 overflow-x-auto border-t border-violet-100 px-2 py-1 min-[1100px]:hidden">
+      <nav ref={mobileNav} aria-label="Sections (mobile)" className="no-scrollbar relative flex gap-1 overflow-x-auto border-t border-violet-100 px-2 py-1 min-[1180px]:hidden">
         {NAV_ITEMS.map(({ label, id }) => {
           const isActive = activeSection === id;
           return (

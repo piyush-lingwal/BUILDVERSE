@@ -275,16 +275,17 @@ export function GsapMotion() {
       });
 
       gsap.fromTo(
-        "#judges-card",
+        ".speaker-card",
         { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
+          stagger: 0.15,
           duration: 0.75,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: "#judges-card",
-            start: "top 90%",
+            trigger: "#speakers",
+            start: "top 88%",
             once: true,
           },
           clearProps: "transform,opacity",
