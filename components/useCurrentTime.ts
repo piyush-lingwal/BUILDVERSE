@@ -2,17 +2,44 @@
 
 import { useSyncExternalStore } from "react";
 
-function subscribe(cb: () => void) {
-  // Check every 10 seconds so transitions (e.g. at 6:00 PM or midnight) flip accurately in real-time
-  const id = setInterval(cb, 10_000);
-  return () => clearInterval(id);
+let currentTime = 0;
+const listeners = new Set<() => void>();
+let intervalId: ReturnType<typeof setInterval> | null = null;
+
+function startTimer() {
+  if (typeof window === "undefined") return;
+  if (currentTime === 0) {
+    currentTime = Date.now();
+  }
+  if (intervalId === null) {
+    intervalId = setInterval(() => {
+      currentTime = Date.now();
+      listeners.forEach((listener) => listener());
+    }, 10_000);
+  }
 }
 
-const getSnapshot = () => Date.now();
-// Server / hydration snapshot: returns 0 so SSR and initial client hydration match safely
+function subscribe(callback: () => void) {
+  listeners.add(callback);
+  startTimer();
+  return () => {
+    listeners.delete(callback);
+    if (listeners.size === 0 && intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
+}
+
+const getSnapshot = () => {
+  if (currentTime === 0 && typeof window !== "undefined") {
+    currentTime = Date.now();
+  }
+  return currentTime;
+};
+
 const getServerSnapshot = () => 0;
 
 export function useCurrentTime(): number {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
-

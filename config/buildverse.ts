@@ -59,6 +59,21 @@ export interface BuildVerseConfig {
         buttonLabel: string;
         closesAt?: string;
       };
+      /** Workshop sessions (used by the "Learn: Expert Workshops" step). */
+      sessions?: {
+        time: string;
+        mode: "physical" | "online";
+        venue?: string;
+        speakers: {
+          name: string;
+          role: string;
+          org: string;
+          linkedIn?: string;
+          highlights?: string[];
+        }[];
+        title: string;
+        topics: string[];
+      }[];
     }[];
   }[];
   utkrisht: { show: boolean; text: string };
@@ -140,12 +155,91 @@ export const BUILDVERSE: BuildVerseConfig = {
           icon: "learn",
           phase: 1,
           place: { kind: "college", label: "New Seminar Hall" },
-          time: "2:00 PM – 5:30 PM",
+          time: "11:30 AM – 9:00 PM",
           title: "Learn: Expert Workshops",
-          description: "Hybrid mode. Students must be present at the venue until 5:30 PM, while the speakers interact with them through an online meet.",
-          badge: { text: "Hybrid · be present at the venue", tone: "neutral" },
-          start: "2026-10-29T14:00:00+05:30",
-          end: "2026-10-29T17:30:00+05:30",
+          description: "Three expert sessions across the day — one in-person and two online. Students must be present at the New Seminar Hall for the first session.",
+          badge: { text: "Hybrid · be present for Session 1", tone: "neutral" },
+          start: "2026-10-29T11:30:00+05:30",
+          end: "2026-10-29T21:00:00+05:30",
+          sessions: [
+            {
+              time: "11:30 AM – 12:30 PM",
+              mode: "physical",
+              venue: "New Seminar Hall, Tulas University",
+              speakers: [
+                {
+                  name: "Mohit Raj",
+                  role: "Software Development Engineer",
+                  org: "Amazon Web Services (AWS)",
+                  linkedIn: "https://www.linkedin.com/in/mohit-raj-570a6a1b2/",
+                  highlights: ["SDE at Amazon Web Services (AWS)"],
+                },
+              ],
+              title: "Building with AI: From Idea to Product",
+              topics: [
+                "How to use AI and AI tools effectively",
+                "Accelerate development and build smarter",
+                "Turn ideas into functional products within a limited timeframe",
+                "Making the most of AI-powered workflows",
+              ],
+            },
+            {
+              time: "7:00 PM – 8:00 PM",
+              mode: "online",
+              speakers: [
+                {
+                  name: "Sudha Subramaniam",
+                  role: "AWS Community Builder in AI Engineering · Application & Migration Architect",
+                  org: "IBM",
+                  linkedIn: "https://www.linkedin.com/in/sudhast/",
+                  highlights: [
+                    "AWS re:Invent All Builders Welcome Grant Recipient",
+                    "Mentor & Judge at Hacktoberfest Hack Day Bengaluru 2026",
+                    "AWS Professional & AI Certified · Claude Certified Architect",
+                  ],
+                },
+              ],
+              title: "AI Engineering & Generative AI in Practice",
+              topics: [
+                "Insights into AI Engineering and Generative AI",
+                "AI-powered development with Kiro IDE — idea to implementation",
+                "Modern engineering approaches for impactful solutions",
+                "Lessons from technical writing, mentoring, and community knowledge-sharing",
+              ],
+            },
+            {
+              time: "8:00 PM – 9:00 PM",
+              mode: "online",
+              speakers: [
+                {
+                  name: "Apoorva Jain",
+                  role: "HackOn with Amazon 6.0 Winner",
+                  org: "NIT Jamshedpur",
+                  linkedIn: "https://www.linkedin.com/in/apoorva-jain-07a81128a/",
+                },
+                {
+                  name: "Sweksha Misra",
+                  role: "HackOn with Amazon 6.0 Winner",
+                  org: "NIT Jamshedpur",
+                  linkedIn: "https://www.linkedin.com/in/sweksha-misra-68a9121a7/",
+                },
+                {
+                  name: "Shalini Singh",
+                  role: "HackOn with Amazon 6.0 Winner",
+                  org: "NIT Jamshedpur",
+                  linkedIn: "https://www.linkedin.com/in/shalini-singh-6358a728a/",
+                },
+              ],
+              title: "Think Like a Hackathon Winner",
+              topics: [
+                "How to think differently and identify problems worth solving",
+                "Brainstorm, validate, and refine ideas into strong solutions",
+                "Plan, divide tasks, and build effectively under time constraints",
+                "Collaborate as a team and leverage everyone's strengths",
+                "Pitch your solution, stand out, and compete to win",
+              ],
+            },
+          ],
         },
         {
           icon: "idea",

@@ -41,7 +41,7 @@ export function Header() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            setActiveSection((prev) => (prev !== entry.target.id ? entry.target.id : prev));
           }
         });
       },
@@ -56,7 +56,7 @@ export function Header() {
     // Clear active section if scrolled to top
     const handleScroll = () => {
       if (window.scrollY < 80) {
-        setActiveSection("");
+        setActiveSection((prev) => (prev !== "" ? "" : prev));
       }
     };
 
