@@ -7,7 +7,7 @@ import { RegisterButton } from "./RegisterButton";
 import { Mascot } from "./Mascot";
 import { Countdown } from "./Countdown";
 import { SparkleCluster } from "./Decor";
-import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite } from "./Logos";
+import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite, KiroLogo } from "./Logos";
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
@@ -48,8 +48,16 @@ export function Hero() {
             </div>
           )}
           <div className="-ml-2 max-w-[560px]">
-            <h1 className="mt-3"><BuildVerseLogo className="h-auto w-full" /></h1>
+            <h1 className="mt-3"><BuildVerseLogo className="h-auto w-full drop-shadow-sm" /></h1>
             <p className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
+            <div className="mt-3 flex items-center justify-center">
+              <div className="inline-flex items-center gap-1 rounded-full border border-violet-200/90 bg-white/85 pl-3.5 pr-2.5 py-1 shadow-xs shadow-violet-500/5 backdrop-blur-sm">
+                <span className="font-tech text-[11px] sm:text-xs font-bold uppercase tracking-[0.1em] text-violet-600">
+                  Powered by
+                </span>
+                <KiroLogo className="h-4.5 sm:h-5.5 w-auto object-contain" />
+              </div>
+            </div>
           </div>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
             {C.eventConcluded

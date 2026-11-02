@@ -48,3 +48,17 @@ export function UtkrishtLogoWhite({ className = "" }: { className?: string }) {
     <Image src="/buildverse/utkrisht-logo-white.png" alt="Utkrisht 2026: Discovering Bharat" width={1380} height={532} sizes="240px" className={className} />
   );
 }
+
+export function KiroLogo({ className = "" }: { className?: string }) {
+  return (
+    <Image
+      src="/buildverse/KIRO.png"
+      alt="KIRO"
+      width={1739}
+      height={476}
+      sizes="(min-width: 640px) 160px, 120px"
+      quality={90}
+      className={className}
+    />
+  );
+}
