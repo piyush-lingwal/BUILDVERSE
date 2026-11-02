@@ -9,7 +9,7 @@ import { useCurrentTime } from "./useCurrentTime";
 import { isFormClickable } from "@/lib/state";
 import { SbgLogo } from "./Logos";
 
-export const NAV_ITEMS = [
+const BASE_NAV = [
   { label: "About", id: "about" },
   { label: "Event Flow", id: "flow" },
   { label: "Timeline", id: "timeline" },
@@ -20,6 +20,11 @@ export const NAV_ITEMS = [
   { label: "FAQs", id: "faqs" },
   { label: "Contact", id: "contact" },
 ] as const;
+
+// After the event, a "Winners" tab sits right after About.
+export const NAV_ITEMS: readonly { label: string; id: string }[] = C.eventConcluded
+  ? [BASE_NAV[0], { label: "Winners", id: "winners" }, ...BASE_NAV.slice(1)]
+  : BASE_NAV;
 
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("");
@@ -94,7 +99,7 @@ export function Header() {
             return (
               <a
                 key={id}
-                href={`/#${id}`}
+                href={`#${id}`}
                 aria-current={isActive ? "location" : undefined}
                 className={`whitespace-nowrap rounded-xl px-2.5 xl:px-3 py-1.5 text-[13px] xl:text-sm font-medium transition-all duration-200 ${
                   isActive
@@ -108,7 +113,14 @@ export function Header() {
           })}
         </nav>
 
-        {open ? (
+        {C.eventConcluded ? (
+          <a
+            href="#winners"
+            className="!px-3.5 sm:!px-4 !py-2 text-xs sm:text-sm min-h-10 sm:min-h-11 shrink-0 whitespace-nowrap inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+          >
+            <span>See the winners</span> <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+          </a>
+        ) : open ? (
           <a
             href={C.registrationFormUrl}
             target="_blank"
@@ -161,7 +173,7 @@ export function Header() {
           return (
             <a
               key={id}
-              href={`/#${id}`}
+              href={`#${id}`}
               data-nav={id}
               aria-current={isActive ? "location" : undefined}
               className={`flex min-h-10 shrink-0 items-center rounded-lg px-3 py-1 text-sm font-medium transition-colors ${

@@ -45,14 +45,16 @@ function untilText(ms: number) {
 
 export function Schedule() {
   const now = useNow();
+  // After the event the timeline is a recap: no live badges, no countdown and no form buttons.
+  const recap = C.eventConcluded;
   const flat = C.days.flatMap((d) => d.steps);
   const timed = flat.filter((s) => s.start).map((s) => ({ s, t: Date.parse(s.start!) })).sort((a, b) => a.t - b.t);
-  const next = now ? timed.find((x) => x.t > now) : undefined;
+  const next = !recap && now ? timed.find((x) => x.t > now) : undefined;
   const ends = flat.filter((s) => s.end).map((s) => Date.parse(s.end!));
-  const allDone = !!now && ends.length > 0 && now >= Math.max(...ends);
+  const allDone = recap || (!!now && ends.length > 0 && now >= Math.max(...ends));
 
   const stateOf = (s: Step): State => {
-    if (!now || !s.start) return null;
+    if (recap || !now || !s.start) return null;
     const st = Date.parse(s.start);
     const en = s.end ? Date.parse(s.end) : NaN;
     if (!Number.isNaN(en)) {
@@ -68,7 +70,7 @@ export function Schedule() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         <p className={eyebrow}>Event timeline</p>
         <h2 className={h2}>Two days. From learning to pitching.</h2>
-        <p className="mt-3 max-w-2xl text-violet-950/75">The complete flow of BUILD-VERSE 2026: Learn at college, build at home, pitch at college. Forms are shared with registered participants at the times below.</p>
+        <p className="mt-3 max-w-2xl text-violet-950/75">{recap ? "A look back at how BUILD-VERSE 2026 unfolded: learn at college, build at home, pitch at college." : "The complete flow of BUILD-VERSE 2026: Learn at college, build at home, pitch at college. Forms are shared with registered participants at the times below."}</p>
 
         <div className="timeline-card relative mt-10 overflow-hidden rounded-[2rem] border border-violet-900/40 bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-5 text-white shadow-2xl shadow-violet-950/30 sm:p-8 lg:p-10">
           <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-violet-500/25 blur-3xl" />
@@ -87,7 +89,7 @@ export function Schedule() {
                 </p>
               ) : allDone ? (
                 <p className="inline-flex items-center gap-2 rounded-full border border-violet-300/30 bg-violet-400/15 px-4 py-1.5 text-sm font-semibold text-violet-100">
-                  <Trophy className="h-4 w-4 text-amber-300" aria-hidden />{C.resultsLine}
+                  <Trophy className="h-4 w-4 text-amber-300" aria-hidden />{recap ? C.concludedLine : C.resultsLine}
                 </p>
               ) : now && timed.length > 0 && timed[timed.length - 1].t <= now ? (
                 <p className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/15 px-4 py-1.5 text-sm font-semibold text-emerald-200">
@@ -197,7 +199,7 @@ export function Schedule() {
                               </div>
 
                               {/* Time-activated form button */}
-                              {s.form && (
+                              {!recap && s.form && (
                                 <div className="mt-4 pt-1">
                                   <SubmissionFormButton
                                     url={s.form.url}

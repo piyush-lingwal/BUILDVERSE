@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ComponentType } from "react";
-import { ArrowRight, Atom, Blocks, Boxes, Bot, BrainCircuit, Bus, ChartLine, ChevronLeft, ChevronRight, Cloud, Database, GraduationCap, HeartHandshake, HeartPulse, Layers, Leaf, Lightbulb, PanelsTopLeft, Rocket, ScanEye, ShieldCheck, Sparkles, TerminalSquare, Wallet, X } from "lucide-react";
+import { ArrowRight, Atom, Blocks, Boxes, Bot, BrainCircuit, Bus, ChartLine, ChevronLeft, ChevronRight, Cloud, Cpu, Database, GraduationCap, HeartHandshake, HeartPulse, Layers, Leaf, Lightbulb, PanelsTopLeft, Rocket, ScanEye, ShieldCheck, Sparkles, TerminalSquare, Wallet, X } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { SparkleCluster } from "./Decor";
 
@@ -12,14 +12,14 @@ const TRACK_ICONS: Record<string, Icon> = {
   cloud: Cloud, terminal: TerminalSquare, database: Database, wallet: Wallet, heart: HeartPulse, leaf: Leaf,
   graduation: GraduationCap, panels: PanelsTopLeft, bus: Bus, lightbulb: Lightbulb,
 };
-const CAT_ICONS: Record<string, Icon> = { brain: BrainCircuit, rocket: Rocket, layers: Layers, heart: HeartHandshake, lightbulb: Lightbulb };
+const CAT_ICONS: Record<string, Icon> = { brain: BrainCircuit, cpu: Cpu, rocket: Rocket, layers: Layers, sparkles: Sparkles, heart: HeartHandshake, lightbulb: Lightbulb };
 
 // One accent per theme, all inside the brand's violet family (Open Innovation gets the warm highlight).
 const ACCENT: Record<string, string> = {
   ai: "from-violet-600 to-indigo-500",
-  future: "from-fuchsia-500 to-violet-600",
+  hardware: "from-fuchsia-500 to-violet-600",
   software: "from-indigo-600 to-sky-500",
-  impact: "from-violet-500 to-pink-500",
+  applied: "from-violet-500 to-pink-500",
   open: "from-amber-400 to-orange-500",
 };
 

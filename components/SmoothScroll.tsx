@@ -46,21 +46,28 @@ export function SmoothScroll() {
     window.addEventListener("load", handleLoad);
 
     // Intercept in-page hash links for fluid, smooth scrolling with navbar offset
+    // Handles both '#section' and '/#section' href formats
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("a");
       if (!target) return;
       const href = target.getAttribute("href");
-      if (href && href.startsWith("#") && href.length > 1) {
-        try {
-          const targetElement = document.querySelector(href);
-          if (targetElement) {
-            e.preventDefault();
-            lenis.scrollTo(targetElement as HTMLElement, { offset: -70 });
-            history.pushState(null, "", href);
-          }
-        } catch {
-          // Ignore invalid selector
+      if (!href) return;
+      // Normalise '/#section' → '#section'
+      const hash = href.startsWith("/#") ? href.slice(1) : href.startsWith("#") ? href : null;
+      if (!hash || hash.length < 2) return;
+      try {
+        const targetElement = document.querySelector(hash);
+        if (targetElement) {
+          e.preventDefault();
+          // Measure the actual sticky header height at click time so the section
+          // lands precisely at the bottom edge of the navbar on any screen size.
+          const navbarEl = document.querySelector("header");
+          const navbarHeight = navbarEl ? navbarEl.offsetHeight : 70;
+          lenis.scrollTo(targetElement as HTMLElement, { offset: -navbarHeight });
+          history.pushState(null, "", hash);
         }
+      } catch {
+        // Ignore invalid selector
       }
     };
 

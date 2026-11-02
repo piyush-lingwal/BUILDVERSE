@@ -31,6 +31,26 @@ export interface BuildVerseConfig {
   }[];
   /** One line shown under the flow and after the event ends. */
   resultsLine: string;
+  /**
+   * Set to true once the event is over. The site switches to its "concluded" state: registration and form
+   * buttons disappear, the timeline becomes a recap and a Winners section appears after the hero.
+   */
+  eventConcluded: boolean;
+  /** Shown in the hero, the timeline and the closing banner when `eventConcluded` is true. */
+  concludedLine: string;
+  /**
+   * Winning teams, shown in this order. Leave empty until they are announced.
+   * `place` is optional ("Winning Team" is shown without it); `medal` adds a gold / silver / bronze card style
+   * (use it for the top three). Members show name, course and year only.
+   */
+  winners: {
+    place?: string;
+    medal?: "gold" | "silver" | "bronze";
+    team: string;
+    members: { name: string; course: string; year: string; lead?: boolean }[];
+    project?: string;
+    track?: string;
+  }[];
   /** Day-by-day schedule. Times are shown as written; `start`/`end` (ISO, IST) only drive the "Live now / Next up" badges. */
   days: {
     date: string; // ISO date, IST
@@ -142,6 +162,62 @@ export const BUILDVERSE: BuildVerseConfig = {
     },
   ],
   resultsLine: "Results will be announced on 31 October.",
+  eventConcluded: true,
+  concludedLine: "BUILD-VERSE 2026 concluded successfully. Results were announced on 31 October.",
+  winners: [
+    {
+      place: "Winner",
+      medal: "gold",
+      team: "NEXORA UNITED",
+      members: [
+        { name: "Harsh Shrivastava", course: "B.Tech CSE", year: "2nd Year", lead: true },
+        { name: "Amandeep Singh", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Bishu Kumar", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Shivam Dwivedi", course: "B.Tech CSE", year: "2nd Year" },
+      ],
+    },
+    {
+      place: "1st Runner-up",
+      medal: "silver",
+      team: "CodeScythe",
+      members: [
+        { name: "Prashant Krishan Bharti", course: "B.Tech CSE", year: "3rd Year", lead: true },
+        { name: "Ritish Dhar", course: "B.Tech CSE", year: "3rd Year" },
+        { name: "Aditya Rawat", course: "B.Tech Data Science", year: "3rd Year" },
+      ],
+    },
+    {
+      place: "2nd Runner-up",
+      medal: "bronze",
+      team: "MIND MENDERS",
+      members: [
+        { name: "Maahi Mittal", course: "B.Tech CSE", year: "3rd Year", lead: true },
+        { name: "Manasvi Mishra", course: "B.Tech CSE", year: "3rd Year" },
+        { name: "Avantika Chauhan", course: "B.Tech CSE", year: "3rd Year" },
+        { name: "Ishika Choudhary", course: "B.Tech CSE", year: "3rd Year" },
+      ],
+    },
+    {
+      place: "3rd Runner-up",
+      team: "HAWK",
+      members: [
+        { name: "Abhay Rawat", course: "B.Tech CSE", year: "2nd Year", lead: true },
+        { name: "Alok Kumar", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Aditya Anand", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Aditya Raj", course: "B.Tech CSE", year: "2nd Year" },
+      ],
+    },
+    {
+      place: "4th Runner-up",
+      team: "ORDINEX",
+      members: [
+        { name: "Pankaj Kumar Yadav", course: "B.Tech CSE", year: "2nd Year", lead: true },
+        { name: "Niraj Chaudhary", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Parth Kashyap", course: "B.Tech CSE", year: "2nd Year" },
+        { name: "Nandani Chaudhary", course: "B.Tech CSE", year: "2nd Year" },
+      ],
+    },
+  ],
   days: [
     {
       date: "2026-10-29",

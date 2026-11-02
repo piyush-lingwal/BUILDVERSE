@@ -66,3 +66,17 @@ test("form state & sanity: Form 1 & Form 2 URLs and time-based clickability", ()
   assert.equal(getFormState(atForm2, progressReport.opensAt), "open");
   assert.equal(isFormClickable(atForm2, progressReport.opensAt), true);
 });
+
+test("concluded state: winners are well formed (empty is fine until they are announced)", () => {
+  assert.equal(typeof BUILDVERSE.eventConcluded, "boolean");
+  for (const w of BUILDVERSE.winners) {
+    assert.ok(w.team.trim(), "every winner has a team name");
+    assert.ok(w.members.length > 0, `${w.team}: has members`);
+    for (const m of w.members) assert.ok(m.name.trim() && m.course.trim() && m.year.trim(), `${w.team}: ${m.name || "member"} has a name, course and year`);
+    assert.ok(w.members.filter((m) => m.lead).length <= 1, `${w.team}: at most one team lead`);
+    // Only names, courses and years are published: no phone numbers or roll numbers in the data.
+    assert.ok(!JSON.stringify(w).match(/\d{6,}/), `${w.team}: no long digit strings (phone or roll numbers)`);
+  }
+  const teams = BUILDVERSE.winners.map((w) => w.team);
+  assert.equal(new Set(teams).size, teams.length, "no team is listed twice");
+});

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Building2, Home as HomeIcon, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
+import { ArrowRight, Trophy, Building2, Home as HomeIcon, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { RegisterButton } from "./RegisterButton";
 import { Mascot } from "./Mascot";
@@ -52,13 +52,33 @@ export function Hero() {
             <p className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
           </div>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
-            A hands-on innovation event by the {C.organiser}. Learn modern development workflows, build a real product, and pitch your idea to a panel of judges.
+            {C.eventConcluded
+              ? `A hands-on innovation event by the ${C.organiser}. Students learned modern development workflows, built real products and pitched their ideas to a panel of judges.`
+              : `A hands-on innovation event by the ${C.organiser}. Learn modern development workflows, build a real product, and pitch your idea to a panel of judges.`}
           </p>
-          <div className="mt-6"><Countdown deadline={C.registrationDeadline} /></div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <RegisterButton />
-            <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
-          </div>
+          {C.eventConcluded ? (
+            <>
+              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700"><Trophy className="h-5 w-5" aria-hidden /></span>
+                <div>
+                  <p className="font-poppins font-bold text-emerald-900">Event concluded successfully</p>
+                  <p className="mt-0.5 text-sm text-emerald-900/80">Thank you to every participant, speaker and mentor. Results were announced on 31 October.</p>
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a href="#winners" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
+                <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-6"><Countdown deadline={C.registrationDeadline} /></div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <RegisterButton />
+                <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
+              </div>
+            </>
+          )}
         </div>
         <div id="hero-mascot-wrap" className="relative mx-auto w-full max-w-xl">
           <div id="hero-mascot" className="relative z-10 w-full">
@@ -177,7 +197,9 @@ export function Flow() {
             </Fragment>
           ))}
         </div>
-                <p className="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 px-5 py-3 text-sm text-violet-950/80"><span className="font-semibold text-violet-900">{C.resultsLine}</span> Form 01 (idea submission) opens at 6:00 PM on 29 October and Form 02 (progress report) at midnight.</p>
+                <p className="mt-6 rounded-2xl border border-violet-100 bg-violet-50/70 px-5 py-3 text-sm text-violet-950/80">{C.eventConcluded
+          ? <span className="font-semibold text-violet-900">{C.concludedLine}</span>
+          : <><span className="font-semibold text-violet-900">{C.resultsLine}</span> Form 01 (idea submission) opens at 6:00 PM on 29 October and Form 02 (progress report) at midnight.</>}</p>
       </div>
     </section>
   );
@@ -486,11 +508,15 @@ export function FinalCta() {
 
       {/* Centered CTA content */}
       <div className={`${wrap} relative z-10 flex flex-col items-center pt-16 pb-32 text-center sm:pt-20 sm:pb-36 md:pt-20 md:pb-36 lg:pt-24 lg:pb-40`}>
-        <p className={eyebrow}>Be a part of BUILD-VERSE 2026</p>
-        <h2 className={h2}>Your idea deserves a bigger stage.</h2>
-        <p className="mx-auto mt-3 max-w-xl text-violet-950/80">Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026.</p>
+        <p className={eyebrow}>{C.eventConcluded ? "BUILD-VERSE 2026 concluded" : "Be a part of BUILD-VERSE 2026"}</p>
+        <h2 className={h2}>{C.eventConcluded ? "Thank you for building with us." : "Your idea deserves a bigger stage."}</h2>
+        <p className="mx-auto mt-3 max-w-xl text-violet-950/80">{C.eventConcluded ? "Learn. Innovate. Pitch. Congratulations to every team that turned an idea into a real product." : "Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026."}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <RegisterButton />
+          {C.eventConcluded ? (
+            <a href="#winners" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
+          ) : (
+            <RegisterButton />
+          )}
           <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white sm:inline-flex">Explore the Event</a>
         </div>
       </div>

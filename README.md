@@ -61,6 +61,7 @@ by the **AWS Student Builders Group, Tulas University**.
 | Section | What it does |
 | --- | --- |
 | **Hero** | Event title, tagline, live registration countdown and call-to-action buttons |
+| **Winners** | Shown after the event: a "concluded successfully" panel and the winning teams with their members |
 | **About** | What BUILD-VERSE is, with the mascot artwork and three highlights |
 | **Event Flow** | The three phases (Learn, Innovate, Pitch), each tagged **At college** or **At home** |
 | **Timeline** | Day 1, Day 2 and results day as a "mission route": a three-phase strip, the two forms and live **Up next / Live now / Done** status |
@@ -155,6 +156,8 @@ Almost everything a visitor reads is edited in **one file**: [`config/buildverse
 | The three phases (place, time, summary) | `phases` |
 | Schedule (days, times, forms, badges) | `days[].steps[]` |
 | "Results announced" line | `resultsLine` |
+| Event concluded switch (hides registration, form buttons and the countdown, adds the Winners section) | `eventConcluded`, `concludedLine` |
+| Winning teams (team name, members with name, course and year; optional place, medal, project, track) | `winners` |
 | Innovation tracks and themes | `trackTheme`, `trackCategories` |
 | Rules and FAQs | `rules`, `faqs` |
 | Prize pool and judges | `prize`, `judges` |
