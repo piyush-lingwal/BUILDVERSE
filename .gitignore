@@ -12,3 +12,5 @@ next-env.d.ts
 *.log
 Thumbs.db
 Desktop.ini
+.kiro
+.git

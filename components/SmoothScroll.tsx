@@ -6,6 +6,69 @@ import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+/** Breathing room between the bottom of the sticky navbar and a section's heading (eyebrow). */
+const HEADING_GAP = 36;
+
+/**
+ * Where to scroll so the section's own content (its eyebrow and heading) sits just below the sticky navbar.
+ * Computed directly, so it ignores CSS scroll-margin / scroll-padding (those used to be added on top of the offset
+ * and made every jump land inside the previous section).
+ */
+function headingScrollTop(el: HTMLElement): number {
+  const navbar = document.querySelector("header");
+  const navbarHeight = navbar ? navbar.offsetHeight : 70;
+  const padTop = Number.parseFloat(getComputedStyle(el).paddingTop) || 0;
+  return Math.max(0, el.getBoundingClientRect().top + window.scrollY + padTop - navbarHeight - HEADING_GAP);
+}
+
+/**
+ * Touch / reduced-motion scrolling without Lenis. A hand-rolled animation instead of `behavior: "smooth"`: the browser
+ * can silently drop a long smooth scroll while the page is still settling, and this re-reads the target every frame,
+ * so late layout changes cannot leave the jump short. Any wheel, touch or key input cancels it.
+ */
+function nativeScrollTo(el: HTMLElement, reduced: boolean) {
+  const start = window.scrollY;
+  if (reduced) {
+    window.scrollTo({ top: headingScrollTop(el), behavior: "instant" });
+    return;
+  }
+  const duration = 650;
+  const t0 = performance.now();
+  let cancelled = false;
+  const cancel = () => { cancelled = true; };
+  const events = ["wheel", "touchstart", "keydown"] as const;
+  events.forEach((ev) => window.addEventListener(ev, cancel, { passive: true, once: true }));
+  const frame = (now: number) => {
+    if (cancelled) return;
+    const t = Math.min(1, (now - t0) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    window.scrollTo({ top: start + (headingScrollTop(el) - start) * eased, behavior: "instant" });
+    if (t < 1) requestAnimationFrame(frame);
+    else events.forEach((ev) => window.removeEventListener(ev, cancel));
+  };
+  requestAnimationFrame(frame);
+}
+
+/** Click handler for in-page links ('#id' or '/#id'): scrolls with `scrollTo` and updates the hash. */
+function makeAnchorHandler(scrollTo: (el: HTMLElement) => void) {
+  return (e: MouseEvent) => {
+    const link = (e.target as HTMLElement).closest("a");
+    const href = link?.getAttribute("href");
+    if (!href) return;
+    const hash = href.startsWith("/#") ? href.slice(1) : href.startsWith("#") ? href : null;
+    if (!hash || hash.length < 2) return;
+    try {
+      const el = document.querySelector<HTMLElement>(hash);
+      if (!el) return;
+      e.preventDefault();
+      scrollTo(el);
+      history.pushState(null, "", hash);
+    } catch {
+      // Ignore an invalid selector
+    }
+  };
+}
+
 export function SmoothScroll() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -15,7 +78,13 @@ export function SmoothScroll() {
     if (native) {
       const onLoad = () => ScrollTrigger.refresh();
       window.addEventListener("load", onLoad);
-      return () => window.removeEventListener("load", onLoad);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const onClick = makeAnchorHandler((el) => nativeScrollTo(el, reduced));
+      document.addEventListener("click", onClick);
+      return () => {
+        window.removeEventListener("load", onLoad);
+        document.removeEventListener("click", onClick);
+      };
     }
 
     const lenis = new Lenis({
@@ -45,31 +114,8 @@ export function SmoothScroll() {
     const handleLoad = () => ScrollTrigger.refresh();
     window.addEventListener("load", handleLoad);
 
-    // Intercept in-page hash links for fluid, smooth scrolling with navbar offset
-    // Handles both '#section' and '/#section' href formats
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = (e.target as HTMLElement).closest("a");
-      if (!target) return;
-      const href = target.getAttribute("href");
-      if (!href) return;
-      // Normalise '/#section' → '#section'
-      const hash = href.startsWith("/#") ? href.slice(1) : href.startsWith("#") ? href : null;
-      if (!hash || hash.length < 2) return;
-      try {
-        const targetElement = document.querySelector(hash);
-        if (targetElement) {
-          e.preventDefault();
-          // Measure the actual sticky header height at click time so the section
-          // lands precisely at the bottom edge of the navbar on any screen size.
-          const navbarEl = document.querySelector("header");
-          const navbarHeight = navbarEl ? navbarEl.offsetHeight : 70;
-          lenis.scrollTo(targetElement as HTMLElement, { offset: -navbarHeight });
-          history.pushState(null, "", hash);
-        }
-      } catch {
-        // Ignore invalid selector
-      }
-    };
+    // Intercept in-page hash links so every menu jump lands on the section's heading.
+    const handleAnchorClick = makeAnchorHandler((el) => lenis.scrollTo(headingScrollTop(el)));
 
     document.addEventListener("click", handleAnchorClick);
 

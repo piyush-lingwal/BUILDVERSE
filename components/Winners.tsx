@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Trophy, Users } from "lucide-react";
+import { ArrowRight, Gift, Trophy, Users } from "lucide-react";
+import { KiroLogo } from "./Logos";
 import { BUILDVERSE as C } from "@/config/buildverse";
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
@@ -57,6 +58,15 @@ export function Winners() {
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-violet-100/85 sm:text-base">
                   Two days of expert sessions, overnight building and final pitches. Thank you to every participant, speaker and mentor who made it happen.
                 </p>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                <p className="inline-flex items-center gap-2 rounded-full bg-white/90 py-1 pl-3 pr-2.5">
+                  <span className="font-tech text-[11px] font-bold uppercase tracking-[0.1em] text-violet-700">Rewards powered by</span>
+                  <KiroLogo className="h-4 w-auto object-contain" />
+                </p>
+                <a href="#rewards" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl bg-amber-300 px-5 py-2.5 text-sm font-bold text-violet-950 shadow-lg shadow-amber-400/20 transition hover:bg-amber-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200">
+                  <Gift className="h-4 w-4" aria-hidden />See what winners take home<ArrowRight className="h-4 w-4" aria-hidden />
+                </a>
+                </div>
               </div>
             </div>
 

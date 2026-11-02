@@ -80,3 +80,14 @@ test("concluded state: winners are well formed (empty is fine until they are ann
   const teams = BUILDVERSE.winners.map((w) => w.team);
   assert.equal(new Set(teams).size, teams.length, "no team is listed twice");
 });
+
+test("rewards: five positions, each with a reward, matching the winners order", () => {
+  const r = BUILDVERSE.rewards;
+  assert.equal(r.length, 5);
+  assert.ok(r.every((x) => x.position && (x.cashInr !== undefined || x.items.length > 0)));
+  assert.ok(BUILDVERSE.participantReward.length > 0);
+  assert.equal(BUILDVERSE.kiroCreditValueInr, 2000);
+  assert.ok(BUILDVERSE.voucherInfo.exams.length >= 1);
+  assert.ok(BUILDVERSE.voucherInfo.exams.every((e) => !e.badge || e.badge.startsWith("/buildverse/badges/")));
+  assert.ok(BUILDVERSE.rewards.filter((x) => x.vouchers).length === 3, "top three get vouchers");
+});

@@ -1,17 +1,19 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Trophy, Building2, Home as HomeIcon, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Banknote, Gift, Award, Cloud } from "lucide-react";
+import { ArrowRight, Trophy, Building2, Home as HomeIcon, BookOpen, Code2, Presentation, Leaf, HeartPulse, Cpu, Mail, Phone, MessageCircle, Award } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
 import { RegisterButton } from "./RegisterButton";
 import { Mascot } from "./Mascot";
 import { Countdown } from "./Countdown";
 import { SparkleCluster } from "./Decor";
-import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite, KiroLogo } from "./Logos";
+import { SbgLogo, BuildVerseLogo, UtkrishtLogo, UtkrishtLogoWhite, KiroLogo, KiroGhost } from "./Logos";
 
 const eyebrow = "font-tech text-xs font-medium uppercase tracking-[0.18em] text-violet-600 before:mr-2 before:text-violet-400 before:content-['//'] sm:text-sm";
 const h2 = "mt-2 font-serif italic text-4xl font-normal tracking-tight text-violet-950 sm:text-5xl lg:text-6xl";
 const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
+
+
 const card = "rounded-2xl border border-violet-100 bg-white shadow-sm";
 
 export function SectionDivider({ className = "" }: { className?: string }) {
@@ -43,20 +45,17 @@ export function Hero() {
       <div className={`${wrap} grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2`}>
         <div id="hero-content">
           {C.utkrisht.show && (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center sm:justify-start gap-3">
               <UtkrishtLogo className="h-20 w-auto" />
             </div>
           )}
-          <div className="-ml-2 max-w-[560px]">
-            <h1 className="mt-3"><BuildVerseLogo className="h-auto w-full drop-shadow-sm" /></h1>
+          <div className="mx-auto max-w-[560px] sm:mx-0 sm:-ml-2">
+            <h1 className="mt-3 flex justify-center sm:block">
+              <BuildVerseLogo className="mx-auto h-auto w-full drop-shadow-sm" />
+            </h1>
             <p className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
             <div className="mt-3 flex items-center justify-center">
-              <div className="inline-flex items-center gap-1 rounded-full border border-violet-200/90 bg-white/85 pl-3.5 pr-2.5 py-1 shadow-xs shadow-violet-500/5 backdrop-blur-sm">
-                <span className="font-tech text-[11px] sm:text-xs font-bold uppercase tracking-[0.1em] text-violet-600">
-                  Powered by
-                </span>
-                <KiroLogo className="h-4.5 sm:h-5.5 w-auto object-contain" />
-              </div>
+              <PoweredByKiro size="lg" />
             </div>
           </div>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
@@ -268,57 +267,6 @@ export function Rules() {
   );
 }
 
-const PRIZE_CARDS = [
-  {
-    title: "Guaranteed Cash Prizes",
-    badge: "Direct Cash",
-    perk: "Exciting cash prizes awarded directly to top winning teams and track champions.",
-    highlight: "Winners & Runners-up",
-    icon: Banknote,
-    color: "from-amber-500/10 via-amber-50/50 to-transparent",
-    iconBg: "bg-amber-100 text-amber-700 border-amber-200",
-    badgeStyle: "bg-amber-50 text-amber-700 border-amber-200",
-    glow: "hover:border-amber-300",
-    accentDot: "bg-amber-500",
-  },
-  {
-    title: "AWS Swags",
-    badge: "Official Gear",
-    perk: "Official AWS branded swags from Amazon.",
-    highlight: "Participants & Finalists",
-    icon: Gift,
-    color: "from-violet-500/10 via-violet-50/50 to-transparent",
-    iconBg: "bg-violet-100 text-violet-700 border-violet-200",
-    badgeStyle: "bg-violet-50 text-violet-700 border-violet-200",
-    glow: "hover:border-violet-300",
-    accentDot: "bg-violet-500",
-  },
-  {
-    title: "AWS Certification Vouchers",
-    badge: "Global Certs",
-    perk: "Sponsored exam vouchers to earn globally recognized industry AWS Cloud Certifications.",
-    highlight: "Skill Validation",
-    icon: Award,
-    color: "from-blue-500/10 via-blue-50/50 to-transparent",
-    iconBg: "bg-blue-100 text-blue-700 border-blue-200",
-    badgeStyle: "bg-blue-50 text-blue-700 border-blue-200",
-    glow: "hover:border-blue-300",
-    accentDot: "bg-blue-500",
-  },
-  {
-    title: "AWS Cloud Credits",
-    badge: "Cloud Infra",
-    perk: "Free AWS credits to build, deploy, test, and scale cloud architectures and AI agents.",
-    highlight: "Build on AWS",
-    icon: Cloud,
-    color: "from-orange-500/10 via-orange-50/50 to-transparent",
-    iconBg: "bg-orange-100 text-orange-700 border-orange-200",
-    badgeStyle: "bg-orange-50 text-orange-700 border-orange-200",
-    glow: "hover:border-orange-300",
-    accentDot: "bg-orange-500",
-  },
-];
-
 export function Prizes() {
   return (
     <section id="prizes" className="scroll-mt-20 py-16">
@@ -326,6 +274,7 @@ export function Prizes() {
         <div id="prizes-info">
           <p className={eyebrow}>Compete &amp; Win</p>
           <h2 className={h2}>Prizes &amp; Rewards</h2>
+          <PoweredByKiro className="mt-3" />
           <div className="mt-4">
             {C.prize.art ? (
               <Mascot name="prizeAmount" sizes="(min-width: 1024px) 520px, 90vw" className="-ml-3 mt-1 h-auto w-full max-w-[460px]" />
@@ -351,53 +300,87 @@ export function Prizes() {
               className="h-auto w-full"
             />
           </div>
+          {/* KIRO ghost as the second mascot, next to the AWS trophy mascot */}
+          <KiroGhost className="kiro-float pointer-events-none absolute -bottom-3 right-0 z-20 h-20 w-20 drop-shadow-[0_8px_14px_rgba(76,29,149,0.25)] sm:-right-2 sm:h-28 sm:w-28" />
         </div>
       </div>
 
-      {/* Prize Breakdown Cards */}
-      <div className={`${wrap} mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4`}>
-        {PRIZE_CARDS.map((card) => {
-          const Icon = card.icon;
-          return (
-            <div
-              key={card.title}
-              className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-violet-100 bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${card.glow}`}
-            >
-              {/* Subtle top background tint */}
-              <div
-                className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${card.color} opacity-60 transition-opacity group-hover:opacity-100`}
-                aria-hidden="true"
-              />
-
-              <div className="relative">
-                <div className="flex items-center justify-between">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl border ${card.iconBg} shadow-xs transition-transform duration-300 group-hover:scale-110`}>
-                    <Icon className="h-6 w-6" aria-hidden="true" />
-                  </div>
-                  <span className={`rounded-full border px-2.5 py-0.5 font-tech text-[10px] font-bold uppercase tracking-wider ${card.badgeStyle}`}>
-                    {card.badge}
-                  </span>
-                </div>
-
-                <h3 className="mt-4 font-poppins text-base font-bold text-violet-950 sm:text-lg">
-                  {card.title}
-                </h3>
-                <p className="mt-2 font-poppins text-xs font-normal leading-relaxed text-violet-950/75">
-                  {card.perk}
-                </p>
-              </div>
-
-              <div className="relative mt-4 border-t border-violet-100/70 pt-3">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-violet-900">
-                  <span className={`h-1.5 w-1.5 rounded-full ${card.accentDot}`} />
-                  <span className="font-poppins">{card.highlight}</span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <RewardsByPosition />
     </section>
+  );
+}
+
+/** "Powered by KIRO" pill. Works on light and dark backgrounds because the logo has a white fill. */
+function PoweredByKiro({ className = "", size = "md" }: { className?: string; size?: "md" | "lg" }) {
+  const isLg = size === "lg";
+  return (
+    <div
+      className={`inline-flex items-center gap-1.5 rounded-full border border-violet-200/90 bg-white/90 shadow-xs shadow-violet-500/5 backdrop-blur-sm ${
+        isLg ? "pl-4 pr-3 py-1.5" : "pl-3.5 pr-2.5 py-1"
+      } ${className}`}
+    >
+      <span className={`font-tech font-bold uppercase tracking-[0.1em] text-violet-600 ${isLg ? "text-[11px] sm:text-xs" : "text-[10px] sm:text-[11px]"}`}>
+        Powered by
+      </span>
+      <KiroLogo className={`${isLg ? "h-6 sm:h-7" : "h-5 sm:h-6"} w-auto object-contain`} />
+    </div>
+  );
+}
+
+const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+function RewardsByPosition() {
+  return (
+    <div id="rewards" className={`${wrap} mt-12 scroll-mt-24`}>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className={eyebrow}>Rewards by position</p>
+          <h3 className="mt-2 font-serif text-3xl italic tracking-tight text-violet-950 sm:text-4xl">What the top five teams take home</h3>
+        </div>
+        <PoweredByKiro />
+      </div>
+
+      <ol className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        {C.rewards.map((r, i) => (
+          <li
+            key={r.position}
+            className={`relative overflow-hidden rounded-2xl border bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${i === 0 ? "border-amber-300" : "border-violet-100"} ${i > 2 ? "lg:col-span-3" : "lg:col-span-2"}`}
+          >
+            <p className="font-tech text-xs font-bold uppercase tracking-[0.16em] text-violet-600">{r.position}</p>
+            {r.cashInr !== undefined && <p className="mt-2 font-poppins text-3xl font-extrabold text-violet-950">{inr(r.cashInr)}<span className="ml-1 text-sm font-semibold text-violet-950/60">cash</span></p>}
+            <ul className="mt-3 space-y-2 text-sm text-violet-950/85">
+              {r.vouchers && (
+                <li>
+                  <div className="flex gap-2"><Award className="mt-0.5 h-4 w-4 shrink-0 text-violet-500" aria-hidden />{C.voucherInfo.summary}</div>
+                  <ul className="mt-3 flex flex-wrap items-center gap-3 pl-6">
+                    {C.voucherInfo.exams.map((e) =>
+                      e.badge ? (
+                        <li key={e.name}>
+                          <Image src={e.badge} alt={e.name} title={e.name} width={120} height={120} sizes="72px" className="h-[72px] w-[72px] object-contain drop-shadow-sm" />
+                        </li>
+                      ) : (
+                        <li key={e.name} className="rounded-full border border-violet-200 bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-900">{e.name}</li>
+                      ),
+                    )}
+                  </ul>
+                </li>
+              )}
+              {r.items.map((it) => (
+                <li key={it} className="flex gap-2"><Award className="mt-0.5 h-4 w-4 shrink-0 text-violet-500" aria-hidden />{it}</li>
+              ))}
+              {r.kiroCredits && (
+                <li className="flex gap-2"><KiroGhost className="mt-0.5 h-4 w-4 shrink-0" /><span>1,000 KIRO credits per team member<span className="block text-xs text-violet-950/60">worth {inr(C.kiroCreditValueInr)} per member</span></span></li>
+              )}
+            </ul>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50/70 p-4">
+        <KiroGhost className="kiro-float h-12 w-12 shrink-0" />
+        <p className="text-sm font-medium text-violet-950 sm:text-base">{C.participantReward}</p>
+      </div>
+    </div>
   );
 }
 
@@ -527,6 +510,7 @@ export function FinalCta() {
           )}
           <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white sm:inline-flex">Explore the Event</a>
         </div>
+        <PoweredByKiro className="mt-5" />
       </div>
 
       {/* Mascot: moved down & to the left (rocky cliff & mountain trees) */}

@@ -20,6 +20,17 @@ export interface BuildVerseConfig {
   prize: { headline: string; totalInr: number | null; art: boolean; details: string; items: string[] };
   /** Empty array => "To be revealed soon" is shown instead. */
   judges: { name: string; title: string }[];
+  /** What each finishing position receives (from the organisers' rewards sheet). `kiroCredits` is per team member. */
+  rewards: { position: string; cashInr?: number; vouchers?: boolean; items: string[]; kiroCredits: boolean }[];
+  /**
+   * The AWS exam vouchers given to positions with `vouchers: true`. `badge` is an optional image path under /public
+   * (for example "/buildverse/badges/cloud-practitioner.png"). The chip shows without a badge until you add the file.
+   */
+  voucherInfo: { summary: string; exams: { name: string; badge?: string }[] };
+  /** Line shown for every participant. */
+  participantReward: string;
+  /** Value of the 1,000 KIRO credits each team member of a ranked team receives. */
+  kiroCreditValueInr: number;
   /** The three phases. The main idea of the event: Learn at college, Build at home, Pitch at college. */
   phases: {
     n: 1 | 2 | 3;
@@ -142,15 +153,30 @@ export const BUILDVERSE: BuildVerseConfig = {
     headline: "₹1,50,000+",
     totalInr: 150000,
     art: true,
-    // TODO(organisers): replace with the confirmed breakdown before launch.
-    details: "Cash rewards and other prizes. The final allocation and eligibility conditions will be confirmed by the organising team.",
+    details: "Cash prizes, AWS Certification vouchers, AWS credits and KIRO credits for the top five teams, plus KIRO credits and AWS goodies for every participant.",
     items: [],
   },
   judges: [],
+  rewards: [
+    { position: "1st Position", cashInr: 5000, vouchers: true, items: [], kiroCredits: true },
+    { position: "2nd Position", cashInr: 3000, vouchers: true, items: [], kiroCredits: true },
+    { position: "3rd Position", cashInr: 2000, vouchers: true, items: [], kiroCredits: true },
+    { position: "4th Position", items: ["AWS Credits worth ₹2,500"], kiroCredits: true },
+    { position: "5th Position", items: ["AWS Credits worth ₹2,500"], kiroCredits: true },
+  ],
+  voucherInfo: {
+    summary: "2 AWS Certification Vouchers worth ₹20,000 ($100 each)",
+    exams: [
+      { name: "AWS Certified Cloud Practitioner", badge: "/buildverse/badges/cloud-practitioner.webp" },
+      { name: "AWS Certified AI Practitioner", badge: "/buildverse/badges/ai-practitioner.webp" },
+    ],
+  },
+  kiroCreditValueInr: 2000,
+  participantReward: "KIRO Credits and AWS goodies worth ₹50,000+ for all participants",
   phases: [
     {
       n: 1, name: "Learn", place: "college", placeLabel: "At college", when: "29 Oct · 11:30 AM – 9:00 PM",
-      summary: "Attend expert sessions in-person at the New Seminar Hall and online in the evening with industry leaders.",
+      summary: "Attend expert sessions at the New Seminar Hall and online in the evening with industry leaders.",
     },
     {
       n: 2, name: "Innovate", place: "home", placeLabel: "At home", when: "29 Oct evening to 30 Oct",
@@ -233,7 +259,7 @@ export const BUILDVERSE: BuildVerseConfig = {
           place: { kind: "college", label: "New Seminar Hall" },
           time: "11:30 AM – 9:00 PM",
           title: "Learn: Expert Workshops",
-          description: "Three expert sessions across the day — one in-person and two online. Students must be present at the New Seminar Hall for the first session.",
+          description: "Three expert sessions across the day — one hybrid and two online. Students must be present at the New Seminar Hall for the first session.",
           badge: { text: "Hybrid · be present for Session 1", tone: "neutral" },
           start: "2026-10-29T11:30:00+05:30",
           end: "2026-10-29T21:00:00+05:30",
@@ -476,7 +502,7 @@ export const BUILDVERSE: BuildVerseConfig = {
   ],
   faqs: [
     { q: "Who can participate?", a: "Any student of Tulas University. Register as a solo participant or a team of up to 4." },
-    { q: "Is the event online or offline?", a: "Both. Phase 1 (Learn) has an in-person session at college followed by evening online expert sessions. Phase 2 (Innovate) is building your prototype from home. Phase 3 (Pitch) is in-person at college. In short: Learn at college, Build at home, Pitch at college." },
+    { q: "Is the event online or offline?", a: "Both. Phase 1 (Learn) has an hybrid session at college followed by evening online expert sessions. Phase 2 (Innovate) is building your prototype from home. Phase 3 (Pitch) is in-person at college. In short: Learn at college, Build at home, Pitch at college." },
     { q: "Do I have to be at college on 29 October?", a: "Yes. Students must be present at the New Seminar Hall for Session 1 (11:30 AM – 12:30 PM). The evening expert sessions (7:00 PM – 9:00 PM) take place online." },
     { q: "Where do we build our project?", a: "At home. After submitting your idea in Form 01 at 6:00 PM, you and your team work on your prototype and product from home throughout the night." },
     { q: "What are Form 01 and Form 02?", a: "Form 01 is the idea submission, shared around 6:00 PM on 29 October. Form 02 is the progress report, which opens at midnight on the night of 29–30 October. Both form links become clickable directly on this website as soon as their respective round starts." },

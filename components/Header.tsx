@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BUILDVERSE as C } from "@/config/buildverse";
@@ -26,8 +26,59 @@ export const NAV_ITEMS: readonly { label: string; id: string }[] = C.eventConclu
   ? [BASE_NAV[0], { label: "Winners", id: "winners" }, ...BASE_NAV.slice(1)]
   : BASE_NAV;
 
+/**
+ * A glass pill that slides (with a little overshoot) under the active tab, so moving to the next section reads as
+ * one continuous motion instead of one tab switching off and another switching on.
+ */
+function useSlidingPill(container: React.RefObject<HTMLElement | null>, activeId: string) {
+  const [pill, setPill] = useState<{ x: number; w: number; show: boolean; instant: boolean }>({ x: 0, w: 0, show: false, instant: true });
+  const shownBefore = useRef(false);
+
+  const measure = useCallback(() => {
+    const nav = container.current;
+    const el = activeId && nav ? nav.querySelector<HTMLElement>(`[data-nav="${activeId}"]`) : null;
+    if (!nav || !el || el.offsetWidth === 0) {
+      shownBefore.current = false;
+      setPill((p) => (p.show ? { ...p, show: false } : p));
+      return;
+    }
+    // First appearance snaps into place; later moves animate.
+    const instant = !shownBefore.current;
+    shownBefore.current = true;
+    setPill({ x: el.offsetLeft, w: el.offsetWidth, show: true, instant });
+  }, [container, activeId]);
+
+  useLayoutEffect(() => { measure(); }, [measure]);
+
+  useEffect(() => {
+    const nav = container.current;
+    if (!nav || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, [container, measure]);
+
+  return pill;
+}
+
+function NavPill({ pill, inset = "inset-y-0" }: { pill: { x: number; w: number; show: boolean; instant: boolean }; inset?: string }) {
+  return (
+    <span
+      aria-hidden
+      data-instant={pill.instant ? "" : undefined}
+      className={`glass-pill pointer-events-none absolute left-0 ${inset}`}
+      style={{ width: pill.w, transform: `translateX(${pill.x}px)`, opacity: pill.show ? 1 : 0 }}
+    />
+  );
+}
+
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("");
+  // While a menu click is scrolling the page, hold the clicked tab active so the pill goes straight there
+  // instead of flickering through every section it passes.
+  const lock = useRef<{ id: string; timer: number } | null>(null);
+  const desktopNav = useRef<HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
   const open = useRegistrationOpen();
   const now = useCurrentTime();
   const form2Open = now !== 0 && isFormClickable(now, C.forms.progressReport.opensAt);
@@ -46,7 +97,7 @@ export function Header() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && !lock.current) {
             setActiveSection((prev) => (prev !== entry.target.id ? entry.target.id : prev));
           }
         });
@@ -61,18 +112,37 @@ export function Header() {
 
     // Clear active section if scrolled to top
     const handleScroll = () => {
+      setScrolled((prev) => { const next = window.scrollY > 8; return prev === next ? prev : next; });
+      if (lock.current) {
+        // The jump is over once scrolling has been quiet for a moment.
+        window.clearTimeout(lock.current.timer);
+        lock.current.timer = window.setTimeout(() => { lock.current = null; }, 160);
+        return;
+      }
       if (window.scrollY < 80) {
         setActiveSection((prev) => (prev !== "" ? "" : prev));
       }
     };
+    handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
+      if (lock.current) window.clearTimeout(lock.current.timer);
     };
   }, []);
+
+  const goTo = (id: string) => {
+    if (lock.current) window.clearTimeout(lock.current.timer);
+    // The timer also releases the lock when the click does not scroll at all (already at the section).
+    lock.current = { id, timer: window.setTimeout(() => { lock.current = null; }, 400) };
+    setActiveSection(id);
+  };
+
+  const desktopPill = useSlidingPill(desktopNav, activeSection);
+  const mobilePill = useSlidingPill(mobileNav, activeSection);
 
   // The mobile tab strip scrolls sideways. Keep the active tab centred in it so it never hides off-screen.
   // Only the strip is scrolled (never the page), and only by its own scrollLeft.
@@ -86,25 +156,26 @@ export function Header() {
   }, [activeSection]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/85 backdrop-blur-md">
+    <header data-scrolled={scrolled ? "" : undefined} className="liquid-glass sticky top-0 z-40">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-3 shrink-0" aria-label="BUILD-VERSE 2026 home">
           <SbgLogo className="h-11 sm:h-12" />
         </Link>
 
         {/* Desktop Nav with active section highlighting */}
-        <nav aria-label="Sections" className="hidden items-center gap-1 xl:gap-1.5 min-[1180px]:flex">
+        <nav ref={desktopNav} aria-label="Sections" className="relative hidden items-center gap-1 xl:gap-1.5 min-[1180px]:flex">
+          <NavPill pill={desktopPill} />
           {NAV_ITEMS.map(({ label, id }) => {
             const isActive = activeSection === id;
             return (
               <a
                 key={id}
                 href={`#${id}`}
+                data-nav={id}
+                onClick={() => goTo(id)}
                 aria-current={isActive ? "location" : undefined}
-                className={`whitespace-nowrap rounded-xl px-2.5 xl:px-3 py-1.5 text-[13px] xl:text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "border border-violet-200/90 bg-violet-100 font-semibold text-violet-900 shadow-xs"
-                    : "text-violet-900/75 hover:bg-violet-50 hover:text-violet-950"
+                className={`relative z-10 whitespace-nowrap rounded-xl px-2.5 xl:px-3 py-1.5 text-[13px] xl:text-sm font-medium transition-colors duration-300 ${
+                  isActive ? "text-violet-950" : "text-violet-900 hover:bg-white/50 hover:text-violet-950"
                 }`}
               >
                 {label}
@@ -167,7 +238,8 @@ export function Header() {
       </div>
 
       {/* Mobile Scrollable Nav with active section highlighting */}
-      <nav ref={mobileNav} aria-label="Sections (mobile)" className="no-scrollbar relative flex gap-1 overflow-x-auto border-t border-violet-100 px-2 py-1 min-[1180px]:hidden">
+      <nav ref={mobileNav} aria-label="Sections (mobile)" className="no-scrollbar glass-strip relative flex gap-1 overflow-x-auto px-2 py-1 min-[1180px]:hidden">
+        <NavPill pill={mobilePill} inset="inset-y-1" />
         {NAV_ITEMS.map(({ label, id }) => {
           const isActive = activeSection === id;
           return (
@@ -175,11 +247,10 @@ export function Header() {
               key={id}
               href={`#${id}`}
               data-nav={id}
+              onClick={() => goTo(id)}
               aria-current={isActive ? "location" : undefined}
-              className={`flex min-h-10 shrink-0 items-center rounded-lg px-3 py-1 text-sm font-medium transition-colors ${
-                isActive
-                  ? "border border-violet-200/90 bg-violet-100 font-semibold text-violet-900 shadow-xs"
-                  : "text-violet-900/75 active:text-violet-950"
+              className={`relative z-10 flex min-h-10 shrink-0 items-center rounded-lg px-3 py-1 text-sm font-medium transition-colors duration-300 ${
+                isActive ? "text-violet-950" : "text-violet-900 active:text-violet-950"
               }`}
             >
               {label}

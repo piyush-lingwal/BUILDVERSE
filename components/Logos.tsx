@@ -62,3 +62,8 @@ export function KiroLogo({ className = "" }: { className?: string }) {
     />
   );
 }
+
+/** The solo KIRO ghost mark, for small badges and list bullets. */
+export function KiroGhost({ className = "" }: { className?: string }) {
+  return <Image src="/buildverse/kiro-ghost.webp" alt="" width={240} height={240} sizes="48px" className={className} />;
+}
