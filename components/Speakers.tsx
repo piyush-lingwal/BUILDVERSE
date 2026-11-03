@@ -72,7 +72,7 @@ export function Speakers() {
               className="speaker-card group relative flex flex-col overflow-hidden rounded-3xl border border-violet-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-violet-300 hover:shadow-xl hover:shadow-violet-950/10"
             >
               {/* Poster Image */}
-              <div className="relative aspect-[1050/1492] w-full overflow-hidden bg-violet-950/5">
+              <div data-speaker-poster="" className="relative aspect-[1050/1492] w-full overflow-hidden bg-violet-950/5">
                 <Image
                   src={sp.posterSrc}
                   alt={sp.alt}
@@ -85,7 +85,7 @@ export function Speakers() {
               </div>
 
               {/* Card Meta & Links */}
-              <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
+              <div data-speaker-meta="" className="flex flex-1 flex-col justify-between p-5 sm:p-6">
                 <div>
                   <h3 className="font-poppins text-lg font-bold text-violet-950 sm:text-xl group-hover:text-violet-700 transition-colors">
                     {sp.name}

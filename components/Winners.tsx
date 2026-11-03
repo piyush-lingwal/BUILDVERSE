@@ -34,14 +34,15 @@ export function Winners() {
         <h2 className={h2}>{winners.length > 0 ? "Meet the winning teams." : "Thank you for building with us."}</h2>
         <p className="mt-3 max-w-2xl text-violet-950/75">{C.concludedLine}</p>
 
-        <div className="relative mt-10 overflow-hidden rounded-[2rem] border border-violet-900/40 bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-5 text-white shadow-2xl shadow-violet-950/30 sm:p-8 lg:p-10">
+        <div data-winners-panel="" className="relative mt-10 overflow-hidden rounded-[2rem] border border-violet-900/40 bg-gradient-to-br from-violet-950 via-indigo-950 to-violet-900 p-5 text-white shadow-2xl shadow-violet-950/30 sm:p-8 lg:p-10">
           <div aria-hidden className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full bg-amber-400/20 blur-3xl" />
           <div aria-hidden className="pointer-events-none absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-fuchsia-500/15 blur-3xl" />
           <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(white_1px,transparent_1px),linear-gradient(90deg,white_1px,transparent_1px)] [background-size:44px_44px]" />
 
           <div className="relative">
-            <div className="flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left">
+            <div data-winners-head="" className="flex flex-col items-center gap-5 text-center sm:flex-row sm:text-left">
               <Image
+                data-winners-trophy=""
                 src="/buildverse/trophy-gold.webp"
                 alt=""
                 width={520}
@@ -63,7 +64,7 @@ export function Winners() {
                   <span className="font-tech text-[11px] font-bold uppercase tracking-[0.1em] text-violet-700">Rewards powered by</span>
                   <KiroLogo className="h-4 w-auto object-contain" />
                 </p>
-                <a href="#rewards" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl bg-amber-300 px-5 py-2.5 text-sm font-bold text-violet-950 shadow-lg shadow-amber-400/20 transition hover:bg-amber-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200">
+                <a href="#rewards" data-magnetic="" className="inline-flex w-full items-center justify-center gap-2 sm:w-auto rounded-xl bg-amber-300 px-5 py-2.5 text-sm font-bold text-violet-950 shadow-lg shadow-amber-400/20 transition hover:bg-amber-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200">
                   <Gift className="h-4 w-4" aria-hidden />See what winners take home<ArrowRight className="h-4 w-4" aria-hidden />
                 </a>
                 </div>
@@ -73,7 +74,7 @@ export function Winners() {
             {winners.length > 0 ? (
               <ol aria-label="Winning teams" className="mt-8 flex flex-wrap justify-center gap-4">
                 {winners.map((w) => (
-                  <li key={w.team} className={`w-full rounded-2xl border p-5 backdrop-blur-sm sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)] ${CARD[w.medal ?? (w.place ? "plain" : "default")]}`}>
+                  <li key={w.team} data-tilt="" data-winner-card="" className={`w-full rounded-2xl border p-5 backdrop-blur-sm sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.7rem)] ${CARD[w.medal ?? (w.place ? "plain" : "default")]}`}>
                     <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${PILL[w.medal ?? (w.place ? "plain" : "default")]}`}>
                       <Trophy className="h-3.5 w-3.5" aria-hidden />{w.place ?? "Winning Team"}
                     </span>

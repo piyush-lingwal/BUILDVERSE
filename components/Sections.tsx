@@ -41,53 +41,55 @@ export { Header } from "./Header";
 
 export function Hero() {
   return (
-    <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-violet-50 via-white to-[#FAF8FF]">
+    <section id="hero" className="relative isolate overflow-hidden bg-gradient-to-b from-violet-50 via-white to-[#FAF8FF]">
+      {/* Soft light that follows the pointer on desktop (moved by GSAP). Decorative only. */}
+      <div data-hero-glow aria-hidden="true" className="pointer-events-none absolute left-0 top-0 -z-10 h-[34rem] w-[34rem] rounded-full bg-violet-300/30 opacity-0 blur-3xl" />
       <div className={`${wrap} grid items-center gap-8 py-12 sm:py-16 lg:grid-cols-2`}>
         <div id="hero-content">
           {C.utkrisht.show && (
-            <div className="flex items-center justify-center sm:justify-start gap-3">
+            <div data-intro="" className="flex items-center justify-center sm:justify-start gap-3">
               <UtkrishtLogo className="h-20 w-auto" />
             </div>
           )}
           <div className="mx-auto max-w-[560px] sm:mx-0 sm:-ml-2">
-            <h1 className="mt-3 flex justify-center sm:block">
+            <h1 data-intro="lcp" className="mt-3 flex justify-center sm:block">
               <BuildVerseLogo className="mx-auto h-auto w-full drop-shadow-sm" />
             </h1>
-            <p className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
-            <div className="mt-3 flex items-center justify-center">
+            <p data-intro="" data-hero-tagline="" className="mt-3 text-center font-tech text-base font-bold uppercase tracking-[0.14em] text-violet-700 sm:text-xl">{C.tagline}</p>
+            <div data-intro="" className="mt-3 flex items-center justify-center">
               <PoweredByKiro size="lg" />
             </div>
           </div>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
+          <p data-intro="" data-hero-lead="" className="mt-5 max-w-xl text-base leading-relaxed text-violet-950/80">
             {C.eventConcluded
               ? `A hands-on innovation event by the ${C.organiser}. Students learned modern development workflows, built real products and pitched their ideas to a panel of judges.`
               : `A hands-on innovation event by the ${C.organiser}. Learn modern development workflows, build a real product, and pitch your idea to a panel of judges.`}
           </p>
           {C.eventConcluded ? (
             <>
-              <div className="mt-6 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
+              <div data-intro="" data-hero-status="" className="mt-6 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
                 <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700"><Trophy className="h-5 w-5" aria-hidden /></span>
                 <div>
                   <p className="font-poppins font-bold text-emerald-900">Event concluded successfully</p>
                   <p className="mt-0.5 text-sm text-emerald-900/80">Thank you to every participant, speaker and mentor. Results were announced on 31 October.</p>
                 </div>
               </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#winners" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
-                <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
+              <div data-intro="" data-hero-actions="" className="mt-6 flex flex-wrap gap-3">
+                <a href="#winners" data-magnetic="" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
+                <a href="#about" data-magnetic="" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
               </div>
             </>
           ) : (
             <>
-              <div className="mt-6"><Countdown deadline={C.registrationDeadline} /></div>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div data-intro="" className="mt-6"><Countdown deadline={C.registrationDeadline} /></div>
+              <div data-intro="" data-hero-actions="" className="mt-6 flex flex-wrap gap-3">
                 <RegisterButton />
-                <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
+                <a href="#about" data-magnetic="" className="hidden items-center rounded-xl border border-violet-300 bg-white px-6 py-3 font-semibold text-violet-800 hover:bg-violet-50 sm:inline-flex">Explore the Event</a>
               </div>
             </>
           )}
         </div>
-        <div id="hero-mascot-wrap" className="relative mx-auto w-full max-w-xl">
+        <div id="hero-mascot-wrap" data-intro="lcp" className="relative mx-auto w-full max-w-xl">
           <div id="hero-mascot" className="relative z-10 w-full">
             <Mascot
               name="hero"
@@ -159,20 +161,21 @@ export function Flow() {
         <p className={eyebrow}>Event flow</p>
         <h2 className={h2}>Learn. Innovate. Pitch.</h2>
         <p className="mt-3 text-violet-950/70">Learn at college, build at home, pitch at college. A complete journey from learning to building and finally showcasing your ideas.</p>
-        <div className="mt-8 grid items-center gap-3 sm:gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
+        <div data-flow-stage="" className="mt-8 grid items-center gap-3 sm:gap-4 md:grid-cols-[1fr_auto_1fr_auto_1fr]">
           {steps.map(([n, ph], i) => (
             <Fragment key={n}>
               <div className={`${card} flow-card group relative flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:border-violet-200 hover:shadow-md`}>
                 {/* Large outlined step number in top-right background */}
                 <span
                   aria-hidden="true"
+                  data-flow-num=""
                   className="pointer-events-none absolute -top-1 right-3 select-none text-7xl font-black tracking-tighter text-transparent leading-none transition-all duration-300 group-hover:scale-105 group-hover:[-webkit-text-stroke:1.5px_rgba(124,58,237,0.6)] sm:text-8xl [-webkit-text-stroke:1.5px_rgba(124,58,237,0.32)]"
                 >
                   {n}
                 </span>
 
                 <div className="relative z-10 flex h-full flex-col">
-                  <div className="relative mx-auto -mt-2 flex w-full flex-col items-center">
+                  <div data-flow-art="" className="relative mx-auto -mt-2 flex w-full flex-col items-center">
                     <Mascot
                       name={ART[ph.n]}
                       sizes="(min-width: 768px) 300px, 70vw"
@@ -184,12 +187,12 @@ export function Flow() {
                       className="pointer-events-none -mt-3.5 h-3 w-36 rounded-[100%] bg-violet-950/20 blur-md"
                     />
                   </div>
-                  <h3 className="mt-4 text-xl font-medium text-violet-950">{ph.name}</h3>
-                  <span className={`mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${ph.place === "home" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-violet-200 bg-violet-50 text-violet-800"}`}>
+                  <h3 data-flow-text="" className="mt-4 text-xl font-medium text-violet-950">{ph.name}</h3>
+                  <span data-flow-text="" className={`mt-2 inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${ph.place === "home" ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-violet-200 bg-violet-50 text-violet-800"}`}>
                     {ph.place === "home" ? <HomeIcon className="h-3.5 w-3.5" aria-hidden /> : <Building2 className="h-3.5 w-3.5" aria-hidden />}{ph.placeLabel}
                   </span>
-                  <p className="mt-1.5 font-tech text-xs font-bold uppercase tracking-wider text-violet-600">{ph.when}</p>
-                  <p className="mt-2 text-violet-950/75">{ph.summary}</p>
+                  <p data-flow-text="" className="mt-1.5 font-tech text-xs font-bold uppercase tracking-wider text-violet-600">{ph.when}</p>
+                  <p data-flow-text="" className="mt-2 text-violet-950/75">{ph.summary}</p>
                 </div>
               </div>
               {i < steps.length - 1 && (
@@ -226,14 +229,14 @@ export function Rules() {
 
         {/* Detailed guidelines list with mascot */}
         <div className="mt-8 grid items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
-          <div className="rounded-3xl border border-violet-100/90 bg-white/90 p-6 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.06)] sm:p-8">
+          <div data-rules-panel="" className="rounded-3xl border border-violet-100/90 bg-white/90 p-6 shadow-[0_4px_24px_-6px_rgba(46,16,101,0.06)] sm:p-8">
             <div className="mb-5 flex items-center justify-between border-b border-violet-100/80 pb-4">
               <div>
                 <h3 className="font-poppins text-xl font-bold text-violet-950">Event Guidelines</h3>
                 <p className="text-xs font-medium text-violet-950/60">Official competition code &amp; submission standards</p>
               </div>
               <span className="rounded-md border border-violet-200 bg-violet-100/80 px-2.5 py-1 font-tech text-xs font-semibold text-violet-700">
-                {C.rules.length} Rules
+                <span data-count="">{C.rules.length}</span> Rules
               </span>
             </div>
             <ol className="divide-y divide-violet-100/70">
@@ -275,7 +278,7 @@ export function Prizes() {
           <p className={eyebrow}>Compete &amp; Win</p>
           <h2 className={h2}>Prizes &amp; Rewards</h2>
           <PoweredByKiro className="mt-3" />
-          <div className="mt-4">
+          <div data-prize-art="" className="mt-4">
             {C.prize.art ? (
               <Mascot name="prizeAmount" sizes="(min-width: 1024px) 520px, 90vw" className="-ml-3 mt-1 h-auto w-full max-w-[460px]" />
             ) : (
@@ -315,6 +318,7 @@ function PoweredByKiro({ className = "", size = "md" }: { className?: string; si
   const isLg = size === "lg";
   return (
     <div
+      data-kiro-pill=""
       className={`inline-flex items-center gap-1.5 rounded-full border border-violet-200/90 bg-white/90 shadow-xs shadow-violet-500/5 backdrop-blur-sm ${
         isLg ? "pl-4 pr-3 py-1.5" : "pl-3.5 pr-2.5 py-1"
       } ${className}`}
@@ -344,10 +348,12 @@ function RewardsByPosition() {
         {C.rewards.map((r, i) => (
           <li
             key={r.position}
+            data-tilt=""
+            data-reward-card=""
             className={`relative overflow-hidden rounded-2xl border bg-white p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${i === 0 ? "border-amber-300" : "border-violet-100"} ${i > 2 ? "lg:col-span-3" : "lg:col-span-2"}`}
           >
             <p className="font-tech text-xs font-bold uppercase tracking-[0.16em] text-violet-600">{r.position}</p>
-            {r.cashInr !== undefined && <p className="mt-2 font-poppins text-3xl font-extrabold text-violet-950">{inr(r.cashInr)}<span className="ml-1 text-sm font-semibold text-violet-950/60">cash</span></p>}
+            {r.cashInr !== undefined && <p className="mt-2 font-poppins text-3xl font-extrabold text-violet-950"><span data-count="inr">{inr(r.cashInr)}</span><span className="ml-1 text-sm font-semibold text-violet-950/60">cash</span></p>}
             <ul className="mt-3 space-y-2 text-sm text-violet-950/85">
               {r.vouchers && (
                 <li>
@@ -376,7 +382,7 @@ function RewardsByPosition() {
         ))}
       </ol>
 
-      <div className="mt-4 flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50/70 p-4">
+      <div data-reward-banner="" className="mt-4 flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50/70 p-4">
         <KiroGhost className="kiro-float h-12 w-12 shrink-0" />
         <p className="text-sm font-medium text-violet-950 sm:text-base">{C.participantReward}</p>
       </div>
@@ -440,7 +446,7 @@ export function Contact() {
         <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {contacts.map((c) => (
             <li key={c.name}>
-              <a href={`tel:${c.phone.replace(/\s/g, "")}`} className={itemCls}>
+              <a href={`tel:${c.phone.replace(/\s/g, "")}`} data-tilt="" className={itemCls}>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-100 text-violet-700"><Phone className="h-5 w-5" aria-hidden /></span>
                 <span className="min-w-0">
                   <span className="block font-poppins font-semibold text-violet-950">{c.name}</span>
@@ -451,7 +457,7 @@ export function Contact() {
           ))}
           {C.whatsappUrl && (
             <li>
-              <a href={C.whatsappUrl} target="_blank" rel="noopener noreferrer" className={itemCls}>
+              <a href={C.whatsappUrl} target="_blank" rel="noopener noreferrer" data-tilt="" className={itemCls}>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700"><MessageCircle className="h-5 w-5" aria-hidden /></span>
                 <span className="min-w-0">
                   <span className="block font-poppins font-semibold text-violet-950">WhatsApp community</span>
@@ -502,13 +508,13 @@ export function FinalCta() {
         <p className={eyebrow}>{C.eventConcluded ? "BUILD-VERSE 2026 concluded" : "Be a part of BUILD-VERSE 2026"}</p>
         <h2 className={h2}>{C.eventConcluded ? "Thank you for building with us." : "Your idea deserves a bigger stage."}</h2>
         <p className="mx-auto mt-3 max-w-xl text-violet-950/80">{C.eventConcluded ? "Learn. Innovate. Pitch. Congratulations to every team that turned an idea into a real product." : "Learn. Innovate. Pitch. Turn your ideas into real impact at BUILD-VERSE 2026."}</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <div data-cta-actions="" className="mt-6 flex flex-wrap justify-center gap-3">
           {C.eventConcluded ? (
-            <a href="#winners" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
+            <a href="#winners" data-magnetic="" className="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white shadow-lg shadow-violet-600/25 transition hover:bg-violet-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">See the winners <ArrowRight className="h-4 w-4" aria-hidden /></a>
           ) : (
             <RegisterButton />
           )}
-          <a href="#about" className="hidden items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white sm:inline-flex">Explore the Event</a>
+          <a href="#about" data-magnetic="" className="hidden items-center rounded-xl border border-violet-300 bg-white/90 px-6 py-3 font-semibold text-violet-800 backdrop-blur-sm transition hover:bg-white sm:inline-flex">Explore the Event</a>
         </div>
         <PoweredByKiro className="mt-5" />
       </div>
@@ -516,7 +522,7 @@ export function FinalCta() {
       {/* Mascot: moved down & to the left (rocky cliff & mountain trees) */}
       <div
         id="final-cta-mascot"
-        className="absolute bottom-2 left-3 z-10 sm:bottom-3 sm:left-6 md:bottom-4 md:left-8 lg:bottom-6 lg:left-14 xl:left-20"
+        className="absolute bottom-12 left-3 z-10 sm:bottom-10 sm:left-6 md:bottom-10 md:left-8 lg:bottom-12 lg:left-14 xl:left-20"
       >
         <div className="relative flex flex-col items-center">
           <Mascot
@@ -534,14 +540,29 @@ export function FinalCta() {
 
       {/* Utkrisht Logo: moved down & to the right (pine trees corner) */}
       {C.utkrisht.show && (
-        <div className="absolute bottom-3 right-3 z-10 sm:bottom-4 sm:right-6 md:bottom-5 md:right-8 lg:bottom-6 lg:right-14 xl:right-20">
+        <div data-cta-logo="" className="absolute bottom-12 right-3 z-10 sm:bottom-11 sm:right-6 md:bottom-11 md:right-8 lg:bottom-12 lg:right-14 xl:right-20">
           <UtkrishtLogoWhite className="h-11 w-auto xs:h-13 sm:h-15 md:h-18 lg:h-20 drop-shadow-lg" />
         </div>
       )}
+
+      {/* Credit + copyright: pinned to the bottom corners on the panorama, copyright left, credit right.
+          Each line sits on a soft blurred pill so it stays readable over the busy scenery. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20">
+        <div className="pointer-events-auto flex items-end justify-center gap-4 px-4 pb-3 sm:justify-between sm:px-6 sm:pb-4">
+          <p className="hidden rounded-full bg-violet-950/60 px-3 py-1 text-[10px] font-medium leading-tight text-white/90 backdrop-blur-md ring-1 ring-white/10 sm:block sm:max-w-none sm:text-[11px]">
+            &copy; {new Date().getFullYear()} {C.organiser}. All rights reserved.
+          </p>
+          <p className="whitespace-nowrap rounded-full bg-violet-950/60 px-3 py-1 text-center text-[9px] font-semibold leading-tight backdrop-blur-md ring-1 ring-white/10 sm:max-w-none sm:text-right sm:text-xs">
+            <span className="text-white/90">Designed &amp; Crafted by SBG Tech Lead</span>{" "}
+            <span className="text-white">@ <span className="font-serif text-xs italic sm:text-base">Piyush Rawat</span></span>
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
 
 export function BvFooter() {
+  // The credit and copyright now live inside the Final CTA, above the campus panorama (see FinalCta).
   return null;
 }

@@ -1,6 +1,6 @@
 import { ArtDivider } from "@/components/Decor";
 import { Tracks } from "@/components/Tracks";
-import { Header, Hero, About, Flow, Rules, Prizes, Speakers, Timeline, Faqs, Contact, FinalCta, SectionDivider } from "@/components/Sections";
+import { Header, Hero, About, Flow, Rules, Prizes, Speakers, Timeline, Faqs, Contact, FinalCta, SectionDivider, BvFooter } from "@/components/Sections";
 import { GsapMotion } from "@/components/GsapMotion";
 import { Winners } from "@/components/Winners";
 import { BUILDVERSE as C } from "@/config/buildverse";
@@ -40,6 +40,7 @@ export default function HomePage() {
         <SectionDivider />
         <FinalCta />
       </main>
+      <BvFooter />
     </>
   );
 }

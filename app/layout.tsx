@@ -41,9 +41,17 @@ export const metadata: Metadata = {
   },
 };
 
+// Runs while the HTML is parsed, before the first paint: marks that the GSAP intro will run, so the hero waits in
+// its first frame instead of flashing in and out (see the "GSAP motion" rules in globals.css). Skipped for
+// reduced motion. If GSAP never starts, a CSS fallback shows everything after ~2.6 s.
+const MOTION_BOOT = `(function(){try{if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-anim")}catch(e){}})()`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${instrumentSerif.variable} ${tech.variable} scroll-smooth`}>
+    <html lang="en" className={`${poppins.variable} ${instrumentSerif.variable} ${tech.variable} scroll-smooth`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
+      </head>
       <body className="min-h-screen font-sans bg-[#FAF8FF] text-violet-950 [color-scheme:light]">
         <style>{`
           img {

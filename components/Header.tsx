@@ -156,7 +156,7 @@ export function Header() {
   }, [activeSection]);
 
   return (
-    <header data-scrolled={scrolled ? "" : undefined} className="liquid-glass sticky top-0 z-40">
+    <header data-scrolled={scrolled ? "" : undefined} data-intro="header" className="liquid-glass sticky top-0 z-40">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-3 shrink-0" aria-label="BUILD-VERSE 2026 home">
           <SbgLogo className="h-11 sm:h-12" />

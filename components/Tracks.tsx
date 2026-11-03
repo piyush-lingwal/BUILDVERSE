@@ -91,12 +91,12 @@ export function Tracks() {
                 >
                   <span aria-hidden className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${ACCENT[c.id]} opacity-10 blur-2xl transition-opacity duration-300 group-hover:opacity-25`} />
                   <div className="flex items-start justify-between gap-3">
-                    <span className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${ACCENT[c.id]} text-white shadow-lg shadow-violet-500/20`}><Icon className="h-7 w-7" aria-hidden /></span>
-                    <span className="font-display text-4xl font-semibold leading-none text-violet-200" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                    <span data-track-icon="" className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${ACCENT[c.id]} text-white shadow-lg shadow-violet-500/20`}><Icon className="h-7 w-7" aria-hidden /></span>
+                    <span data-track-num="" className="font-display text-4xl font-semibold leading-none text-violet-200" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
                   </div>
                   <h3 className="mt-5 text-xl font-semibold leading-snug text-violet-950 sm:text-2xl">{c.name}</h3>
                   <p className="mt-1 text-sm text-violet-950/70">{c.hint}</p>
-                  <ul className={`mt-4 flex-wrap gap-1.5 ${c.tracks.length > 1 ? "flex" : "hidden"}`} aria-hidden>
+                  <ul data-track-chips="" className={`mt-4 flex-wrap gap-1.5 ${c.tracks.length > 1 ? "flex" : "hidden"}`} aria-hidden>
                     {c.tracks.slice(0, 4).map((t) => (
                       <li key={t.title} className="rounded-full bg-violet-50 px-2.5 py-1 text-xs font-medium text-violet-800">{t.title.split(" & ")[0]}</li>
                     ))}

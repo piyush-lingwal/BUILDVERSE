@@ -30,7 +30,7 @@ export function ArtDivider({ name, flip = false, className = "" }: { name: Decor
 /** Soft floating sparkles for corners of a section. Hidden on small screens to keep them clean. */
 export function SparkleCluster({ className = "" }: { className?: string }) {
   return (
-    <div aria-hidden="true" className={`pointer-events-none absolute hidden w-56 animate-twinkle opacity-80 md:block lg:w-72 ${className}`}>
+    <div aria-hidden="true" data-sparkle="" className={`pointer-events-none absolute hidden w-56 animate-twinkle opacity-80 md:block lg:w-72 ${className}`}>
       <Art name="sparkles" sizes="288px" className="h-auto w-full select-none" />
     </div>
   );
